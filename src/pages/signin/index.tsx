@@ -53,7 +53,6 @@ export default function SignInPage() {
           <p>비밀번호</p>
           <input
             name="password"
-            type="password"
             className="border border-solid"
             onChange={handleInputChange}
           />

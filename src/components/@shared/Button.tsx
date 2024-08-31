@@ -1,49 +1,86 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonStyle: "disable" | "cancel" | "default"; // 버튼 스타일 지정해주세요.
-  buttonType: "button" | "submit" | "reset"; // 버튼 타입 지정 지정해주세요.
+/**
+ * 중복으로 사용될 CSS 속성들을 묶은 CommonButton 컴포넌트의 프롭스
+ * @interface CommonButtonProps
+ * @extends ButtonHTMLAttributes<HTMLButtonElement>
+ * @property {string} additionalStyle - 추가적인 CSS 스타일을 지정해요
+ * @property {ReactNode} children - 버튼의 내부에 렌더링될 내용을 지정해요
+ */
+interface CommonButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  additionalStyle: string;
   children: ReactNode;
 }
 
+/**
+ * 페이지에서 사용될 Button 컴포넌트의 프롭스
+ * @interface ButtonProps
+ * @extends ButtonHTMLAttributes<HTMLButtonElement>
+ * @property {"gray" | "light" | "purple"} buttonStyle - 버튼의 스타일을 지정해요
+ * @property {ReactNode} children - 버튼의 내부에 렌더링될 내용을 지정해요.
+ */
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonStyle: "gray" | "light" | "purple"; // 버튼 스타일 지정해주세요.
+  children: ReactNode;
+}
+
+/**
+ * 기본 스타일을 적용하는 CommonButton 컴포넌트
+ * @param {CommonButtonProps} props - CommonButton의 프롭스
+ * @returns {JSX.Element} 버튼 요소
+ */
+function CommonButton({
+  additionalStyle,
+  children,
+  ...props
+}: CommonButtonProps) {
+  return (
+    <button
+      className={`${additionalStyle} flex h-full w-full items-center justify-center rounded-2xl text-lg-16px-bold`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+/**
+ * 다양한 스타일을 가진 버튼을 생성하는 Button 컴포넌트
+ * @param {ButtonProps} props - Button의 프롭스
+ * @returns {JSX.Element} 스타일에 맞는 버튼 요소
+ */
 export default function Button({
-  buttonStyle = "default",
-  buttonType = "button",
+  buttonStyle,
   children,
   ...props
 }: ButtonProps) {
   switch (buttonStyle) {
-    case "disable":
+    case "gray":
       return (
-        <button
-          type={buttonType}
-          className="h-full w-full rounded-2xl border border-solid border-light-gray-300 bg-light-white px-5 py-4 text-center text-lg-16px-bold text-light-gray-500"
+        <CommonButton
+          additionalStyle="border border-solid border-light-gray-300 bg-light-white text-light-gray-500"
           {...props}
         >
           {children}
-        </button>
+        </CommonButton>
       );
-
-    case "cancel":
+    case "light":
       return (
-        <button
-          type={buttonType}
-          className="h-full w-full rounded-2xl bg-violet-100 px-5 py-4 text-center text-lg-16px-bold text-light-purple-100"
+        <CommonButton
+          additionalStyle="bg-violet-100 text-lg-16px-bold text-light-purple-100"
           {...props}
         >
           {children}
-        </button>
+        </CommonButton>
       );
-
     default:
       return (
-        <button
-          type={buttonType}
-          className="h-full w-full cursor-pointer rounded-2xl bg-light-purple-100 px-5 py-4 text-center text-lg-16px-bold text-light-white"
+        <CommonButton
+          additionalStyle="bg-light-purple-100 text-light-white"
           {...props}
         >
           {children}
-        </button>
+        </CommonButton>
       );
   }
 }

@@ -1,24 +1,10 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-/**
- * 중복으로 사용될 CSS 속성들을 묶은 CommonButton 컴포넌트의 프롭스
- * @interface CommonButtonProps
- * @extends ButtonHTMLAttributes<HTMLButtonElement>
- * @property {string} additionalStyle - 추가적인 CSS 스타일을 지정해요
- * @property {ReactNode} children - 버튼의 내부에 렌더링될 내용을 지정해요
- */
 interface CommonButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   additionalStyle: string;
   children: ReactNode;
 }
 
-/**
- * 페이지에서 사용될 Button 컴포넌트의 프롭스
- * @interface ButtonProps
- * @extends ButtonHTMLAttributes<HTMLButtonElement>
- * @property {"gray" | "light" | "purple"} buttonStyle - 버튼의 스타일을 지정해요
- * @property {ReactNode} children - 버튼의 내부에 렌더링될 내용을 지정해요.
- */
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle: "gray" | "light" | "purple"; // 버튼 스타일 지정해주세요.
   children: ReactNode;

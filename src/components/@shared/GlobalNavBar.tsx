@@ -17,46 +17,43 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
     setIsLogin(false);
   };
 
-  // 드롭다운 공통 컴포넌트 완성되면 적용 할 예정
   return (
-    <div>
-      <Dropdown
-        width="w-[101px] md:w-[126px]"
-        buttonChildren={
-          <>
-            <Image
-              className="block md:hidden"
-              width={30}
-              height={30}
-              src={profileImg ?? "/images/img_pfp_default.svg"}
-              alt="프로필 이미지"
-            />
-            <Image
-              className="hidden md:block"
-              width={40}
-              height={40}
-              src={profileImg ?? "/images/img_pfp_default.svg"}
-              alt="프로필 이미지"
-            />
-          </>
-        }
-      >
-        <Link href="/myprofile">마이페이지</Link>
-        <button type="button" onClick={handleLogoutBtnClick}>
-          로그아웃
-        </button>
-      </Dropdown>
-    </div>
+    <Dropdown
+      width="w-[101px] md:w-[126px]"
+      buttonChildren={
+        <>
+          <Image
+            className="block md:hidden"
+            width={30}
+            height={30}
+            src={profileImg ?? "/images/img_pfp_default.svg"}
+            alt="프로필 이미지"
+          />
+          <Image
+            className="hidden md:block"
+            width={40}
+            height={40}
+            src={profileImg ?? "/images/img_pfp_default.svg"}
+            alt="프로필 이미지"
+          />
+        </>
+      }
+    >
+      <Link href="/myprofile">마이페이지</Link>
+      <button type="button" onClick={handleLogoutBtnClick}>
+        로그아웃
+      </button>
+    </Dropdown>
   );
 }
 
 /**
  * Navigation Bar
- * width 기본 값이 full 이므로, wrapper 사용!
+ * width 기본 값이 full 이므로, wrapper 사용 하셔서 width 값 조절 하시면 될 것 같습니다~!
  */
 export default function GlobalNavBar() {
   const { pathname } = useRouter();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [profileImg, setProfileImg] = useState<string | null>(null);
 
   // 로그인 상태인 경우 프로필 이미지 받아오기
@@ -78,7 +75,7 @@ export default function GlobalNavBar() {
       // eslint-disable-next-line
       loadUserProfileImage(); // Promise must be awaited (@typescript-eslint/no-floating-promises)
     } else {
-      // setIsLogin(false);
+      setIsLogin(false);
     }
   }, [isLogin]);
 

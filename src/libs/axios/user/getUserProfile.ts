@@ -21,7 +21,7 @@ export default async function getUserProfile(): Promise<User | null> {
     }
 
     // 헤더에 토큰 등록은 인터셉터 작업 끝나면 없애기
-    const res = await axiosInstance.get<User>("/users/me", {
+    const res = await axiosInstance.get<User>("users/me", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 

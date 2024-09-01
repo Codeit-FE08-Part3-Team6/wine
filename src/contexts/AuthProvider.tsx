@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem("refeshToken");
-    if (refreshToken) getMe();
+    if (refreshToken && !authState.user) getMe();
   }, []);
 
   return (

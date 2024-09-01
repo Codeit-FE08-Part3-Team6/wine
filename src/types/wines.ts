@@ -1,13 +1,15 @@
-export enum Wine {
+export enum WineEnum {
   Red = "RED",
   White = "WHITE",
   Sparkling = "SPARKLING",
 }
+
 interface User {
   id: number;
   nickname: string;
   image: string;
 }
+
 interface RecentReview {
   user: User;
   updatedAt: Date;
@@ -16,30 +18,19 @@ interface RecentReview {
   aroma: String[];
   rating: number;
 }
-export interface PostWine {
+
+export interface PostWineDetails {
   name: string;
   region: string;
   image: string | null;
   price: number;
-  type: Wine;
+  type: WineEnum;
 }
 
-export interface Wines {
+export interface Wine extends PostWineDetails {
   id: number;
-  name: string;
-  region: string;
-  image: string | null;
-  price: number;
-  type: Wine;
+  type: WineEnum;
   avgRating: number | null;
-  revirewCount: number | null;
+  reviewerCount: number | null;
   recentReview: RecentReview | null;
-}
-
-export interface WinesProps {
-  wines: Wines[];
-}
-
-export interface WineProps {
-  wine: Wines;
 }

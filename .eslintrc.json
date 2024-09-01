@@ -18,6 +18,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "react/jsx-props-no-spreading": "off",
     "no-console": "off",
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    "react/require-default-props": "warn"
   }
 }

@@ -1,4 +1,4 @@
-import { Wines } from "@/types/wines";
+import { PostWine, Wines } from "@/types/wines";
 import axiosInstance from "./axiosInstance";
 
 export async function getWines() {
@@ -19,7 +19,13 @@ export async function getWineRecommends() {
   return body;
 }
 
-export async function postWines({ name, region, image, price, type }: Wines) {
+export async function postWines({
+  name,
+  region,
+  image,
+  price,
+  type,
+}: PostWine) {
   const response = await axiosInstance.post(
     "wines",
     { name, region, image, price, type },

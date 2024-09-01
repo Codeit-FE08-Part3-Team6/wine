@@ -1,6 +1,14 @@
 import arrowIcon from "@/libs/axios/image/arrow.svg";
 import Image from "next/image";
-import { WinesProps, WineProps } from "@/types/wines";
+import { Wine } from "@/types/wines";
+
+export interface WinesProps {
+  wines: Wine[];
+}
+
+export interface WineProps {
+  wine: Wine;
+}
 
 export default function WineItemList({ wines }: WinesProps) {
   return (
@@ -38,7 +46,7 @@ function WineItemCard({ wine }: WineProps) {
             <div>
               <p className="text-3xl-32px-semibold text-light-gray-800">4.8</p>
               <p className="text-lg-16px-regular text-light-gray-500">
-                {wine.revirewCount ? `${wine.revirewCount}` : 0}개의 후기
+                {wine.reviewerCount ? `${wine.reviewerCount}` : 0}개의 후기
               </p>
             </div>
             <div className="flex justify-end">

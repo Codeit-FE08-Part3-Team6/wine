@@ -1,18 +1,21 @@
 import WineItemList from "@/components/wines/WineItemList";
-import { getWineRecommends, getWines, postWines } from "@/libs/axios/wineList";
-import { PostWine, Wine, Wines } from "@/types/wines";
+import { getWineRecommends } from "@/libs/axios/wine/getWineRecommends";
+import { getWines } from "@/libs/axios/wine/getWines";
+import { postWines } from "@/libs/axios/wine/postWines";
+
+import { PostWineDetails, Wine, WineEnum } from "@/types/wines";
 import { useEffect, useState } from "react";
 
 export default function WineListPage() {
-  const [wineList, setWineList] = useState<Wines[]>([]);
+  const [wineList, setWineList] = useState<Wine[]>([]);
 
-  const [wineValue, setWineValue] = useState<PostWine>({
+  const [wineValue, setWineValue] = useState<PostWineDetails>({
     name: "인재",
     region: "대구",
     image:
       "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991786504/31563.png",
     price: 10,
-    type: Wine.Red,
+    type: WineEnum.Red,
   });
 
   async function fetchWines() {

@@ -28,8 +28,6 @@
       }
     ],
     "react/jsx-props-no-spreading": "off",
-    "react/require-default-props": "warn",
-    "react/button-has-type": "off",
     "no-console": "off"
   }
 }

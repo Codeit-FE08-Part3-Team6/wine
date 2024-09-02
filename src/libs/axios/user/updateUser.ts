@@ -3,15 +3,15 @@ import { AxiosError } from "axios";
 import axios from "../axiosInstance";
 
 export default async function updateUser(formData: UpdateUserForm) {
-  let res;
-  try {
-    res = await axios.patch("users/me", formData);
-  } catch (error: unknown) {
-    const e = error as AxiosError;
-    alert(`${e.response?.status} error from updateUser: ${e.message}`);
-    return null;
-  }
+  const res = await axios
+    .patch("users/me", formData)
+    .catch((error: AxiosError) => {
+      alert(
+        `${error.response?.status} error from updateUser: ${error.message}`,
+      );
+      return null;
+    });
 
-  const updatedUser = res.data as User;
+  const updatedUser = res ? (res.data as User) : null;
   return updatedUser;
 }

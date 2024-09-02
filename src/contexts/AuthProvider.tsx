@@ -87,8 +87,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    const refreshToken = localStorage.getItem("refeshToken");
-    if (refreshToken && !authState.user) getMe();
+    if (localStorage.getItem("refreshToken")) {
+      getMe();
+      return;
+    }
+
+    setAuthState({
+      user: null,
+      isPending: true,
+    });
   }, []);
 
   const providerValueProp = useMemo(
@@ -99,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logout,
       updateMe,
     }),
-    [],
+    [authState.user, authState.isPending],
   );
 
   return (

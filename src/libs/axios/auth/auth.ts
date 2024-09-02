@@ -1,21 +1,27 @@
-import { AuthTokens, SignInForm } from "@/types/auth";
-import axios from "../axiosInstance";
+import { AuthTokens, SignInForm, SignUpForm } from "@/types/auth";
 import { saveTokens } from "@/utils/authTokenStorage";
+import { AxiosError, AxiosResponse } from "axios";
+import axios from "../axiosInstance";
 
 export async function signIn(formData: SignInForm) {
-  let res;
+  let res: AxiosResponse;
   try {
     res = await axios.post("auth/signin", formData);
-  } catch (error: any) {
-    alert(
-      `${error.response.status} error from signIn: ${error.response.message}`,
-    );
+  } catch (error: unknown) {
+    const e = error as AxiosError;
+    alert(`${e.response?.status} error from signIn: ${e.message}`);
     return;
   }
 
-  const tokens: AuthTokens = {
-    accessToken: res.data.accessToken,
-    refreshToken: res.data.refreshToken,
-  };
-  saveTokens(tokens);
+  const { accessToken, refreshToken }: AuthTokens = res.data as AuthTokens;
+  saveTokens({ accessToken, refreshToken });
+}
+
+export async function signUp(formData: SignUpForm) {
+  try {
+    await axios.post("auth/signup", formData);
+  } catch (error: unknown) {
+    const e = error as AxiosError;
+    alert(`${e.response?.status} error from signUp: ${e.message}`);
+  }
 }

@@ -1,6 +1,6 @@
 import { signIn } from "@/libs/axios/auth/auth";
 import getUser from "@/libs/axios/user/getUser";
-import { updateUser } from "@/libs/axios/user/updateUser";
+import updateUser from "@/libs/axios/user/updateUser";
 import { SignInForm } from "@/types/auth";
 import User, { UpdateUserForm } from "@/types/user";
 import { removeTokens } from "@/utils/authTokenStorage";
@@ -10,6 +10,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -90,16 +91,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (refreshToken && !authState.user) getMe();
   }, []);
 
+  const providerValueProp = useMemo(
+    () => ({
+      user: authState.user,
+      isPending: authState.isPending,
+      login,
+      logout,
+      updateMe,
+    }),
+    [],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        user: authState.user,
-        isPending: authState.isPending,
-        login,
-        logout,
-        updateMe,
-      }}
-    >
+    <AuthContext.Provider value={providerValueProp}>
       {children}
     </AuthContext.Provider>
   );

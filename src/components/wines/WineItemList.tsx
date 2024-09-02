@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Wine } from "@/types/wines";
-// import arrowIcon from ""
+import Link from "next/link";
+
 interface WinesProps {
   wines: Wine[];
 }
@@ -67,9 +68,10 @@ export default function WineItemList({ wines }: WinesProps) {
   return (
     <div className="flex w-[800px] flex-col gap-16">
       {wines.map((wine) => (
-        <WineItemCard wine={wine} key={wine.id} />
+        <Link key={wine.id} href={`/wines/${wine.id.toString()}`}>
+          <WineItemCard wine={wine} />
+        </Link>
       ))}
-      아니 왜 안보여?
     </div>
   );
 }

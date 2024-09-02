@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 function WineRecommendCard() {
   return (
@@ -17,18 +17,29 @@ function WineRecommendCard() {
 
 export default function WineRecommendItemList() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollValue, setScrollValue] = useState<number>(0);
 
-  const wineCards = Array(10).fill(null);
+  const wineCards = Array(21).fill(null);
 
-  const handleRightClick = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current) {
+        setScrollValue(containerRef.current.scrollLeft);
+      }
+    };
+
+    const currentRef = containerRef.current;
+    currentRef?.addEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleClick = (direction: string) => {
+    const scrollRange = 900;
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 900;
-    }
-  };
-
-  const handleLeftClick = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft -= 780;
+      if (direction === "left") {
+        containerRef.current.scrollLeft -= scrollRange;
+      } else if (direction === "right") {
+        containerRef.current.scrollLeft += scrollRange;
+      }
     }
   };
 
@@ -39,17 +50,25 @@ export default function WineRecommendItemList() {
           이번 달 추천 와인
         </span>
         <div className="relative">
-          <button
-            type="button"
-            className="absolute left-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
-            onClick={handleLeftClick}
-          >
-            {"<-"}
-          </button>
+          {scrollValue > 0 && (
+            <button
+              type="button"
+              className="absolute left-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
+              onClick={() => handleClick("left")}
+            >
+              <Image
+                className="rotate-180"
+                src="/images/vector.svg"
+                alt="arrowIcon"
+                width={16}
+                height={16}
+                style={{ width: "auto", height: "auto" }}
+              />
+            </button>
+          )}
 
-          {containerRef.current?.scrollLeft}
           <div
-            className="flex gap-5 overflow-x-scroll px-6"
+            className="flex gap-5 overflow-x-hidden px-6"
             ref={containerRef}
             style={{ scrollBehavior: "smooth" }}
           >
@@ -58,20 +77,23 @@ export default function WineRecommendItemList() {
               <WineRecommendCard key={index} />
             ))}
           </div>
-
-          <button
-            type="button"
-            className="absolute right-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
-            onClick={handleRightClick}
-          >
-            <Image
-              src="/images/vector.svg"
-              alt="arrowIcon"
-              width={16}
-              height={16}
-              style={{ width: "auto", height: "auto" }}
-            />
-          </button>
+          {containerRef.current &&
+            containerRef.current.scrollWidth >
+              containerRef.current.clientWidth + scrollValue + 1 && (
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
+                onClick={() => handleClick("right")}
+              >
+                <Image
+                  src="/images/vector.svg"
+                  alt="arrowIcon"
+                  width={16}
+                  height={16}
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </button>
+            )}
         </div>
       </div>
     </div>

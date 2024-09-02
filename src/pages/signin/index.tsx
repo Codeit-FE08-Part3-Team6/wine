@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
 
 export default function SignInPage() {
@@ -8,7 +8,7 @@ export default function SignInPage() {
     password: "",
   });
   const router = useRouter();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const handleFormChange = (key: string, value: string) => {
     setFormData((prev) => ({
@@ -26,6 +26,10 @@ export default function SignInPage() {
     await login(formData);
     router.push("/");
   };
+
+  useEffect(() => {
+    if (user) router.push("/myprofile");
+  }, [user]);
 
   return (
     <form onSubmit={handleSubmit}>

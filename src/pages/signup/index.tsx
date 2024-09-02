@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { signUp } from "@/libs/axios/auth/auth";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function SignUpPage() {
     passwordConfirmation: "",
   });
   const router = useRouter();
+  const { user } = useAuth();
 
   const handleFormChange = (key: string, value: string) => {
     setFormData((prev) => ({
@@ -27,6 +29,10 @@ export default function SignUpPage() {
     await signUp(formData);
     router.push("/signin");
   };
+
+  useEffect(() => {
+    if (user) router.push("/myprofile");
+  }, [user]);
 
   return (
     <form onSubmit={handleSubmit}>

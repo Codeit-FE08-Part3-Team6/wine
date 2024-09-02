@@ -1,10 +1,10 @@
 import { InputHTMLAttributes, useState } from "react";
-import Input from "./Input";
 import Image from "next/image";
+import Input from "./Input";
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {}
-
-export default function InputPassword({ ...props }: Props) {
+export default function InputPassword({
+  ...props
+}: InputHTMLAttributes<HTMLInputElement>) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const eyeImageSrc = isPasswordVisible
     ? "/images/EyeIcon.png"

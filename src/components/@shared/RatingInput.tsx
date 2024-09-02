@@ -1,4 +1,4 @@
-// 사용법 : <RatingInput rating={3.5} name="rating" onChange={handleChange} width={120} height={24} />
+/** 사용법 : <RatingInput rating={3.5} name="rating" onChange={handleChange} width={120} height={24} /> */
 
 import { useState } from "react";
 import Rating from "@/components/@shared/Rating";

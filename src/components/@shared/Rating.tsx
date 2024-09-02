@@ -1,4 +1,4 @@
-// 사용법 : <Rating rating={3.5} width={120} height={24} />
+/** 사용법 : <Rating rating={3.5} width={120} height={24} /> */
 
 import React from "react";
 

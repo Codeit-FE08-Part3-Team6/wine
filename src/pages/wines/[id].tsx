@@ -1,13 +1,11 @@
-import Rating from "@/components/@shared/Rating";
+import GlobalNavBar from "@/components/@shared/GlobalNavBar";
+import WinesDetailCard from "@/components/wines/WinesDetailCard";
 
 export default function WineDetailPage() {
   return (
-    <>
-      <div>와인 상세 페이지</div>
-      <Rating
-        value={3.5}
-        className="flex w-[110px] justify-center gap-1 text-2lg-18px-bold"
-      />
-    </>
+    <div className="mx-auto mt-10 w-[1140px]">
+      <GlobalNavBar />
+      <WinesDetailCard />
+    </div>
   );
 }

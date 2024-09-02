@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface WineData {
   id: number;
@@ -12,12 +13,15 @@ interface WineData {
 
 export default function WinesDetailCard() {
   const [data, setData] = useState<WineData | null>(null);
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect((): void => {
     const fetchData = async (): Promise<void> => {
+      if (!id || Array.isArray(id)) return;
       try {
         const response = await fetch(
-          "https://winereview-api.vercel.app/8-6/wines/201",
+          `https://winereview-api.vercel.app/8-6/wines/${id}`,
         );
         const result: WineData = await response.json();
         setData(result);
@@ -27,7 +31,7 @@ export default function WinesDetailCard() {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   if (!data) {
     return <div>로딩 중...</div>;

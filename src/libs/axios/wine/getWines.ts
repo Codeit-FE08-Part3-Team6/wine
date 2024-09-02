@@ -1,11 +1,21 @@
+import { Wine } from "@/types/wines";
 import axiosInstance from "../axiosInstance";
 
-export async function getWines() {
-  const response = await axiosInstance.get(`wines?limit=50`);
+export interface Response {
+  list: Wine[];
+}
 
-  const body = response.data.list ?? [];
+export default async function getWines(): Promise<Wine[]> {
+  try {
+    const response = await axiosInstance.get<Response>(`wines?limit=50`);
 
-  console.log(body);
+    const body = response.data.list ?? [];
 
-  return body;
+    console.log(body);
+
+    return body;
+  } catch (error) {
+    console.error("wines 데이터 가져오기 실패:", error);
+    return [];
+  }
 }

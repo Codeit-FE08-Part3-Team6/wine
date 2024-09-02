@@ -1,23 +1,12 @@
-import arrowIcon from "@/libs/axios/image/arrow.svg";
 import Image from "next/image";
 import { Wine } from "@/types/wines";
-
-export interface WinesProps {
+// import arrowIcon from ""
+interface WinesProps {
   wines: Wine[];
 }
 
-export interface WineProps {
+interface WineProps {
   wine: Wine;
-}
-
-export default function WineItemList({ wines }: WinesProps) {
-  return (
-    <div className="flex w-[800px] flex-col gap-16">
-      {wines.map((wine) => (
-        <WineItemCard wine={wine} key={wine.id} />
-      ))}
-    </div>
-  );
 }
 
 function WineItemCard({ wine }: WineProps) {
@@ -50,7 +39,13 @@ function WineItemCard({ wine }: WineProps) {
               </p>
             </div>
             <div className="flex justify-end">
-              <Image src={arrowIcon} alt="arrowIcon" />
+              <Image
+                src="/images/arrow.svg"
+                alt="arrowIcon"
+                width={36}
+                height={37}
+                style={{ width: "auto", height: "auto" }}
+              />
             </div>
           </div>
         </div>
@@ -59,11 +54,22 @@ function WineItemCard({ wine }: WineProps) {
       <div className="flex flex-col gap-1 p-5">
         <p className="text-lg-16px-semibold text-light-gray-800">최신후기</p>
         <p className="text-lg-16px-regular text-light-gray-500">
-          Cherry, cocoa, vanilla and clove - beautiful red fruit driven Amarone.
-          Low acidity and medium tannins. Nice long velvety finish.
+          Cherry, cocoa, vanilla and clove - beautiful red fruit driven Low
+          acidity and medium tannins. Nice long velvety finish.
           {wine.recentReview?.content}
         </p>
       </div>
+    </div>
+  );
+}
+
+export default function WineItemList({ wines }: WinesProps) {
+  return (
+    <div className="flex w-[800px] flex-col gap-16">
+      {wines.map((wine) => (
+        <WineItemCard wine={wine} key={wine.id} />
+      ))}
+      아니 왜 안보여?
     </div>
   );
 }

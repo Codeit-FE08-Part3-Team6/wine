@@ -7,11 +7,9 @@ export interface Response {
 
 export default async function getWines(): Promise<Wine[]> {
   try {
-    const response = await axiosInstance.get<Response>(`wines?limit=50`);
+    const response = await axiosInstance.get<Response>(`/wines?limit=50`);
 
     const body = response.data.list ?? [];
-
-    console.log(body);
 
     return body;
   } catch (error) {

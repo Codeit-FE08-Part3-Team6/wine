@@ -20,7 +20,7 @@ export default function RatingInput({
 
   return (
     <Rating
-      className={"cursor-pointer"}
+      className="cursor-pointer"
       value={rating}
       onSelect={handleSelect}
       onHover={setRating}

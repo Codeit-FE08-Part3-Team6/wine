@@ -14,6 +14,8 @@ const DEFAULT_PRICE_GAP = 30000;
 /**
  * PriceRangeInput 컴포넌트는 가격 범위(최소, 최대)를 설정하는 슬라이더
  *
+ * // (주의사항) 페이지 또는 모달에 사용할 때 width, height를 지정해준 div 태그로 감싸서 사용해주세요.
+ *
  * // 사용법
  * <PriceRangeInput
  *    minPrice={10000}
@@ -58,8 +60,8 @@ export default function PriceRangeInput({
     <>
       <div className="flex h-[31px] w-full flex-col gap-[5px] pt-[31px]">
         <div>
-          <div className="slider">
-            <div className="progress" />
+          <div className="slider relative h-[6px] rounded-[50px] bg-light-gray-100">
+            <div className="progress absolute left-1/4 right-1/4 h-[6px] rounded-[50px] bg-light-purple-100" />
             <span className="thumb-label min-label text-lg-16px-medium text-light-purple-100">
               ₩ {minValue.toLocaleString()}
             </span>
@@ -67,7 +69,7 @@ export default function PriceRangeInput({
               ₩ {maxValue.toLocaleString()}
             </span>
           </div>
-          <div className="range-input">
+          <div className="range-input relative">
             <input
               type="range"
               className="range-min"
@@ -91,26 +93,6 @@ export default function PriceRangeInput({
       </div>
       <style jsx>
         {`
-          .slider {
-            height: 6px;
-            border-radius: 50px;
-            background: #f2f4f8;
-            position: relative;
-          }
-
-          .slider .progress {
-            height: 6px;
-            left: 25%;
-            right: 25%;
-            border-radius: 50px;
-            background: #6a42db;
-            position: absolute;
-          }
-
-          .range-input {
-            position: relative;
-          }
-
           .range-input input {
             position: absolute;
             top: -6px;

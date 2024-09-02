@@ -14,8 +14,8 @@ interface RecentReview {
   user: User;
   updatedAt: Date;
   createdAt: Date;
-  content: String;
-  aroma: String[];
+  content: string;
+  aroma: string[];
   rating: number;
 }
 

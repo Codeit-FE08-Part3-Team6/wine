@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 interface WineData {
   id: number;
@@ -18,21 +19,23 @@ export default function WinesDetailCard() {
 
   useEffect((): void => {
     const fetchData = async (): Promise<void> => {
-      if (!id || Array.isArray(id)) return;
-      try {
-        const response = await fetch(
-          `https://winereview-api.vercel.app/8-6/wines/${id}`,
-        );
-        const result: WineData = await response.json();
-        setData(result);
-      } catch (e) {
-        console.error("데이터를 불러오는데 오류가 있습니다:", e);
+      if (typeof id === "string") {
+        try {
+          const response = await axios.get<WineData>(
+            `https://winereview-api.vercel.app/8-6/wines/${id}`,
+          );
+          setData(response.data);
+        } catch (e) {
+          console.error("데이터를 불러오는데 오류가 있습니다:", e);
+        }
       }
     };
 
     fetchData();
   }, [id]);
 
+  // 코드 리팩토링 진행 시에 로딩바 애니메이션 추가 예정
+  // 시간이 몇 초 이상 걸리면 에러 페이지로 넘기는 방법도 괜찮을듯
   if (!data) {
     return <div>로딩 중...</div>;
   }

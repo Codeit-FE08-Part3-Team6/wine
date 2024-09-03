@@ -1,13 +1,19 @@
-import { Wine } from "@/types/wines";
+import { Wine, WineFilterProps } from "@/types/wines";
 import axiosInstance from "../axiosInstance";
 
 export interface Response {
   list: Wine[];
 }
 
-export default async function getWines(limit: number): Promise<Wine[]> {
+export default async function getWines(
+  limit: number,
+  wineFilter: WineFilterProps,
+): Promise<Wine[]> {
   try {
-    const response = await axiosInstance.get<Response>(`/wines?limit=${limit}`);
+    const { wineType, winePrice } = wineFilter;
+    const response = await axiosInstance.get<Response>(
+      `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}`,
+    );
 
     const body = response.data.list ?? [];
 

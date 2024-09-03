@@ -39,7 +39,7 @@ export interface Wine extends PostWineDetails {
 }
 
 export interface WineFilterProps {
-  wineType: WineEnum | null;
+  wineType: WineEnum;
   winePrice: WinePrice;
   wineRating: string;
 }

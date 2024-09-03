@@ -65,7 +65,7 @@ function WineItemCard({ wine }: WineProps) {
 
 export default function WineItemList({ wines }: WinesProps) {
   return (
-    <div className="flex w-[800px] flex-col gap-16">
+    <div className="flex max-w-[800px] flex-col gap-16">
       {wines.map((wine) => (
         <Link key={wine.id} href={`/wines/${wine.id.toString()}`}>
           <WineItemCard wine={wine} />

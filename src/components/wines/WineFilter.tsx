@@ -110,7 +110,7 @@ export default function WineFilter({
         });
       }
     },
-    [onFilterChange, wineFilterValue], // wineFilterValue와 onFilterChange를 의존성 배열에 포함
+    [onFilterChange, wineFilterValue],
   );
 
   return (

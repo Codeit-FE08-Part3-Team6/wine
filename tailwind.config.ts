@@ -8,6 +8,14 @@ module.exports = {
       fontFamily: {
         sans: ["Pretendard Variable", "sans-serif"],
       },
+      backgroundImage: {
+        "unselect-star": "url('/images/icon/unselect_star.svg')",
+        "select-star": "url('/images/icon/select_star.svg')",
+      },
+      screens: {
+        md: "768px",
+        xl: "1200px",
+      },
       colors: {
         light: {
           black: "#101318",

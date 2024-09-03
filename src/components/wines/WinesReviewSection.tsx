@@ -1,19 +1,18 @@
+import WineFlavorRange from "@/components/wines/WineFlavorRange";
+import Dropdown from "@/components/@shared/DropDown";
 import { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Profiles from "../../../public/images/img_pfp_default.svg";
 import UnselectLike from "../../../public/images/icon/unselect_like.svg";
 import SelectLike from "../../../public/images/icon/select_like.svg";
 import DropdownButton from "../../../public/images/icon/dropdown_button.svg";
 import DownArrow from "../../../public/images/icon/down_arrow.svg";
-import WineFlavorRange from "@/components/wines/WineFlavorRange";
 import SelectStar from "../../../public/images/icon/select_star.svg";
 import UpArrow from "../../../public/images/icon/up_arrow.svg";
-import Dropdown from "@/components/@shared/DropDown";
-import Link from "next/link";
 
 export default function WinesReviewSection() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
@@ -31,7 +30,12 @@ export default function WinesReviewSection() {
       <div className="mt-[22px] max-w-[800px] rounded-2xl border border-gray-300 px-10 pt-[16.5px]">
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <Image src={Profiles} alt="프로필 사진" width={64} height={64} />
+            <Image
+              src={Profiles as StaticImageData}
+              alt="프로필 사진"
+              width={64}
+              height={64}
+            />
             <div className="flex flex-col justify-center gap-1">
               <p className="text-2lg-18px-semibold text-light-gray-800">
                 와인러버
@@ -44,7 +48,7 @@ export default function WinesReviewSection() {
           <div className="flex items-start gap-6">
             <Image
               role="button"
-              src={UnselectLike}
+              src={UnselectLike as StaticImageData}
               alt="좋아요"
               width={38}
               height={38}
@@ -53,7 +57,7 @@ export default function WinesReviewSection() {
             />
             <Image
               role="button"
-              src={SelectLike}
+              src={SelectLike as StaticImageData}
               alt="좋아요"
               width={38}
               height={38}
@@ -65,7 +69,7 @@ export default function WinesReviewSection() {
               buttonChildren={
                 <Image
                   role="button"
-                  src={DropdownButton}
+                  src={DropdownButton as StaticImageData}
                   alt="메뉴 열기"
                   width={38}
                   height={38}
@@ -87,7 +91,12 @@ export default function WinesReviewSection() {
             </div>
           </div>
           <div className="mt-5 inline-flex items-center gap-[2px] rounded-xl bg-light-purple-10 px-[15px] py-2 text-2lg-18px-bold text-light-purple-100">
-            <Image src={SelectStar} alt="별점" width={20} height={20} />
+            <Image
+              src={SelectStar as StaticImageData}
+              alt="별점"
+              width={20}
+              height={20}
+            />
             5.0
           </div>
         </div>
@@ -122,14 +131,14 @@ export default function WinesReviewSection() {
         </div>
         <Image
           role="button"
-          src={DownArrow}
+          src={DownArrow as StaticImageData}
           alt="더보기"
           className={`mx-auto my-3.5 flex ${isExpanded ? "hidden" : ""}`}
           onClick={handleToggle}
         />
         <Image
           role="button"
-          src={UpArrow}
+          src={UpArrow as StaticImageData}
           alt="작게보기"
           className={`mx-auto my-3.5 flex ${isExpanded ? "" : "hidden"}`}
           onClick={handleToggle}

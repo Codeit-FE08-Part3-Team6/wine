@@ -41,11 +41,10 @@ function WineItemCard({ wine }: WineProps) {
             </div>
             <div className="flex justify-end">
               <Image
-                src="/images/arrow.svg"
+                src="/images/ic_arrow_right.svg"
                 alt="arrowIcon"
                 width={36}
                 height={37}
-                style={{ width: "auto", height: "auto" }}
               />
             </div>
           </div>

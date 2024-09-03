@@ -1,11 +1,18 @@
+import WineFilter from "@/components/wines/WineFilter";
 import WineItemList from "@/components/wines/WineItemList";
 import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
 import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
 import getWines from "@/libs/axios/wine/getWines";
 import postWines from "@/libs/axios/wine/postWines";
-
-import { PostWineDetails, Wine, WineEnum } from "@/types/wines";
+import GlobalNavBar from "@/components/@shared/GlobalNavBar";
+import {
+  PostWineDetails,
+  Wine,
+  WineEnum,
+  WineFilterProps,
+} from "@/types/wines";
 import { useEffect, useState } from "react";
+import Button from "@/components/@shared/Button";
 
 export default function WineListPage() {
   const [wineList, setWineList] = useState<Wine[]>([]);
@@ -24,6 +31,17 @@ export default function WineListPage() {
     setWineList(getWineList);
     console.log(wineRecommendList);
   }
+
+  const [wineFilterValue, setWineFilterValue] = useState<WineFilterProps>({
+    wineType: null,
+    winePrice: { min: 0, max: 0 },
+    wineRating: "",
+  });
+
+  const handleFilterChange = (newFilterValue: WineFilterProps) => {
+    setWineFilterValue(newFilterValue);
+    console.log(newFilterValue);
+  };
 
   useEffect(() => {
     fetchWines()
@@ -56,15 +74,23 @@ export default function WineListPage() {
   };
 
   return (
-    <div className="flex w-[1920px] justify-center">
-      <div className="max-w-[1140px]">
+    <div className="flex w-[1920px] flex-col items-center justify-center py-10">
+      <div className="max-w-[1140px flex flex-col gap-6">
+        <GlobalNavBar />
         <WineRecommendItemList />
         <span>검색바</span>
         <div className="flex">
-          <div className="w-[340px]">
-            <button type="button" onClick={handleSubmit}>
-              wine 등록
-            </button>
+          <div className="flex w-[340px] flex-col gap-16">
+            <WineFilter
+              wineFilterValue={wineFilterValue}
+              onFilterChange={handleFilterChange}
+            />
+
+            <div className="h-[50px] w-[284px]">
+              <Button buttonStyle="purple" onClick={handleSubmit}>
+                와인 등록 하기
+              </Button>
+            </div>
           </div>
 
           <WineItemList wines={wineList} />

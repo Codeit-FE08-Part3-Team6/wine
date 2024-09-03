@@ -80,7 +80,7 @@ export default function GlobalNavBar() {
   }, [isLogin]);
 
   return (
-    <header className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
+    <div className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
       <Link href="/">
         <Image
           width={52}
@@ -99,6 +99,6 @@ export default function GlobalNavBar() {
           </>
         )}
       </div>
-    </header>
+    </div>
   );
 }

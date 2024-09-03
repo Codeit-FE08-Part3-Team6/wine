@@ -10,9 +10,9 @@ export default async function getWines(
   wineFilter: WineFilterProps,
 ): Promise<Wine[]> {
   try {
-    const { wineType, winePrice } = wineFilter;
+    const { wineType, winePrice, wineName } = wineFilter;
     const response = await axiosInstance.get<Response>(
-      `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}`,
+      `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}&name=${wineName}`,
     );
 
     const body = response.data.list ?? [];

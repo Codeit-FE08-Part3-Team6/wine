@@ -10,7 +10,7 @@ import {
   WineEnum,
   WineFilterProps,
 } from "@/types/wines";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/@shared/Button";
 import Input from "@/components/@shared/Input";
 import Image from "next/image";
@@ -30,6 +30,7 @@ export default function WineListPage() {
     wineType: WineEnum.Red,
     winePrice: { min: 0, max: 100000 },
     wineRating: "",
+    wineName: "",
   });
 
   async function fetchWines() {
@@ -39,7 +40,6 @@ export default function WineListPage() {
 
   const handleFilterChange = (newFilterValue: WineFilterProps) => {
     setWineFilterValue(newFilterValue);
-    console.log(newFilterValue);
   };
 
   useEffect(() => {
@@ -72,6 +72,13 @@ export default function WineListPage() {
     }
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWineFilterValue((prevValue) => ({
+      ...prevValue,
+      wineName: e.target.value,
+    }));
+  };
+
   return (
     <div className="flex max-w-[1920px] flex-col items-center justify-center py-10">
       <div className="flex max-w-[1140px] flex-col gap-6">
@@ -92,6 +99,7 @@ export default function WineListPage() {
               id="search-input"
               className="pl-10"
               placeholder="와인을 검색해보세요"
+              onChange={handleSearchChange}
             />
           </label>
         </div>

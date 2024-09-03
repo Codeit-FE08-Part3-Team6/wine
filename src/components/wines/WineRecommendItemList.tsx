@@ -17,14 +17,14 @@ function WineRecommendCard() {
 
 export default function WineRecommendItemList() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollValue, setScrollValue] = useState<number>(0);
+  const [currentScrollValue, setCurrentScrollValue] = useState(0);
 
   const wineCards = Array(21).fill(null);
 
   useEffect(() => {
     const handleScroll = () => {
       if (containerRef.current) {
-        setScrollValue(containerRef.current.scrollLeft);
+        setCurrentScrollValue(containerRef.current.scrollLeft);
       }
     };
 
@@ -50,19 +50,18 @@ export default function WineRecommendItemList() {
           이번 달 추천 와인
         </span>
         <div className="relative">
-          {scrollValue > 0 && (
+          {currentScrollValue > 0 && (
             <button
               type="button"
-              className="absolute left-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
+              className="absolute left-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
               onClick={() => handleClick("left")}
             >
               <Image
                 className="rotate-180"
-                src="/images/vector.svg"
+                src="/images/ic_x_scroll_right.svg"
                 alt="arrowIcon"
                 width={16}
                 height={16}
-                style={{ width: "auto", height: "auto" }}
               />
             </button>
           )}
@@ -79,18 +78,17 @@ export default function WineRecommendItemList() {
           </div>
           {containerRef.current &&
             containerRef.current.scrollWidth >
-              containerRef.current.clientWidth + scrollValue + 1 && (
+              containerRef.current.clientWidth + currentScrollValue + 1 && (
               <button
                 type="button"
-                className="absolute right-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 transform items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
+                className="absolute right-4 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-full border border-solid border-light-gray-300 bg-light-white"
                 onClick={() => handleClick("right")}
               >
                 <Image
-                  src="/images/vector.svg"
+                  src="/images/ic_x_scroll_right.svg"
                   alt="arrowIcon"
                   width={16}
                   height={16}
-                  style={{ width: "auto", height: "auto" }}
                 />
               </button>
             )}

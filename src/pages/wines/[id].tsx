@@ -1,3 +1,11 @@
+import GlobalNavBar from "@/components/@shared/GlobalNavBar";
+import WinesDetailCard from "@/components/wines/WinesDetailCard";
+
 export default function WineDetailPage() {
-  return <div>와인 상세 페이지</div>;
+  return (
+    <div className="mx-auto mt-10 w-[1140px]">
+      <GlobalNavBar />
+      <WinesDetailCard />
+    </div>
+  );
 }

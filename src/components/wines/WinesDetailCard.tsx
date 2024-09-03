@@ -22,7 +22,7 @@ export default function WinesDetailCard() {
       if (typeof id === "string") {
         try {
           const response = await axios.get<WineData>(
-            `https://winereview-api.vercel.app/8-6/wines/${id}`,
+            `${process.env.NEXT_PUBLIC_WINE_DETAIL_API_URL}/${id}`,
           );
           setData(response.data);
         } catch (e) {

@@ -1,0 +1,23 @@
+export interface Review {
+  id: number;
+  rating: number;
+  lightBold: number;
+  smoothTannic: number;
+  drySweet: number;
+  softAcidic: number;
+  aroma: string[];
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: number;
+    nickname: string;
+    image: string;
+  };
+}
+
+export interface ReviewData {
+  totalCount: number;
+  nextCursor: number;
+  list: Review[];
+}

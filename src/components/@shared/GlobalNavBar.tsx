@@ -12,9 +12,16 @@ interface ProfileImgProps {
 }
 
 function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
+  const router = useRouter();
+
   const handleLogoutBtnClick = () => {
     removeTokens();
     setIsLogin(false);
+
+    const { pathname } = router;
+    if (pathname === "/myprofile") {
+      router.push("/");
+    }
   };
 
   return (

@@ -1,37 +1,27 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import axios from "axios";
+import getWineById from "@/libs/axios/wine/getWineById";
+import { WineData } from "@/types/wines";
 
-interface WineData {
-  id: number;
-  name: string;
-  region: string;
-  image: string;
-  price: number;
-  type: string;
-}
-
-export default function WinesDetailCard() {
+export default function WineDetailCard() {
   const [data, setData] = useState<WineData | null>(null);
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect((): void => {
-    const fetchData = async (): Promise<void> => {
-      if (typeof id === "string") {
+  useEffect(() => {
+    const getData = async () => {
+      if (typeof id === 'string') {
         try {
-          const response = await axios.get<WineData>(
-            `${process.env.NEXT_PUBLIC_WINE_DETAIL_API_URL}/${id}`,
-          );
-          setData(response.data);
+          const wineData: WineData = await getWineById(id);
+          setData(wineData);
         } catch (e) {
-          console.error("데이터를 불러오는데 오류가 있습니다:", e);
+          console.error('데이터를 불러오는데 오류가 있습니다:', e);
         }
       }
     };
 
-    fetchData();
+    getData();
   }, [id]);
 
   // 코드 리팩토링 진행 시에 로딩바 애니메이션 추가 예정
@@ -54,7 +44,7 @@ export default function WinesDetailCard() {
             </p>
           </div>
           <div className="mt-5 inline-flex h-[37px] items-center rounded-xl bg-light-purple-10 px-[15px] py-2 text-2lg-18px-bold text-light-purple-100">
-            ₩ {data.price}
+            ₩ {data.price.toLocaleString()}
           </div>
         </div>
       </div>

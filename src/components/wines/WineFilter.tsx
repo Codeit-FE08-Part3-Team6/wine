@@ -79,17 +79,17 @@ export default function WineFilter({
   onFilterChange: (newFilterValue: WineFilterProps) => void;
 }) {
   const wineTypes = [
-    { label: "Red", value: WineEnum.Red },
-    { label: "White", value: WineEnum.White },
-    { label: "Sparkling", value: WineEnum.Sparkling },
+    { id: 1, label: "Red", value: WineEnum.Red },
+    { id: 2, label: "White", value: WineEnum.White },
+    { id: 3, label: "Sparkling", value: WineEnum.Sparkling },
   ];
 
   const wineRatings = [
-    { label: "전체" },
-    { label: "4.8 - 5.0" },
-    { label: "4.5 - 4.8" },
-    { label: "4.0 - 4.5" },
-    { label: "4.0 - 3.0" },
+    { id: 1, label: "전체" },
+    { id: 2, label: "4.8 - 5.0" },
+    { id: 3, label: "4.5 - 4.8" },
+    { id: 4, label: "4.0 - 4.5" },
+    { id: 5, label: "4.0 - 3.0" },
   ];
 
   const handleWineTypeChange = (value: WineEnum) => {
@@ -123,13 +123,13 @@ export default function WineFilter({
   );
 
   return (
-    <div className="flex w-[284px] flex-col gap-16">
+    <div className="z-50 flex w-[284px] flex-col gap-16 bg-light-white">
       <div className="flex flex-col gap-3">
         <p className="text-xl-20px-bold"> WINE TYPES</p>
         <div className="flex gap-3">
-          {wineTypes.map((wineType, index) => (
+          {wineTypes.map((wineType) => (
             <WineTypeRadio
-              key={index}
+              key={wineType.id}
               value={wineType.value}
               selectedValue={wineFilterValue.wineType}
               onChange={handleWineTypeChange}
@@ -151,9 +151,9 @@ export default function WineFilter({
       <div className="flex flex-col gap-3">
         <p className="text-xl-20px-bold">RATING</p>
 
-        {wineRatings.map((wineRating, index) => (
+        {wineRatings.map((wineRating) => (
           <WineRatingRadio
-            key={index}
+            key={wineRating.id}
             value={wineRating.label}
             selectedValue={wineFilterValue.wineRating}
             onChange={handleWineRatingChange}

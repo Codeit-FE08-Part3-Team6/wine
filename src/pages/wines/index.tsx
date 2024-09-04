@@ -3,12 +3,7 @@ import WineItemList from "@/components/wines/WineItemList";
 import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
 import getWines from "@/libs/axios/wine/getWines";
 import GlobalNavBar from "@/components/@shared/GlobalNavBar";
-import {
-  PostWineDetails,
-  Wine,
-  WineEnum,
-  WineFilterProps,
-} from "@/types/wines";
+import { Wine, WineEnum, WineFilterProps } from "@/types/wines";
 import React, { useEffect, useState } from "react";
 import Button from "@/components/@shared/Button";
 import Input from "@/components/@shared/Input";
@@ -20,14 +15,6 @@ import AddWine from "@/components/wines/AddWine";
 export default function WineListPage() {
   const [wineList, setWineList] = useState<Wine[]>([]);
 
-  const [wineValue, setWineValue] = useState<PostWineDetails>({
-    name: "",
-    region: "",
-    image: "",
-    price: 0,
-    type: WineEnum.Red,
-  });
-
   const [wineFilterValue, setWineFilterValue] = useState<WineFilterProps>({
     wineType: WineEnum.Red,
     winePrice: { min: 0, max: 100000 },
@@ -36,6 +23,7 @@ export default function WineListPage() {
   });
 
   const [isAddWineModalOpen, toggleIsAddWineModalOpen] = useToggle(false);
+  const [isFilterModalOpen, toggleIsFilterModalOpen] = useToggle(false);
 
   async function fetchWines() {
     const getWineList: Wine[] = await getWines(10, wineFilterValue); // 와인 목록 조회
@@ -64,13 +52,40 @@ export default function WineListPage() {
   }, [wineFilterValue]);
 
   return (
-    <div className="flex max-w-[1920px] flex-col items-center justify-center py-10">
-      <div className="flex max-w-[1140px] flex-col gap-6">
+    <div className="flex max-w-[1920px] flex-col items-center justify-center">
+      <div className="flex max-w-[1140px] flex-col gap-6 py-10 max-[744px]:w-[744px] max-[744px]:px-6">
         <GlobalNavBar />
         <WineRecommendItemList />
 
-        <div className="flex justify-end">
-          <label className="relative block w-[800px]" htmlFor="search-input">
+        <div className="flex items-center justify-end max-[744px]:justify-between max-[744px]:gap-2">
+          <div className="hidden h-[48px] w-[48px] max-[744px]:block">
+            <Button
+              buttonStyle="gray"
+              onClick={() => toggleIsFilterModalOpen()}
+            >
+              <Image
+                src="/images/ic_filter.svg"
+                alt="filterIcon"
+                width={26}
+                height={26}
+              />
+            </Button>
+          </div>
+          {/* 타입을 프롭으로 넘기고 타입에따라 className을 변경할수있을까 일단 반응형 테스트 먼저 컴포넌트에서 해보는 걸로  */}
+          <Modal
+            isOpen={isFilterModalOpen}
+            onClose={() => toggleIsFilterModalOpen()}
+          >
+            <WineFilter
+              wineFilterValue={wineFilterValue}
+              onFilterChange={handleFilterChange}
+            />
+          </Modal>
+
+          <label
+            className="relative block w-[800px] max-[744px]:w-[396px]"
+            htmlFor="search-input"
+          >
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
               <Image
                 src="/images/ic_search.svg"
@@ -86,10 +101,25 @@ export default function WineListPage() {
               onChange={handleSearchChange}
             />
           </label>
+
+          <div className="hidden h-[45px] w-[284px] max-[744px]:block max-[744px]:w-[220px]">
+            <Button
+              onClick={() => toggleIsAddWineModalOpen()}
+              buttonStyle="purple"
+            >
+              와인 등록 하기
+            </Button>
+          </div>
+          <Modal
+            isOpen={isAddWineModalOpen}
+            onClose={() => toggleIsAddWineModalOpen()}
+          >
+            <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+          </Modal>
         </div>
 
         <div className="flex">
-          <div className="flex w-[340px] flex-col gap-16">
+          <div className="block flex w-[340px] flex-col gap-16 max-[744px]:hidden">
             <WineFilter
               wineFilterValue={wineFilterValue}
               onFilterChange={handleFilterChange}

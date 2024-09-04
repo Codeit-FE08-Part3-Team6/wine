@@ -118,6 +118,7 @@ export default function AddWine({ onClose }: Props) {
               <Button
                 buttonStyle={submitDisabled ? "gray" : "purple"}
                 type="submit"
+                disabled={submitDisabled}
               >
                 와인 등록하기
               </Button>

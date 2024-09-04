@@ -1,15 +1,18 @@
 import FlavorRangeInput from "@/components/@shared/FlavorRangeInput";
+import { any } from "prop-types";
 
 interface WineFlavorRangeProps {
   flavor: string;
   typeOne: string;
   typeTwo: string;
+  onChange: (value: number) => void;
 }
 
 export default function WineFlavorRange({
   flavor,
   typeOne,
   typeTwo,
+  onChange,
 }: WineFlavorRangeProps) {
   return (
     <div className="flex items-center gap-4 whitespace-nowrap">
@@ -21,7 +24,7 @@ export default function WineFlavorRange({
           {typeOne}
         </p>
         <div className="w-full">
-          <FlavorRangeInput min={0} max={10} />
+          <FlavorRangeInput min={0} max={10} onChange={onChange} />
         </div>
         <p className="min-w-[56px] text-right text-lg-16px-medium text-light-gray-800">
           {typeTwo}

@@ -23,6 +23,7 @@ export default function Dropdown({ buttonChildren, children, width }: Props) {
         setIsVisible();
       }
     }
+
     if (isVisible) {
       window.addEventListener("click", handleClickOutside);
     } else {

@@ -23,14 +23,14 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
       buttonChildren={
         <>
           <Image
-            className="block md:hidden"
+            className="inline-block md:hidden"
             width={30}
             height={30}
             src={profileImg ?? "/images/img_pfp_default.svg"}
             alt="프로필 이미지"
           />
           <Image
-            className="hidden md:block"
+            className="hidden md:inline-block"
             width={40}
             height={40}
             src={profileImg ?? "/images/img_pfp_default.svg"}
@@ -72,15 +72,14 @@ export default function GlobalNavBar() {
         }
       };
 
-      // eslint-disable-next-line
-      loadUserProfileImage(); // Promise must be awaited (@typescript-eslint/no-floating-promises)
+      loadUserProfileImage();
     } else {
       setIsLogin(false);
     }
   }, [isLogin]);
 
   return (
-    <header className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
+    <div className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
       <Link href="/">
         <Image
           width={52}
@@ -99,6 +98,6 @@ export default function GlobalNavBar() {
           </>
         )}
       </div>
-    </header>
+    </div>
   );
 }

@@ -2,7 +2,6 @@ import WineFilter from "@/components/wines/WineFilter";
 import WineItemList from "@/components/wines/WineItemList";
 import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
 import getWines from "@/libs/axios/wine/getWines";
-import postWines from "@/libs/axios/wine/postWines";
 import GlobalNavBar from "@/components/@shared/GlobalNavBar";
 import {
   PostWineDetails,
@@ -14,6 +13,9 @@ import React, { useEffect, useState } from "react";
 import Button from "@/components/@shared/Button";
 import Input from "@/components/@shared/Input";
 import Image from "next/image";
+import useToggle from "@/hooks/useToggle";
+import Modal from "@/components/@shared/Modal";
+import AddWine from "@/components/wines/AddWine";
 
 export default function WineListPage() {
   const [wineList, setWineList] = useState<Wine[]>([]);
@@ -33,6 +35,8 @@ export default function WineListPage() {
     wineName: "",
   });
 
+  const [isAddWineModalOpen, toggleIsAddWineModalOpen] = useToggle(false);
+
   async function fetchWines() {
     const getWineList: Wine[] = await getWines(10, wineFilterValue); // 와인 목록 조회
     setWineList(getWineList);
@@ -40,6 +44,13 @@ export default function WineListPage() {
 
   const handleFilterChange = (newFilterValue: WineFilterProps) => {
     setWineFilterValue(newFilterValue);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWineFilterValue((prevValue) => ({
+      ...prevValue,
+      wineName: e.target.value,
+    }));
   };
 
   useEffect(() => {
@@ -51,33 +62,6 @@ export default function WineListPage() {
         console.error("Error during fetching data:", error);
       });
   }, [wineFilterValue]);
-
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    try {
-      setWineValue({
-        name: "인재",
-        region: "대구",
-        image:
-          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991786504/31563.png",
-        price: 10,
-        type: WineEnum.Red,
-      });
-      const result = await postWines(wineValue);
-      if (!result) {
-        console.log("wine 등록 중 오류 발생");
-      }
-    } catch (error) {
-      console.error("비동기 작업 중 오류 발생:", error);
-    }
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWineFilterValue((prevValue) => ({
-      ...prevValue,
-      wineName: e.target.value,
-    }));
-  };
 
   return (
     <div className="flex max-w-[1920px] flex-col items-center justify-center py-10">
@@ -112,10 +96,19 @@ export default function WineListPage() {
             />
 
             <div className="h-[50px] w-[284px]">
-              <Button buttonStyle="purple" onClick={handleSubmit}>
+              <Button
+                onClick={() => toggleIsAddWineModalOpen()}
+                buttonStyle="purple"
+              >
                 와인 등록 하기
               </Button>
             </div>
+            <Modal
+              isOpen={isAddWineModalOpen}
+              onClose={() => toggleIsAddWineModalOpen()}
+            >
+              <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+            </Modal>
           </div>
 
           <WineItemList wines={wineList} />

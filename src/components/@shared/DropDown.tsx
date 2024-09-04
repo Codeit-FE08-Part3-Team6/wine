@@ -10,9 +10,9 @@ interface Props {
 
 /**
  * Dropdown 공통 컴포넌트
- * @params buttonChildren: dropdown visible 값을 토글하는 버튼 디자인 컴포넌트
- * @params width: dropdown box의 width 값
- * @params childType?: 우측정렬 (wine), 가운데 정렬 (menu) / 기본값 : 가운데정렬
+ * @param buttonChildren dropdown visible 값을 토글하는 버튼 디자인 컴포넌트
+ * @param width dropdown box의 width 값
+ * @param childType (optional) wine: 우측정렬, menu: 가운데정렬 / default: menu
  */
 export default function Dropdown({
   buttonChildren,

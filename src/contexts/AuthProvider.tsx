@@ -21,7 +21,7 @@ interface AuthValues {
   isPending: boolean;
   login: (formData: SignInForm) => Promise<boolean>;
   logout: () => void;
-  updateMe: (formData: UpdateUserForm) => void;
+  updateMe: (formData: UpdateUserForm) => Promise<void>;
 }
 
 const INITIAL_CONTEXT_VALUES: AuthValues = {
@@ -29,7 +29,7 @@ const INITIAL_CONTEXT_VALUES: AuthValues = {
   isPending: true,
   login: () => Promise.reject(),
   logout: () => {},
-  updateMe: () => {},
+  updateMe: () => Promise.reject(),
 };
 
 const AuthContext = createContext<AuthValues>(INITIAL_CONTEXT_VALUES);
@@ -78,12 +78,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateMe = async (formData: UpdateUserForm) => {
-    try {
-      await updateUser(formData);
-    } catch {
+    const updatedUser = await updateUser(formData);
+    if (!updatedUser) {
+      alert("프로필 업데이트 실패");
       return;
     }
-
     await getMe();
   };
 

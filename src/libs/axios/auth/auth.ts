@@ -24,5 +24,7 @@ export async function signUp(formData: SignUpForm) {
   } catch (error: unknown) {
     const e = error as AxiosError;
     console.log(`${e.response?.status} error from signUp: ${e.message}`);
+    return false;
   }
+  return true;
 }

@@ -13,12 +13,17 @@ import useAuthForm from "@/hooks/useAuthForm";
 export default function SignUpPage() {
   const { authForm, errorMessages, handleInputChange } = useAuthForm();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await signUp(authForm);
-    router.push("/signin");
+    const isSignUpSuccess = await signUp(authForm);
+    if (isSignUpSuccess) {
+      await login({ email: authForm.email, password: authForm.password });
+      router.push("/");
+      return;
+    }
+    alert("회원가입 실패");
   };
 
   const isFormValid =

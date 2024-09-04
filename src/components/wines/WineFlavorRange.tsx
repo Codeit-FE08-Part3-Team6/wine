@@ -1,5 +1,4 @@
 import FlavorRangeInput from "@/components/@shared/FlavorRangeInput";
-import { any } from "prop-types";
 
 interface WineFlavorRangeProps {
   flavor: string;

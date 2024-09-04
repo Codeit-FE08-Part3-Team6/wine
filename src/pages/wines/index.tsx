@@ -1,11 +1,19 @@
+import WineFilter from "@/components/wines/WineFilter";
 import WineItemList from "@/components/wines/WineItemList";
 import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
-import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
 import getWines from "@/libs/axios/wine/getWines";
 import postWines from "@/libs/axios/wine/postWines";
-
-import { PostWineDetails, Wine, WineEnum } from "@/types/wines";
-import { useEffect, useState } from "react";
+import GlobalNavBar from "@/components/@shared/GlobalNavBar";
+import {
+  PostWineDetails,
+  Wine,
+  WineEnum,
+  WineFilterProps,
+} from "@/types/wines";
+import React, { useEffect, useState } from "react";
+import Button from "@/components/@shared/Button";
+import Input from "@/components/@shared/Input";
+import Image from "next/image";
 
 export default function WineListPage() {
   const [wineList, setWineList] = useState<Wine[]>([]);
@@ -18,12 +26,21 @@ export default function WineListPage() {
     type: WineEnum.Red,
   });
 
+  const [wineFilterValue, setWineFilterValue] = useState<WineFilterProps>({
+    wineType: WineEnum.Red,
+    winePrice: { min: 0, max: 100000 },
+    wineRating: "",
+    wineName: "",
+  });
+
   async function fetchWines() {
-    const getWineList: Wine[] = await getWines(10); // 와인 목록 조회
-    const wineRecommendList: Wine[] = await getWineRecommends(); // 추천 와인 목록 조회
+    const getWineList: Wine[] = await getWines(10, wineFilterValue); // 와인 목록 조회
     setWineList(getWineList);
-    console.log(wineRecommendList);
   }
+
+  const handleFilterChange = (newFilterValue: WineFilterProps) => {
+    setWineFilterValue(newFilterValue);
+  };
 
   useEffect(() => {
     fetchWines()
@@ -33,7 +50,7 @@ export default function WineListPage() {
       .catch((error) => {
         console.error("Error during fetching data:", error);
       });
-  }, []);
+  }, [wineFilterValue]);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -55,16 +72,50 @@ export default function WineListPage() {
     }
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWineFilterValue((prevValue) => ({
+      ...prevValue,
+      wineName: e.target.value,
+    }));
+  };
+
   return (
-    <div className="flex w-[1920px] justify-center">
-      <div className="max-w-[1140px]">
+    <div className="flex max-w-[1920px] flex-col items-center justify-center py-10">
+      <div className="flex max-w-[1140px] flex-col gap-6">
+        <GlobalNavBar />
         <WineRecommendItemList />
-        <span>검색바</span>
+
+        <div className="flex justify-end">
+          <label className="relative block w-[800px]" htmlFor="search-input">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+              <Image
+                src="/images/ic_search.svg"
+                alt="searchIcon"
+                width={20}
+                height={20}
+              />
+            </span>
+            <Input
+              id="search-input"
+              className="pl-10"
+              placeholder="와인을 검색해보세요"
+              onChange={handleSearchChange}
+            />
+          </label>
+        </div>
+
         <div className="flex">
-          <div className="w-[340px]">
-            <button type="button" onClick={handleSubmit}>
-              wine 등록
-            </button>
+          <div className="flex w-[340px] flex-col gap-16">
+            <WineFilter
+              wineFilterValue={wineFilterValue}
+              onFilterChange={handleFilterChange}
+            />
+
+            <div className="h-[50px] w-[284px]">
+              <Button buttonStyle="purple" onClick={handleSubmit}>
+                와인 등록 하기
+              </Button>
+            </div>
           </div>
 
           <WineItemList wines={wineList} />

@@ -3,6 +3,10 @@ export enum WineEnum {
   White = "WHITE",
   Sparkling = "SPARKLING",
 }
+interface WinePrice {
+  min: number;
+  max: number;
+}
 
 interface User {
   id: number;
@@ -29,8 +33,14 @@ export interface PostWineDetails {
 
 export interface Wine extends PostWineDetails {
   id: number;
-  type: WineEnum;
   avgRating: number | null;
   reviewerCount: number | null;
   recentReview: RecentReview | null;
+}
+
+export interface WineFilterProps {
+  wineType: WineEnum;
+  winePrice: WinePrice;
+  wineRating: string;
+  wineName: string;
 }

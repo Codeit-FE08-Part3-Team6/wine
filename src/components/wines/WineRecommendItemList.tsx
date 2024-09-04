@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Wine } from "@/types/wines";
+import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
 import { useRef, useState, useEffect } from "react";
 
 function WineRecommendCard() {
@@ -18,8 +20,12 @@ function WineRecommendCard() {
 export default function WineRecommendItemList() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentScrollValue, setCurrentScrollValue] = useState(0);
-
   const wineCards = Array(21).fill(null);
+
+  async function fetchWines() {
+    const wineRecommendList: Wine[] = await getWineRecommends(); // 추천 와인 목록 조회
+    console.log(wineRecommendList);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,9 +33,16 @@ export default function WineRecommendItemList() {
         setCurrentScrollValue(containerRef.current.scrollLeft);
       }
     };
-
     const currentRef = containerRef.current;
     currentRef?.addEventListener("scroll", handleScroll);
+
+    fetchWines()
+      .then(() => {
+        // 성공적으로 데이터 로드
+      })
+      .catch((error) => {
+        console.error("Error during fetching data:", error);
+      });
   }, []);
 
   const handleClick = (direction: string) => {
@@ -44,7 +57,7 @@ export default function WineRecommendItemList() {
   };
 
   return (
-    <div className="flex h-[299px] w-[1140px] flex-col rounded-2xl bg-light-gray-100">
+    <div className="flex h-[299px] w-full flex-col rounded-2xl bg-light-gray-100">
       <div className="flex flex-col gap-6 py-4">
         <span className="px-6 text-xl-20px-bold text-light-gray-800">
           이번 달 추천 와인

@@ -57,9 +57,6 @@ function WineRatingRadio({
         id="red"
         name="wineRating"
         style={{
-          WebkitAppearance: "none", // 웹킷 브라우저에서 기본 스타일 제거
-          MozAppearance: "none", // 모질라 브라우저에서 기본 스타일 제거
-          appearance: "none", // 기본 브라우저에서 기본 스타일 제거
           width: "18px",
           height: "18px",
           border: "5px solid #F2F4F8",
@@ -81,9 +78,21 @@ export default function WineFilter({
   wineFilterValue: WineFilterProps;
   onFilterChange: (newFilterValue: WineFilterProps) => void;
 }) {
-  const handleWineTypeChange = (value: WineEnum) => {
-    console.log(wineFilterValue);
+  const wineTypes = [
+    { label: "Red", value: WineEnum.Red },
+    { label: "White", value: WineEnum.White },
+    { label: "Sparkling", value: WineEnum.Sparkling },
+  ];
 
+  const wineRatings = [
+    { label: "전체" },
+    { label: "4.8 - 5.0" },
+    { label: "4.5 - 4.8" },
+    { label: "4.0 - 4.5" },
+    { label: "4.0 - 3.0" },
+  ];
+
+  const handleWineTypeChange = (value: WineEnum) => {
     onFilterChange({
       ...wineFilterValue,
       wineType: value,
@@ -118,27 +127,16 @@ export default function WineFilter({
       <div className="flex flex-col gap-3">
         <p className="text-xl-20px-bold"> WINE TYPES</p>
         <div className="flex gap-3">
-          <WineTypeRadio
-            value={WineEnum.Red}
-            selectedValue={wineFilterValue.wineType}
-            onChange={handleWineTypeChange}
-          >
-            Red
-          </WineTypeRadio>
-          <WineTypeRadio
-            value={WineEnum.White}
-            selectedValue={wineFilterValue.wineType}
-            onChange={handleWineTypeChange}
-          >
-            White
-          </WineTypeRadio>
-          <WineTypeRadio
-            value={WineEnum.Sparkling}
-            selectedValue={wineFilterValue.wineType}
-            onChange={handleWineTypeChange}
-          >
-            Sparkling
-          </WineTypeRadio>
+          {wineTypes.map((wineType, index) => (
+            <WineTypeRadio
+              key={index}
+              value={wineType.value}
+              selectedValue={wineFilterValue.wineType}
+              onChange={handleWineTypeChange}
+            >
+              {wineType.label}
+            </WineTypeRadio>
+          ))}
         </div>
       </div>
       <div className="flex flex-col gap-6">
@@ -153,41 +151,16 @@ export default function WineFilter({
       <div className="flex flex-col gap-3">
         <p className="text-xl-20px-bold">RATING</p>
 
-        <WineRatingRadio
-          value="전체"
-          selectedValue={wineFilterValue.wineRating}
-          onChange={handleWineRatingChange}
-        >
-          전체
-        </WineRatingRadio>
-        <WineRatingRadio
-          value="4.8-5.0"
-          selectedValue={wineFilterValue.wineRating}
-          onChange={handleWineRatingChange}
-        >
-          4.8 - 5.0
-        </WineRatingRadio>
-        <WineRatingRadio
-          value="4.5-5.8"
-          selectedValue={wineFilterValue.wineRating}
-          onChange={handleWineRatingChange}
-        >
-          4.5 - 4.8
-        </WineRatingRadio>
-        <WineRatingRadio
-          value="4.0-4.5"
-          selectedValue={wineFilterValue.wineRating}
-          onChange={handleWineRatingChange}
-        >
-          4.0 - 4.5
-        </WineRatingRadio>
-        <WineRatingRadio
-          value="3.0-4.0"
-          selectedValue={wineFilterValue.wineRating}
-          onChange={handleWineRatingChange}
-        >
-          3.0 - 4.0
-        </WineRatingRadio>
+        {wineRatings.map((wineRating, index) => (
+          <WineRatingRadio
+            key={index}
+            value={wineRating.label}
+            selectedValue={wineFilterValue.wineRating}
+            onChange={handleWineRatingChange}
+          >
+            {wineRating.label}
+          </WineRatingRadio>
+        ))}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 
 function WineRecommendCard() {
   return (
-    <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6">
+    <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6 max-[375px]:w-[193px]">
       <div className="w-2/5">이미지</div>
       <div className="flex w-3/5 flex-col gap-2">
         <p className="text-4xl">4.8</p>
@@ -20,6 +20,7 @@ function WineRecommendCard() {
 export default function WineRecommendItemList() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentScrollValue, setCurrentScrollValue] = useState(0);
+  const [scrollRange, setScrollRange] = useState(900);
   const wineCards = Array(21).fill(null);
 
   async function fetchWines() {
@@ -45,8 +46,27 @@ export default function WineRecommendItemList() {
       });
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 375) {
+        setScrollRange(210);
+      } else if (window.innerWidth < 744) {
+        setScrollRange(500);
+      } else {
+        setScrollRange(900);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleClick = (direction: string) => {
-    const scrollRange = 900;
     if (containerRef.current) {
       if (direction === "left") {
         containerRef.current.scrollLeft -= scrollRange;

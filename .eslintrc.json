@@ -32,6 +32,7 @@
     "react/button-has-type": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/await-thenable": "off",
     "jsx-a11y/label-has-associated-control": [
       2,
       {

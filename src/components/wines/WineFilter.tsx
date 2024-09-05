@@ -179,16 +179,16 @@ export default function WineFilter({
       </div>
 
       <div className="hidden h-[54px] gap-2 max-xl:flex">
-        <Button
-          buttonStyle="light"
-          customStyle=" w-1/3"
-          onClick={handleResetClick}
-        >
-          초기화
-        </Button>
-        <Button buttonStyle="purple" customStyle=" w-2/3" onClick={onClose}>
-          필터 적용하기
-        </Button>
+        <div className="w-1/3">
+          <Button buttonStyle="light" onClick={handleResetClick}>
+            초기화
+          </Button>
+        </div>
+        <div className="w-2/3">
+          <Button buttonStyle="purple" onClick={onClose}>
+            필터 적용하기
+          </Button>
+        </div>
       </div>
     </div>
   );

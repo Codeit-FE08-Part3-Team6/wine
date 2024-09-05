@@ -40,7 +40,13 @@ export default function HomePage() {
           <DefaultMain />
           <MobileMain />
           <Link href="/wines" className="mx-auto block h-[50px] w-[279px]">
-            <Button buttonStyle="purple">와인 보러가기</Button>
+            <Button
+              buttonStyle="purple"
+              shape="pill"
+              customStyle="text-lg-16px-bold"
+            >
+              와인 보러가기
+            </Button>
           </Link>
         </main>
       </div>

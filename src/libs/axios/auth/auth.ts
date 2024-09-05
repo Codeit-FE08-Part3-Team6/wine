@@ -1,7 +1,7 @@
 import { AuthTokens, SignInForm, SignInReturn, SignUpForm } from "@/types/auth";
 import { saveTokens } from "@/utils/authTokenStorage";
 import { AxiosError, AxiosResponse } from "axios";
-import { setUserEmail } from "@/utils/setUserEmail";
+import { setUserEmail } from "@/utils/userEmailStorage";
 import axios from "../axiosInstance";
 
 export async function signIn(formData: SignInForm) {

@@ -4,7 +4,7 @@ import updateUser from "@/libs/axios/user/updateUser";
 import { SignInForm } from "@/types/auth";
 import User, { UpdateUserForm } from "@/types/user";
 import { removeTokens } from "@/utils/authTokenStorage";
-import { removeUserEmail } from "@/utils/setUserEmail";
+import { removeUserEmail } from "@/utils/userEmailStorage";
 import { useRouter } from "next/router";
 import {
   createContext,

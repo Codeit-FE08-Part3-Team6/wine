@@ -1,6 +1,13 @@
 import { ReactNode, useCallback } from "react";
 import { WineEnum, WineFilterProps } from "@/types/wines";
 import PriceRangeInput from "../@shared/PriceRangeInput";
+import Button from "../@shared/Button";
+
+interface Props {
+  wineFilterValue: WineFilterProps;
+  onFilterChange: (newFilterValue: WineFilterProps) => void;
+  onClose: () => void;
+}
 
 interface WineTypeProps {
   children: ReactNode;
@@ -74,10 +81,8 @@ function WineRatingRadio({
 export default function WineFilter({
   wineFilterValue,
   onFilterChange,
-}: {
-  wineFilterValue: WineFilterProps;
-  onFilterChange: (newFilterValue: WineFilterProps) => void;
-}) {
+  onClose,
+}: Props) {
   const wineTypes = [
     { id: 1, label: "Red", value: WineEnum.Red },
     { id: 2, label: "White", value: WineEnum.White },
@@ -107,12 +112,12 @@ export default function WineFilter({
   };
   const handlePriceChange = useCallback(
     (min: number, max: number) => {
-      // 현재 wineFilterValue의 winePrice와 비교
       if (
         wineFilterValue.winePrice.min !== min ||
         wineFilterValue.winePrice.max !== max
       ) {
         // 값이 변경되었을 때만 onFilterChange 호출
+
         onFilterChange({
           ...wineFilterValue,
           winePrice: { min, max },
@@ -122,9 +127,19 @@ export default function WineFilter({
     [onFilterChange, wineFilterValue],
   );
 
+  const handleResetClick = () => {
+    onFilterChange({
+      ...wineFilterValue,
+      wineType: WineEnum.Red,
+      winePrice: { min: 0, max: 100000 },
+      wineRating: "전체",
+    });
+  };
+
   return (
-    <div className="z-50 flex w-[284px] flex-col gap-16 bg-light-white">
+    <div className="z-50 flex w-[284px] flex-col gap-16 bg-light-white max-xl:h-[732px] max-xl:w-[375px] max-xl:rounded-3xl max-xl:p-6">
       <div className="flex flex-col gap-3">
+        <p className="hidden text-2xl-24px-bold max-xl:block"> 필터</p>
         <p className="text-xl-20px-bold"> WINE TYPES</p>
         <div className="flex gap-3">
           {wineTypes.map((wineType) => (
@@ -161,6 +176,19 @@ export default function WineFilter({
             {wineRating.label}
           </WineRatingRadio>
         ))}
+      </div>
+
+      <div className="hidden h-[54px] gap-2 max-xl:flex">
+        <Button
+          buttonStyle="light"
+          customStyle=" w-1/3"
+          onClick={handleResetClick}
+        >
+          초기화
+        </Button>
+        <Button buttonStyle="purple" customStyle=" w-2/3" onClick={onClose}>
+          필터 적용하기
+        </Button>
       </div>
     </div>
   );

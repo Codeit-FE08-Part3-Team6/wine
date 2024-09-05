@@ -53,12 +53,12 @@ export default function WineListPage() {
 
   return (
     <div className="flex max-w-[1920px] flex-col items-center justify-center">
-      <div className="flex max-w-[1140px] flex-col gap-6 py-10 max-[744px]:w-[744px] max-[744px]:px-6 max-[375px]:w-[375px]">
+      <div className="flex max-w-[1140px] flex-col gap-6 py-10 max-xl:w-[744px] max-xl:px-6 max-md:w-[375px]">
         <GlobalNavBar />
         <WineRecommendItemList />
 
-        <div className="flex items-center justify-end max-[744px]:justify-between max-[744px]:gap-2 max-[375px]:flex-col-reverse max-[375px]:items-start">
-          <div className="hidden h-[48px] w-[48px] max-[744px]:block">
+        <div className="flex items-center justify-end max-xl:justify-between max-xl:gap-2 max-md:flex-col-reverse max-md:items-start">
+          <div className="hidden h-[48px] w-[48px] max-xl:block">
             <Button
               buttonStyle="gray"
               onClick={() => toggleIsFilterModalOpen()}
@@ -83,7 +83,7 @@ export default function WineListPage() {
           </Modal>
 
           <label
-            className="relative block w-[800px] max-[744px]:max-w-[396px] max-[375px]:max-w-[327px]"
+            className="relative block w-[800px] max-xl:max-w-[396px] max-md:max-w-[327px]"
             htmlFor="search-input"
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
@@ -101,7 +101,7 @@ export default function WineListPage() {
               onChange={handleSearchChange}
             />
           </label>
-          <div className="hidden h-[45px] w-[284px] max-[744px]:block max-[744px]:w-[220px] max-[375px]:hidden">
+          <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:hidden">
             <Button
               onClick={() => toggleIsAddWineModalOpen()}
               buttonStyle="purple"
@@ -119,7 +119,7 @@ export default function WineListPage() {
 
         <div>
           <div className="flex">
-            <div className="block flex w-[340px] flex-col gap-16 max-[744px]:hidden">
+            <div className="block flex w-[340px] flex-col gap-16 max-xl:hidden">
               <WineFilter
                 wineFilterValue={wineFilterValue}
                 onFilterChange={handleFilterChange}
@@ -140,7 +140,7 @@ export default function WineListPage() {
                 <AddWine onClose={() => toggleIsAddWineModalOpen()} />
               </Modal>
             </div>
-            <div className="max-w-[800px] max-[744px]:max-w-[704px]">
+            <div className="max-w-[800px] max-xl:max-w-[704px]">
               <WineItemList wines={wineList} />
             </div>
           </div>

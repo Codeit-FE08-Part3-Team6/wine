@@ -2,10 +2,11 @@ import Image from "next/image";
 import { Wine } from "@/types/wines";
 import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
 import { useRef, useState, useEffect } from "react";
+import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
 
 function WineRecommendCard() {
   return (
-    <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6 max-[375px]:w-[193px]">
+    <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6 max-md:w-[193px]">
       <div className="w-2/5">이미지</div>
       <div className="flex w-3/5 flex-col gap-2">
         <p className="text-4xl">4.8</p>
@@ -48,9 +49,11 @@ export default function WineRecommendItemList() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 375) {
+      if (window.innerWidth < MEDIA_QUERY_BREAK_POINT.TABLET_MIN_WIDTH) {
         setScrollRange(210);
-      } else if (window.innerWidth < 744) {
+      } else if (
+        window.innerWidth < MEDIA_QUERY_BREAK_POINT.DESKTOP_MIN_WIDTH
+      ) {
         setScrollRange(500);
       } else {
         setScrollRange(900);

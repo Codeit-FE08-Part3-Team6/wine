@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
       const { accessToken }: { accessToken: string } = res.data as AuthTokens;
-      localStorage.setItem("accessToekn", accessToken);
+      localStorage.setItem("accessToken", accessToken);
       return axiosInstance(originalRequest as AxiosRequestConfig);
     }
 

@@ -2,9 +2,9 @@ import Rating from "@/components/@shared/Rating";
 import Button from "@/components/@shared/Button";
 import Modal from "@/components/@shared/Modal";
 import RatingInput from "@/components/@shared/RatingInput";
-import {WineFlavorInputRange} from "@/components/wines/WineFlavorInputRange";
+import { WineFlavorInputRange } from "@/components/wines/WineFlavorInputRange";
 import WineFlavorList from "@/components/wines/WineFlavorList";
-import {translateAroma} from "@/components/wines/TranslateAroma";
+import { translateAroma } from "@/components/wines/TranslateAroma";
 import getWineById from "@/libs/axios/wine/getWineById";
 import { WineData } from "@/types/wines";
 import axios from "axios";
@@ -15,8 +15,8 @@ import CloseIcon from "../../../public/images/icon/close.svg";
 import ReviewModalWine from "../../../public/images/icon/review_modal_wine.svg";
 
 function RatingChart({
-avgRatings,
-reviewCount,
+  avgRatings,
+  reviewCount,
 }: {
   avgRatings: Record<string, number>;
   reviewCount: number;
@@ -28,8 +28,13 @@ reviewCount,
         .map(([rating, count]) => {
           const widthPercentage = (count / reviewCount) * 100;
           return (
-            <div key={rating} className="mb-2 flex items-center whitespace-nowrap">
-              <p className="text-lg-16px-medium text-light-gray-500">{rating}점</p>
+            <div
+              key={rating}
+              className="mb-2 flex items-center whitespace-nowrap"
+            >
+              <p className="text-lg-16px-medium text-light-gray-500">
+                {rating}점
+              </p>
               <div className="ml-4 h-1.5 w-full rounded-[50px] bg-light-gray-100">
                 <div
                   className="h-1.5 rounded-[50px] bg-light-purple-100"
@@ -71,7 +76,7 @@ export default function WineRatingStats() {
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("accessToken");
-    const translatedAroma = translateAroma(aroma)
+    const translatedAroma = translateAroma(aroma);
 
     const reviewData = {
       rating: ratingValue,
@@ -90,9 +95,9 @@ export default function WineRatingStats() {
         reviewData,
         {
           headers: {
-            "accept": "application/json",
+            accept: "application/json",
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -105,12 +110,12 @@ export default function WineRatingStats() {
 
   useEffect((): void => {
     const getData = async (): Promise<void> => {
-      if (typeof id === 'string') {
+      if (typeof id === "string") {
         try {
           const fetchedData = await getWineById(id);
           setData(fetchedData);
         } catch (e) {
-          console.error('데이터를 불러오는데 오류가 있습니다:', e);
+          console.error("데이터를 불러오는데 오류가 있습니다:", e);
         }
       }
     };
@@ -129,7 +134,9 @@ export default function WineRatingStats() {
   return (
     <div className="absolute right-0 mt-[60px] w-[280px]">
       <div className="inline-flex items-center">
-        <p className="text-[54px] font-extrabold text-light-gray-800">{avgRating !== null ? avgRating.toFixed(1) : 0}</p>
+        <p className="text-[54px] font-extrabold text-light-gray-800">
+          {avgRating !== null ? avgRating.toFixed(1) : 0}
+        </p>
         <div className="ml-[30px] flex flex-col">
           <Rating
             rating={avgRating}

@@ -2,9 +2,11 @@ import { WineFlavorRange } from "@/components/wines/WineFlavorInputRange";
 import Dropdown from "@/components/@shared/DropDown";
 import { WineData, WineReview } from "@/types/wines";
 import getWineById from "@/libs/axios/wine/getWineById";
-import getWineByReview from "@/libs/axios/wine/getWineByReview";
-import timeAgo from "@/components/wines/TimeAgo";
+import getReviewById from "@/libs/axios/review/getReviewById";
+import deleteReviewById from "@/libs/axios/review/deleteWineById";
+import timeAgo from "@/utils/TimeAgo";
 import { translateAromaReverse } from "@/components/wines/TranslateAroma";
+import Modal from "@/components/@shared/Modal";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image, { StaticImageData } from "next/image";
@@ -18,10 +20,13 @@ import UpArrow from "../../../public/images/icon/up_arrow.svg";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
-  const [reviews, setReviews] = useState<WineReview[]>([]); // 변수 이름 변경
   const [expandedReviews, setExpandedReviews] = useState<
     Record<number, boolean>
   >({});
+  const [reviews, setReviews] = useState<WineReview[]>([]);
+  const [visibleReviews, setVisibleReviews] = useState(5);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState<Record<number, boolean>>({});
   const router = useRouter();
   const { id } = router.query;
 
@@ -39,6 +44,24 @@ export default function WinesReviewSection() {
     }));
   };
 
+  const handleModal = (reviewId: number) => {
+    setIsOpen((prevState) => ({
+      ...prevState,
+      [reviewId]: !prevState[reviewId],
+    }));
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    try {
+      await deleteReviewById(reviewId);
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review.id !== reviewId),
+      );
+    } catch (e) {
+      console.error("리뷰를 삭제하는데 오류가 있습니다:", e);
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
       if (typeof id === "string") {
@@ -47,7 +70,7 @@ export default function WinesReviewSection() {
 
           if (wineData.reviews.length > 0) {
             const reviewPromises = wineData.reviews.map((review) =>
-              getWineByReview(review.id.toString()),
+              getReviewById(review.id),
             );
             const reviewsData: WineReview[] = await Promise.all(reviewPromises);
             setReviews(reviewsData);
@@ -63,19 +86,71 @@ export default function WinesReviewSection() {
     getData();
   }, [id]);
 
+  useEffect(() => {
+    const loadMoreReviews = () => {
+      setLoading(true);
+      setTimeout(() => {
+        setVisibleReviews((prevVisibleReviews) => prevVisibleReviews + 3);
+        setLoading(false);
+      }, 2000);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading) {
+          loadMoreReviews();
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    const target = document.querySelector("#load-more-trigger");
+    if (target) {
+      observer.observe(target);
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, [loading, visibleReviews]);
+
   return (
     <>
       <h2 className="mt-[60px] inline-block text-xl-20px-bold text-light-gray-800">
         리뷰 목록
       </h2>
-      {reviews.map((review) => {
+      {reviews.slice(0, visibleReviews).map((review) => {
         const translatedAromas = translateAromaReverse(review.aroma);
         const isExpanded = expandedReviews[review.id] || false;
+        const isModalOpen = isOpen[review.id] || false;
         return (
           <div
-            key={review.id} // 리뷰의 고유 ID를 키로 사용
+            key={review.id}
             className="mt-[22px] max-w-[800px] rounded-2xl border border-gray-300 px-10 pt-[16.5px]"
           >
+            <Modal isOpen={isModalOpen} onClose={() => handleModal(review.id)}>
+              <div className="flex h-[172px] w-[353px] flex-col items-center justify-center gap-10 rounded-2xl bg-light-white px-4 pb-6 pt-8">
+                <p className="text-xl-20px-bold text-light-gray-800">
+                  정말 삭제하시겠습니까?
+                </p>
+                <div className="flex items-center justify-between">
+                  <button
+                    className="flex h-[54px] w-[156px] items-center justify-center rounded-xl border border-solid border-light-gray-300 bg-light-white px-5 py-4 text-lg-16px-bold text-light-gray-500"
+                    onClick={() => handleModal(review.id)}
+                  >
+                    취소
+                  </button>
+                  <button
+                    className="flex h-[54px] w-[156px] items-center justify-center rounded-xl bg-light-purple-100 px-5 py-4 text-lg-16px-bold text-light-white"
+                    onClick={() => handleDeleteReview(review.id)}
+                  >
+                    삭제하기
+                  </button>
+                </div>
+              </div>
+            </Modal>
             <div className="flex justify-between">
               <div className="flex gap-4">
                 <Image
@@ -128,8 +203,10 @@ export default function WinesReviewSection() {
                     />
                   }
                 >
-                  <button type="button">수정하기</button>
-                  <button type="button">삭제하기</button>
+                  <button>수정하기</button>
+                  <button onClick={() => handleModal(review.id)}>
+                    삭제하기
+                  </button>
                 </Dropdown>
               </div>
             </div>
@@ -204,6 +281,7 @@ export default function WinesReviewSection() {
           </div>
         );
       })}
+      <div id="load-more-trigger" />
     </>
   );
 }

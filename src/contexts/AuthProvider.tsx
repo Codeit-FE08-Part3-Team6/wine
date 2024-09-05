@@ -4,6 +4,7 @@ import updateUser from "@/libs/axios/user/updateUser";
 import { SignInForm } from "@/types/auth";
 import User, { UpdateUserForm } from "@/types/user";
 import { removeTokens } from "@/utils/authTokenStorage";
+import { removeUserEmail } from "@/utils/setUserEmail";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -75,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     handleAuthChange("user", null);
     removeTokens();
+    removeUserEmail();
   };
 
   const updateMe = async (formData: UpdateUserForm) => {
@@ -96,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: null,
       isPending: false,
     });
+    removeUserEmail();
   }, []);
 
   const providerValueProp = useMemo(

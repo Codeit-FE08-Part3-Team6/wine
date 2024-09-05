@@ -14,3 +14,17 @@ export interface SignUpForm {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface SignInReturn {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: number;
+    email: string;
+    nickname: string;
+    teamId: string;
+    updatedAt: string;
+    createdAt: string;
+    image: string | null;
+  };
+}

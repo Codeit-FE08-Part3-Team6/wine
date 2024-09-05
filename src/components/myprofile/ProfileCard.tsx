@@ -1,7 +1,7 @@
 import Image from "next/image";
 import User, { UpdateUserForm } from "@/types/user";
 import { useRef, useState } from "react";
-import axiosInstance from "@/libs/axios/axiosInstance";
+import postImage from "@/libs/axios/image/postImage";
 import Button from "../@shared/Button";
 import Input from "../@shared/Input";
 
@@ -18,24 +18,23 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
   const imageRef = useRef<HTMLInputElement | null>(null);
 
   const handleUpdate = async () => {
-    const formData = new FormData();
     const file = imageRef.current?.files?.[0];
 
     if (file) {
-      formData.append("image", file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-    formData.append("nickname", nickname);
-
-    try {
-      await axiosInstance.patch("users/me", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      updateMe({ nickname, image: imagePreview });
-    } catch (error) {
-      console.error("프로필 카드 업데이트 에러:", error);
+      try {
+        const imageUrl = await postImage(file);
+        setImagePreview(imagePreview);
+        await updateMe({ nickname, image: imageUrl });
+      } catch (error) {
+        console.error("프로필 카드 업데이트 에러:", error);
+      }
+    } else {
+      // 파일이 없는 경우에는 닉네임만 업데이트
+      try {
+        await updateMe({ nickname, image: imagePreview });
+      } catch (error) {
+        console.error("프로필 카드 업데이트 에러", error);
+      }
     }
   };
 
@@ -56,7 +55,7 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
               fill
               src={imagePreview}
               alt="프로필 이미지"
-              className="rounded-[9999px]"
+              className="rounded-[9999px] object-cover"
             />
             <input
               type="file"
@@ -87,7 +86,6 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
             </div>
             <Input
               placeholder={user.nickname}
-              value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>

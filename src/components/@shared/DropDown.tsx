@@ -49,7 +49,9 @@ export default function Dropdown({
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <button
-        onClick={() => {
+        className="w-full"
+        onClick={(e: React.MouseEvent) => {
+          e.preventDefault();
           setIsVisible();
         }}
       >

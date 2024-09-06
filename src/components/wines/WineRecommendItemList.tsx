@@ -3,16 +3,27 @@ import { Wine } from "@/types/wines";
 import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
 import { useRef, useState, useEffect } from "react";
 import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
+import Rating from "../@shared/Rating";
 
-function WineRecommendCard() {
+interface WineProps {
+  wine: Wine;
+}
+
+function WineRecommendCard({ wine }: WineProps) {
   return (
     <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6 max-md:w-[193px]">
       <div className="w-2/5">이미지</div>
       <div className="flex w-3/5 flex-col gap-2">
-        <p className="text-4xl">4.8</p>
-        <p className="text-xs-12px-regular text-light-gray-500">
-          Palazzo della Torre 2017
+        <p className="text-4xl">
+          {wine.avgRating ? wine.avgRating.toFixed(1) : 0}
         </p>
+        <Rating
+          rating={wine.avgRating}
+          width={90}
+          height={18}
+          className="cursor-default"
+        />
+        <p className="text-xs-12px-regular text-light-gray-500">{wine.name}</p>
       </div>
     </div>
   );
@@ -22,22 +33,14 @@ export default function WineRecommendItemList() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentScrollValue, setCurrentScrollValue] = useState(0);
   const [scrollRange, setScrollRange] = useState(900);
-  const wineCards = Array(21).fill(null);
+  const [wineRecommends, setWineRecommends] = useState<Wine[]>([]);
 
   async function fetchWines() {
     const wineRecommendList: Wine[] = await getWineRecommends(); // 추천 와인 목록 조회
-    console.log(wineRecommendList);
+    setWineRecommends(wineRecommendList);
   }
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) {
-        setCurrentScrollValue(containerRef.current.scrollLeft);
-      }
-    };
-    const currentRef = containerRef.current;
-    currentRef?.addEventListener("scroll", handleScroll);
-
     fetchWines()
       .then(() => {
         // 성공적으로 데이터 로드
@@ -45,6 +48,14 @@ export default function WineRecommendItemList() {
       .catch((error) => {
         console.error("Error during fetching data:", error);
       });
+
+    const handleScroll = () => {
+      if (containerRef.current) {
+        setCurrentScrollValue(containerRef.current.scrollLeft);
+      }
+    };
+    const currentRef = containerRef.current;
+    currentRef?.addEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -107,9 +118,9 @@ export default function WineRecommendItemList() {
             ref={containerRef}
             style={{ scrollBehavior: "smooth" }}
           >
-            {wineCards.map((_, index) => (
+            {wineRecommends.map((wine) => (
               // eslint-disable-next-line react/no-array-index-key
-              <WineRecommendCard key={index} />
+              <WineRecommendCard key={wine.id} wine={wine} />
             ))}
           </div>
           {containerRef.current &&

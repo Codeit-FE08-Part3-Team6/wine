@@ -30,14 +30,14 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
       buttonChildren={
         <>
           <Image
-            className="inline-block rounded-full md:hidden"
+            className="inline-block rounded-full object-cover md:hidden"
             width={30}
             height={30}
             src={profileImg ?? "/images/img_pfp_default.svg"}
             alt="프로필 이미지"
           />
           <Image
-            className="hidden rounded-full md:inline-block"
+            className="hidden rounded-full object-cover md:inline-block"
             width={40}
             height={40}
             src={profileImg ?? "/images/img_pfp_default.svg"}

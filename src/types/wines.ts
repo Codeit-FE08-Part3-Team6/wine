@@ -79,7 +79,7 @@ export interface PostWineDetails {
 
 export interface Wine extends PostWineDetails {
   id: number;
-  avgRating: number | null;
+  avgRating: number;
   reviewerCount: number | null;
   recentReview: RecentReview | null;
 }

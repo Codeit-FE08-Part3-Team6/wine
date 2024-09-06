@@ -3,6 +3,8 @@ import { PostWineDetails, WineEnum } from "@/types/wines";
 import postWines from "@/libs/axios/wine/postWines";
 import Input from "../@shared/Input";
 import Button from "../@shared/Button";
+import InputSelect from "../@shared/InputSelect";
+import Dropdown from "../@shared/DropDown";
 
 interface Props {
   onClose: () => void;
@@ -38,6 +40,15 @@ export default function AddWine({ onClose }: Props) {
       [id]: id === "price" ? Number(value) : value,
     }));
   };
+
+  //   const handleWineTypeChange = (e, type) => {
+  // e.preventdefault()
+  //     setWineValue((prevWineValue) => ({
+  //       ...prevWineValue,
+  //       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  //       type,
+  //     }));
+  //   };
 
   const handelCancelClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -97,7 +108,18 @@ export default function AddWine({ onClose }: Props) {
               <label htmlFor="type" className="text-lg-16px-medium">
                 타입
               </label>
-              <Input id="type" placeholder="임시 타입 input" />
+
+              <Dropdown
+                width="w-full mx-auto"
+                buttonChildren={<InputSelect placeholder="dd" />}
+                childType="wine"
+              >
+                {/* <button onClick={(e)=>{handleWineTypeChange(WineEnum.Red)}} >
+                  {WineEnum.Red}
+                </button> */}
+                <li>{WineEnum.White}</li>
+                <li>{WineEnum.Sparkling}</li>
+              </Dropdown>
             </div>
 
             <div className="flex flex-col gap-4">

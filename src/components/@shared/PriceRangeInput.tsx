@@ -5,6 +5,7 @@ interface PriceRangeInputProps {
   maxPrice?: number;
   priceGap?: number;
   onPriceChange?: (min: number, max: number) => void;
+  valueReset?: boolean;
 }
 
 const DEFAULT_MIN_PRICE = 0;
@@ -29,6 +30,7 @@ export default function PriceRangeInput({
   maxPrice = DEFAULT_MAX_PRICE,
   priceGap = DEFAULT_PRICE_GAP,
   onPriceChange,
+  valueReset,
 }: PriceRangeInputProps) {
   const [minValue, setMinValue] = useState(minPrice);
   const [maxValue, setMaxValue] = useState(maxPrice);
@@ -45,6 +47,11 @@ export default function PriceRangeInput({
       onPriceChange(minValue, maxValue);
     }
   }, [minValue, maxValue, maxPrice, onPriceChange]);
+
+  useEffect(() => {
+    setMinValue(minPrice);
+    setMaxValue(maxPrice);
+  }, [valueReset]);
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxValue - priceGap);

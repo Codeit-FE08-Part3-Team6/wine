@@ -169,9 +169,8 @@ export default function WineListPage() {
                 </Modal>
               </div>
             )}
-            <div className="max-w-[800px] max-xl:max-w-[704px]">
-              <WineItemList wines={wineList} />
-            </div>
+
+            <WineItemList wines={wineList} />
           </div>
         </div>
       </div>

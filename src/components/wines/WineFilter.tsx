@@ -1,4 +1,5 @@
 import { ReactNode, useCallback } from "react";
+import useToggle from "@/hooks/useToggle";
 import { WineEnum, WineFilterProps } from "@/types/wines";
 import PriceRangeInput from "../@shared/PriceRangeInput";
 import Button from "../@shared/Button";
@@ -83,6 +84,7 @@ export default function WineFilter({
   onFilterChange,
   onClose,
 }: Props) {
+  const [reset, setReset] = useToggle(false);
   const wineTypes = [
     { id: 1, label: "Red", value: WineEnum.Red },
     { id: 2, label: "White", value: WineEnum.White },
@@ -94,7 +96,7 @@ export default function WineFilter({
     { id: 2, label: "4.8 - 5.0" },
     { id: 3, label: "4.5 - 4.8" },
     { id: 4, label: "4.0 - 4.5" },
-    { id: 5, label: "4.0 - 3.0" },
+    { id: 5, label: "3.0 - 4.0" },
   ];
 
   const handleWineTypeChange = (value: WineEnum) => {
@@ -134,6 +136,8 @@ export default function WineFilter({
       winePrice: { min: 0, max: 100000 },
       wineRating: "전체",
     });
+
+    setReset();
   };
 
   return (
@@ -161,6 +165,7 @@ export default function WineFilter({
           maxPrice={100000}
           priceGap={10000}
           onPriceChange={(min, max) => handlePriceChange(min, max)}
+          valueReset={reset}
         />
       </div>
       <div className="flex flex-col gap-3">

@@ -65,7 +65,6 @@ export default function WineListPage() {
     handleResize();
 
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };

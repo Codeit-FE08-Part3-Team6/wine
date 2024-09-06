@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Wine } from "@/types/wines";
 import Link from "next/link";
-import Rating from "../@shared/Rating";
 import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
+import Rating from "../@shared/Rating";
 
 interface WinesProps {
   wines: Wine[];
@@ -57,17 +57,17 @@ function WineItemCard({ wine }: WineProps) {
           </div>
           <div className="flex flex-col justify-between max-md:flex-row">
             <div className="flex flex-col gap-2 max-md:flex max-md:flex-row max-md:gap-5">
-              <p className="text-3xl-32px-semibold text-light-gray-800">
+              <p className="text-[54px] font-extrabold text-light-gray-800 max-md:text-[28px] max-md:font-extrabold">
                 {wine.avgRating ? wine.avgRating.toFixed(1) : 0}
               </p>
-              <div className="flex flex-col gap-2 max-md:gap-0">
+              <div className="flex flex-col justify-center gap-2 max-md:gap-1">
                 <Rating
                   rating={wine.avgRating}
                   width={isMobileView ? 70 : 112}
                   height={isMobileView ? 14 : 24}
                   className="cursor-default"
                 />
-                <p className="text-lg-16px-regular text-light-gray-500">
+                <p className="text-lg-16px-regular text-light-gray-500 max-md:text-xs-12px-regular">
                   {wine.reviewerCount ? `${wine.reviewerCount}` : 0}개의 후기
                 </p>
               </div>

@@ -9,7 +9,7 @@ export default async function getWineRecommends() {
     );
 
     const body = response.data ?? [];
-    console.log(body);
+
     return body;
   } catch (error) {
     console.error("wines 데이터 가져오기 실패:", error);

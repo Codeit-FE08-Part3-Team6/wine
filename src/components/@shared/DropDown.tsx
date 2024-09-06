@@ -46,6 +46,13 @@ export default function Dropdown({
     };
   }, [isVisible]);
 
+  const handleOptionClick = (e: React.MouseEvent, child: ReactElement) => {
+    if (child.props.onClick) {
+      child.props.onClick(e);
+    }
+    setIsVisible();
+  };
+
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <button
@@ -68,6 +75,7 @@ export default function Dropdown({
                   childType === "menu"
                     ? `flex w-full items-center justify-center rounded-xl py-2 text-md-14px-medium text-light-black hover:bg-light-purple-10 hover:text-light-purple-100 md:py-[10px] md:text-lg-16px-medium`
                     : `flex w-full items-center rounded-xl px-4 py-2 text-md-14px-medium text-light-black hover:bg-light-purple-10 hover:text-light-purple-100 md:py-[10px] md:text-lg-16px-medium`,
+                onClick: (e: React.MouseEvent) => handleOptionClick(e, child),
               });
             }
             return child;

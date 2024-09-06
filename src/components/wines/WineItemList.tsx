@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Wine } from "@/types/wines";
 import Link from "next/link";
 import Rating from "../@shared/Rating";
+import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
 
 interface WinesProps {
   wines: Wine[];
@@ -12,6 +14,26 @@ interface WineProps {
 }
 
 function WineItemCard({ wine }: WineProps) {
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < MEDIA_QUERY_BREAK_POINT.TABLET_MIN_WIDTH) {
+        setIsMobileView(true);
+      } else {
+        setIsMobileView(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="flex h-[375px] w-full flex-col rounded-2xl border border-light-gray-300 bg-light-white">
       <div className="flex h-2/3 flex-row border-b px-12 max-md:px-3">
@@ -19,7 +41,7 @@ function WineItemCard({ wine }: WineProps) {
           <div className="h-4/5"> 이미지 영역 </div>
           {/* {wine.image && <Image src={wine.image} alt="와인이미지" />} */}
         </div>
-        <div className="flex w-4/5 flex-row justify-between py-9 max-md:w-2/3 max-md:flex-col max-md:gap-5 max-md:py-6">
+        <div className="flex w-4/5 flex-row justify-between py-9 max-md:w-2/3 max-md:flex-col max-md:py-6">
           <div className="flex flex-col gap-2">
             <p className="text-3xl-32px-semibold text-light-gray-800 max-md:text-xl-20px-semibold">
               {wine.name}
@@ -34,19 +56,21 @@ function WineItemCard({ wine }: WineProps) {
             </div>
           </div>
           <div className="flex flex-col justify-between max-md:flex-row">
-            <div className="flex flex-col gap-2 max-md:flex max-md:gap-5">
+            <div className="flex flex-col gap-2 max-md:flex max-md:flex-row max-md:gap-5">
               <p className="text-3xl-32px-semibold text-light-gray-800">
                 {wine.avgRating ? wine.avgRating.toFixed(1) : 0}
               </p>
-              <Rating
-                rating={wine.avgRating}
-                width={120}
-                height={24}
-                className="cursor-default"
-              />
-              <p className="text-lg-16px-regular text-light-gray-500">
-                {wine.reviewerCount ? `${wine.reviewerCount}` : 0}개의 후기
-              </p>
+              <div className="flex flex-col gap-2 max-md:gap-0">
+                <Rating
+                  rating={wine.avgRating}
+                  width={isMobileView ? 70 : 112}
+                  height={isMobileView ? 14 : 24}
+                  className="cursor-default"
+                />
+                <p className="text-lg-16px-regular text-light-gray-500">
+                  {wine.reviewerCount ? `${wine.reviewerCount}` : 0}개의 후기
+                </p>
+              </div>
             </div>
             <div className="flex justify-end">
               <Image

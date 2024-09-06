@@ -24,7 +24,6 @@ function WineItemCard({ wine }: WineProps) {
         setIsMobileView(false);
       }
     };
-
     handleResize();
 
     window.addEventListener("resize", handleResize);
@@ -68,7 +67,8 @@ function WineItemCard({ wine }: WineProps) {
                   className="cursor-default"
                 />
                 <p className="text-lg-16px-regular text-light-gray-500 max-md:text-xs-12px-regular">
-                  {wine.reviewerCount ? `${wine.reviewerCount}` : 0}개의 후기
+                  {wine.reviewCount ? `${wine.reviewCount}` : 0}
+                  개의 후기
                 </p>
               </div>
             </div>
@@ -87,7 +87,9 @@ function WineItemCard({ wine }: WineProps) {
       <div className="flex flex-col gap-1 p-5 max-md:pt-2">
         <p className="text-lg-16px-semibold text-light-gray-800">최신후기</p>
         <p className="text-lg-16px-regular text-light-gray-500">
-          {wine.recentReview?.content}
+          {wine.recentReview?.content
+            ? `${wine.recentReview?.content}`
+            : "작성된 후기가 없습니다."}
         </p>
       </div>
     </div>
@@ -95,6 +97,9 @@ function WineItemCard({ wine }: WineProps) {
 }
 
 export default function WineItemList({ wines }: WinesProps) {
+  useEffect(() => {
+    console.log(wines);
+  }, []);
   return (
     <div className="flex w-[800px] flex-col gap-16 max-xl:w-full">
       {wines.map((wine) => (

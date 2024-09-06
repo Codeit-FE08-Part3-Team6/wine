@@ -76,7 +76,7 @@ export default function WineListPage() {
       <WineRecommendItemList />
 
       <div className="flex items-center justify-end max-xl:justify-between max-xl:gap-2 max-md:flex-col-reverse max-md:items-start">
-        <div className="hidden h-[48px] w-[48px] max-xl:block">
+        <div className="hidden h-[48px] min-w-[48px] max-xl:block">
           <Button buttonStyle="gray" onClick={() => toggleIsFilterModalOpen()}>
             <Image
               src="/images/ic_filter.svg"
@@ -99,7 +99,7 @@ export default function WineListPage() {
         </Modal>
 
         <label
-          className="relative block w-[800px] max-xl:max-w-[396px] max-md:max-w-[327px]"
+          className="relative block w-[800px] max-xl:max-w-full"
           htmlFor="search-input"
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-4">
@@ -120,7 +120,7 @@ export default function WineListPage() {
 
         {isMobileView && (
           <>
-            <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:hidden">
+            <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:fixed max-md:bottom-5 max-md:w-[calc(100%-80px)]">
               <Button
                 onClick={() => toggleIsAddWineModalOpen()}
                 buttonStyle="purple"

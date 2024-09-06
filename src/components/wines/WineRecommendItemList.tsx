@@ -91,7 +91,7 @@ export default function WineRecommendItemList() {
   };
 
   return (
-    <div className="flex h-[299px] w-full flex-col rounded-2xl bg-light-gray-100">
+    <div className="flex h-[299px] max-w-[1140px] flex-col rounded-2xl bg-light-gray-100 max-xl:w-[704px] max-md:w-[343px]">
       <div className="flex flex-col gap-6 py-4">
         <span className="px-6 text-xl-20px-bold text-light-gray-800">
           이번 달 추천 와인

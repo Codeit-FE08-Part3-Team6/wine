@@ -72,60 +72,84 @@ export default function WineListPage() {
   }, []);
 
   return (
-    <div className="flex max-w-[1920px] flex-col items-center justify-center">
-      <div className="flex max-w-[1140px] flex-col gap-6 py-10 max-xl:w-[744px] max-xl:px-6 max-md:w-[375px]">
-        <GlobalNavBar />
-        <WineRecommendItemList />
+    <div className="mx-auto flex max-w-[1140px] flex-col gap-6 py-10 max-xl:mx-[40px]">
+      <GlobalNavBar />
+      <WineRecommendItemList />
 
-        <div className="flex items-center justify-end max-xl:justify-between max-xl:gap-2 max-md:flex-col-reverse max-md:items-start">
-          <div className="hidden h-[48px] w-[48px] max-xl:block">
-            <Button
-              buttonStyle="gray"
-              onClick={() => toggleIsFilterModalOpen()}
-            >
-              <Image
-                src="/images/ic_filter.svg"
-                alt="filterIcon"
-                width={26}
-                height={26}
-              />
-            </Button>
-          </div>
-          {/* 타입을 프롭으로 넘기고 타입에따라 className을 변경할수있을까 일단 반응형 테스트 먼저 컴포넌트에서 해보는 걸로  */}
-          <Modal
-            isOpen={isFilterModalOpen}
+      <div className="flex items-center justify-end max-xl:justify-between max-xl:gap-2 max-md:flex-col-reverse max-md:items-start">
+        <div className="hidden h-[48px] w-[48px] max-xl:block">
+          <Button buttonStyle="gray" onClick={() => toggleIsFilterModalOpen()}>
+            <Image
+              src="/images/ic_filter.svg"
+              alt="filterIcon"
+              width={26}
+              height={26}
+            />
+          </Button>
+        </div>
+        {/* 타입을 프롭으로 넘기고 타입에따라 className을 변경할수있을까 일단 반응형 테스트 먼저 컴포넌트에서 해보는 걸로  */}
+        <Modal
+          isOpen={isFilterModalOpen}
+          onClose={() => toggleIsFilterModalOpen()}
+        >
+          <WineFilter
+            wineFilterValue={wineFilterValue}
+            onFilterChange={handleFilterChange}
             onClose={() => toggleIsFilterModalOpen()}
-          >
-            <WineFilter
-              wineFilterValue={wineFilterValue}
-              onFilterChange={handleFilterChange}
-              onClose={() => toggleIsFilterModalOpen()}
-            />
-          </Modal>
+          />
+        </Modal>
 
-          <label
-            className="relative block w-[800px] max-xl:max-w-[396px] max-md:max-w-[327px]"
-            htmlFor="search-input"
-          >
-            <span className="absolute inset-y-0 left-0 flex items-center pl-4">
-              <Image
-                src="/images/ic_search.svg"
-                alt="searchIcon"
-                width={20}
-                height={20}
+        <label
+          className="relative block w-[800px] max-xl:max-w-[396px] max-md:max-w-[327px]"
+          htmlFor="search-input"
+        >
+          <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+            <Image
+              src="/images/ic_search.svg"
+              alt="searchIcon"
+              width={20}
+              height={20}
+            />
+          </span>
+          <Input
+            id="search-input"
+            className="pl-10"
+            placeholder="와인을 검색해보세요"
+            onChange={handleSearchChange}
+          />
+        </label>
+
+        {isMobileView && (
+          <>
+            <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:hidden">
+              <Button
+                onClick={() => toggleIsAddWineModalOpen()}
+                buttonStyle="purple"
+              >
+                와인 등록 하기
+              </Button>
+            </div>
+            <Modal
+              isOpen={isAddWineModalOpen}
+              onClose={() => toggleIsAddWineModalOpen()}
+            >
+              <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+            </Modal>
+          </>
+        )}
+      </div>
+
+      <div>
+        <div className="flex">
+          {!isMobileView && (
+            <div className="block flex w-[340px] flex-col gap-16">
+              <WineFilter
+                wineFilterValue={wineFilterValue}
+                onFilterChange={handleFilterChange}
+                onClose={() => toggleIsFilterModalOpen()}
               />
-            </span>
-            <Input
-              id="search-input"
-              className="pl-10"
-              placeholder="와인을 검색해보세요"
-              onChange={handleSearchChange}
-            />
-          </label>
 
-          {isMobileView && (
-            <>
-              <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:hidden">
+              <div className="h-[50px] w-[284px]">
                 <Button
                   onClick={() => toggleIsAddWineModalOpen()}
                   buttonStyle="purple"
@@ -139,39 +163,10 @@ export default function WineListPage() {
               >
                 <AddWine onClose={() => toggleIsAddWineModalOpen()} />
               </Modal>
-            </>
+            </div>
           )}
-        </div>
 
-        <div>
-          <div className="flex">
-            {!isMobileView && (
-              <div className="block flex w-[340px] flex-col gap-16">
-                <WineFilter
-                  wineFilterValue={wineFilterValue}
-                  onFilterChange={handleFilterChange}
-                  onClose={() => toggleIsFilterModalOpen()}
-                />
-
-                <div className="h-[50px] w-[284px]">
-                  <Button
-                    onClick={() => toggleIsAddWineModalOpen()}
-                    buttonStyle="purple"
-                  >
-                    와인 등록 하기
-                  </Button>
-                </div>
-                <Modal
-                  isOpen={isAddWineModalOpen}
-                  onClose={() => toggleIsAddWineModalOpen()}
-                >
-                  <AddWine onClose={() => toggleIsAddWineModalOpen()} />
-                </Modal>
-              </div>
-            )}
-
-            <WineItemList wines={wineList} />
-          </div>
+          <WineItemList wines={wineList} />
         </div>
       </div>
     </div>

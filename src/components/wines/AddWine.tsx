@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PostWineDetails, WineEnum } from "@/types/wines";
 import postWines from "@/libs/axios/wine/postWines";
 import Input from "../@shared/Input";
@@ -21,7 +21,8 @@ export default function AddWine({ onClose }: Props) {
     type: WineEnum.Red,
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const result = await postWines(wineValue);
       if (!result) {
@@ -30,6 +31,7 @@ export default function AddWine({ onClose }: Props) {
     } catch (error) {
       console.error("비동기 작업 중 오류 발생:", error);
     }
+    onClose();
   };
 
   const handleWineValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,14 +43,17 @@ export default function AddWine({ onClose }: Props) {
     }));
   };
 
-  //   const handleWineTypeChange = (e, type) => {
-  // e.preventdefault()
-  //     setWineValue((prevWineValue) => ({
-  //       ...prevWineValue,
-  //       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //       type,
-  //     }));
-  //   };
+  const handleWineTypeChange = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    type: WineEnum,
+  ) => {
+    e.preventDefault();
+    setWineValue((prevWineValue) => ({
+      ...prevWineValue,
+      type,
+    }));
+    console.log(wineValue);
+  };
 
   const handelCancelClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -111,14 +116,22 @@ export default function AddWine({ onClose }: Props) {
 
               <Dropdown
                 width="w-full mx-auto"
-                buttonChildren={<InputSelect placeholder="dd" />}
+                buttonChildren={<InputSelect placeholder={wineValue.type} />}
                 childType="wine"
               >
-                {/* <button onClick={(e)=>{handleWineTypeChange(WineEnum.Red)}} >
+                <button onClick={(e) => handleWineTypeChange(e, WineEnum.Red)}>
                   {WineEnum.Red}
-                </button> */}
-                <li>{WineEnum.White}</li>
-                <li>{WineEnum.Sparkling}</li>
+                </button>
+                <button
+                  onClick={(e) => handleWineTypeChange(e, WineEnum.White)}
+                >
+                  {WineEnum.White}
+                </button>
+                <button
+                  onClick={(e) => handleWineTypeChange(e, WineEnum.Sparkling)}
+                >
+                  {WineEnum.Sparkling}
+                </button>
               </Dropdown>
             </div>
 

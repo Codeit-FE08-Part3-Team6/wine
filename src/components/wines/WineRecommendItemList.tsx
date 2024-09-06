@@ -55,12 +55,6 @@ export default function WineRecommendItemList() {
 
     const isLeftBtnVisible = currentScrollValue > 0;
 
-    console.log(
-      wineRecommends.length,
-      containerRef.current.clientWidth,
-      48 + 244 * wineRecommends.length - 20,
-      containerRef.current.scrollLeft,
-    );
     setHasWineButtons({ isRightBtnVisible, isLeftBtnVisible });
   }
 

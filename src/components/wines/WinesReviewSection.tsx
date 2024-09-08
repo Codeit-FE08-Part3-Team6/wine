@@ -118,7 +118,7 @@ export default function WinesReviewSection() {
 
   return (
     <>
-      <h2 className="mt-[60px] inline-block text-xl-20px-bold text-light-gray-800">
+      <h2 className="mt-[60px] hidden text-xl-20px-bold text-light-gray-800 md:inline-block">
         리뷰 목록
       </h2>
       {wineData && wineData.reviews.length === 0 ? (
@@ -138,7 +138,7 @@ export default function WinesReviewSection() {
           return (
             <div
               key={review.id}
-              className="mt-[22px] max-w-[800px] rounded-2xl border border-gray-300 px-10 pt-[16.5px]"
+              className="mt-[22px] max-w-[800px] rounded-2xl border border-gray-300 px-5 pt-4 md:px-10 md:pt-8"
             >
               <Modal
                 isOpen={isModalOpen}
@@ -166,27 +166,29 @@ export default function WinesReviewSection() {
               </Modal>
               <div className="flex justify-between">
                 <div className="flex gap-4">
-                  <Image
-                    src={
-                      review.user.image
-                        ? review.user.image
-                        : (Profiles as StaticImageData)
-                    }
-                    alt="프로필 사진"
-                    width={64}
-                    height={64}
-                    style={{ borderRadius: 9999 }}
-                  />
-                  <div className="flex flex-col justify-center gap-1">
-                    <p className="text-2lg-18px-semibold text-light-gray-800">
+                  <div className="h-[50px] w-[50px] md:h-[64px] md:w-[64px]">
+                    <Image
+                      src={
+                        review.user.image
+                          ? review.user.image
+                          : (Profiles as StaticImageData)
+                      }
+                      alt="프로필 사진"
+                      width={64}
+                      height={64}
+                      style={{ borderRadius: 9999 }}
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center md:gap-1">
+                    <p className="text-lg-16px-semibold text-light-gray-800 md:text-2lg-18px-semibold">
                       {review.user.nickname}
                     </p>
-                    <p className="text-lg-16px-regular text-light-gray-500">
+                    <p className="text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
                       {timeAgo(review.createdAt)}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start gap-6">
+                <div className="flex h-8 w-[82px] items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6">
                   <Image
                     role="button"
                     src={UnselectLike as StaticImageData}
@@ -225,28 +227,30 @@ export default function WinesReviewSection() {
                 </div>
               </div>
               <div className="flex justify-between">
-                <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                <div className="mt-5 flex flex-wrap items-center gap-2 md:gap-2.5">
                   {translatedAromas.map((flavor) => (
                     <div
                       key={flavor}
-                      className="inline-block rounded-[100px] border border-gray-300 px-[15px] py-2"
+                      className="inline-block rounded-[100px] border border-gray-300 px-2.5 py-1.5 text-md-14px-medium md:px-[15px] md:py-2 md:text-lg-16px-medium"
                     >
                       {flavor}
                     </div>
                   ))}
                 </div>
-                <div className="mt-5 inline-flex max-h-[42px] min-w-[80px] items-center gap-[2px] rounded-xl bg-light-purple-10 px-[15px] py-2 text-2lg-18px-bold text-light-purple-100">
-                  <Image
-                    src={SelectStar as StaticImageData}
-                    alt="별점"
-                    width={20}
-                    height={20}
-                  />
+                <div className="mt-5 inline-flex max-h-[36px] min-w-[60px] items-center gap-[2px] rounded-xl bg-light-purple-10 px-2.5 py-1.5 text-md-14px-bold text-light-purple-100 md:max-h-[42px] md:min-w-[80px] md:px-[15px] md:py-2 md:text-2lg-18px-bold">
+                  <div className="min-h-4 min-w-4 md:min-h-5 md:min-w-5">
+                    <Image
+                      src={SelectStar as StaticImageData}
+                      alt="별점"
+                      width={20}
+                      height={20}
+                    />
+                  </div>
                   {review.rating !== null ? review.rating.toFixed(1) : 0}
                 </div>
               </div>
               <p
-                className={`mt-6 text-lg-16px-regular text-light-gray-800 ${isExpanded ? "" : "hidden"}`}
+                className={`mt-6 text-md-14px-regular text-light-gray-800 md:text-lg-16px-regular ${isExpanded ? "" : "hidden"}`}
               >
                 {review.content}
               </p>

@@ -57,7 +57,7 @@ interface Wine {
   userId: number;
 }
 
-interface WineData {
+export interface WineData {
   totalCount: number;
   nextCursor: number;
   list: Wine[];
@@ -73,7 +73,9 @@ export default function MyProfilePage() {
 
   const renderContent = () => {
     if (activeTab === "reviews" && reviewData) {
-      return <ReviewList reviewData={reviewData} />;
+      return (
+        <ReviewList reviewData={reviewData} setReviewData={setReviewData} />
+      );
     }
     if (activeTab === "wines" && wineData) {
       return <WineList wineData={wineData} />;

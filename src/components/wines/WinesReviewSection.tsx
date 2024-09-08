@@ -122,14 +122,19 @@ export default function WinesReviewSection() {
         리뷰 목록
       </h2>
       {wineData && wineData.reviews.length === 0 ? (
-        <div className="mt-40 flex items-center justify-center">
-          <Image
-            src="/images/not_review.png"
-            alt="리뷰가 없어요"
-            width={150}
-            height={186}
-          />
-        </div>
+        <>
+          <h2 className="text-xl-20px-bold text-light-gray-800 md:hidden">
+            리뷰 목록
+          </h2>
+          <div className="mt-20 flex items-center justify-center xl:mt-40">
+            <Image
+              src="/images/not_review.png"
+              alt="리뷰가 없어요"
+              width={150}
+              height={186}
+            />
+          </div>
+        </>
       ) : (
         reviews.slice(0, visibleReviews).map((review) => {
           const translatedAromas = translateAromaReverse(review.aroma);

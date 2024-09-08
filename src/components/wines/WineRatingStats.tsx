@@ -124,7 +124,7 @@ export default function WineRatingStats() {
     <>
       {data.reviews.length === 0 ? (
         <>
-          <div className="absolute left-1/2 mt-[480px] h-[42px] w-[113px] -translate-x-1/2 transform">
+          <div className="absolute left-1/2 mt-[360px] h-[42px] w-[113px] -translate-x-1/2 transform md:mt-[400px] xl:mt-[480px]">
             <Button buttonStyle="purple" onClick={handleModal}>
               리뷰 남기기
             </Button>

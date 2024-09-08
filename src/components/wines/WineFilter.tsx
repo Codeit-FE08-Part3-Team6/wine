@@ -86,17 +86,17 @@ export default function WineFilter({
 }: Props) {
   const [reset, setReset] = useToggle(false);
   const wineTypes = [
-    { id: 1, label: "Red", value: WineEnum.Red },
-    { id: 2, label: "White", value: WineEnum.White },
-    { id: 3, label: "Sparkling", value: WineEnum.Sparkling },
+    { id: 1, value: WineEnum.Red },
+    { id: 2, value: WineEnum.White },
+    { id: 3, value: WineEnum.Sparkling },
   ];
 
   const wineRatings = [
-    { id: 1, label: "전체" },
-    { id: 2, label: "4.8 - 5.0" },
-    { id: 3, label: "4.5 - 4.8" },
-    { id: 4, label: "4.0 - 4.5" },
-    { id: 5, label: "3.0 - 4.0" },
+    { id: 0, value: "전체" },
+    { id: 1, value: "4.8 - 5.0" },
+    { id: 2, value: "4.5 - 4.8" },
+    { id: 3, value: "4.0 - 4.5" },
+    { id: 4, value: "3.0 - 4.0" },
   ];
 
   const handleWineTypeChange = (value: WineEnum) => {
@@ -153,7 +153,7 @@ export default function WineFilter({
               selectedValue={wineFilterValue.wineType}
               onChange={handleWineTypeChange}
             >
-              {wineType.label}
+              {wineType.value}
             </WineTypeRadio>
           ))}
         </div>
@@ -174,11 +174,11 @@ export default function WineFilter({
         {wineRatings.map((wineRating) => (
           <WineRatingRadio
             key={wineRating.id}
-            value={wineRating.label}
+            value={wineRating.value}
             selectedValue={wineFilterValue.wineRating}
             onChange={handleWineRatingChange}
           >
-            {wineRating.label}
+            {wineRating.value}
           </WineRatingRadio>
         ))}
       </div>

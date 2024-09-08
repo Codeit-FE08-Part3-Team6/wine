@@ -21,6 +21,12 @@ export default function AddWine({ onClose }: Props) {
     type: WineEnum.Red,
   });
 
+  const wineTypes = [
+    { id: 1, value: WineEnum.Red },
+    { id: 2, value: WineEnum.White },
+    { id: 3, value: WineEnum.Sparkling },
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -52,7 +58,6 @@ export default function AddWine({ onClose }: Props) {
       ...prevWineValue,
       type,
     }));
-    console.log(wineValue);
   };
 
   const handelCancelClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -119,19 +124,15 @@ export default function AddWine({ onClose }: Props) {
                 buttonChildren={<InputSelect placeholder={wineValue.type} />}
                 childType="wine"
               >
-                <button onClick={(e) => handleWineTypeChange(e, WineEnum.Red)}>
-                  {WineEnum.Red}
-                </button>
-                <button
-                  onClick={(e) => handleWineTypeChange(e, WineEnum.White)}
-                >
-                  {WineEnum.White}
-                </button>
-                <button
-                  onClick={(e) => handleWineTypeChange(e, WineEnum.Sparkling)}
-                >
-                  {WineEnum.Sparkling}
-                </button>
+                {wineTypes.map((wineType) => (
+                  <button
+                    key={wineType.id}
+                    value={wineType.value}
+                    onClick={(e) => handleWineTypeChange(e, wineType.value)}
+                  >
+                    {wineType.value}
+                  </button>
+                ))}
               </Dropdown>
             </div>
 

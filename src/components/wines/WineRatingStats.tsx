@@ -130,17 +130,19 @@ export default function WineRatingStats() {
             </Button>
           </div>
           <Modal isOpen={isOpen} onClose={handleModal}>
-            <div className="max-h-[90vh] w-[528px] overflow-y-auto rounded-2xl bg-light-white p-6">
+            <div className="max-h-[90vh] w-[375px] overflow-y-auto rounded-2xl bg-light-white p-6 md:w-[528px]">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl-24px-bold text-light-gray-800">
+                <h2 className="text-xl-20px-bold text-light-gray-800 md:text-2xl-24px-bold">
                   리뷰 등록
                 </h2>
-                <Image
-                  role="button"
-                  src={CloseIcon as StaticImageData}
-                  alt="닫기"
-                  onClick={handleModal}
-                />
+                <div className="max-h-6 max-w-6 md:min-h-[34px] md:min-w-[36px]">
+                  <Image
+                    role="button"
+                    src={CloseIcon as StaticImageData}
+                    alt="닫기"
+                    onClick={handleModal}
+                  />
+                </div>
               </div>
               <div className="mt-12">
                 <div className="flex items-center gap-4">
@@ -151,26 +153,37 @@ export default function WineRatingStats() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <p className="text-2lg-18px-semibold text-light-gray-800">
+                    <p className="text-lg-16px-bold text-light-gray-800 md:text-2lg-18px-semibold">
                       {data.name}
                     </p>
-                    <RatingInput
-                      rating={ratingValue}
-                      name="rating"
-                      onChange={handleRatingChange}
-                      width={160}
-                      height={32}
-                    />
+                    <div className="hidden md:block">
+                      <RatingInput
+                        rating={ratingValue}
+                        name="rating"
+                        onChange={handleRatingChange}
+                        width={160}
+                        height={32}
+                      />
+                    </div>
+                    <div className="block md:hidden">
+                      <RatingInput
+                        rating={ratingValue}
+                        name="rating"
+                        onChange={handleRatingChange}
+                        width={120}
+                        height={24}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
               <textarea
                 placeholder="후기를 작성해 주세요"
-                className="mt-6 h-[120px] w-[480px] cursor-default rounded-2xl border border-solid border-light-gray-300 bg-light-white px-5 py-[14px]"
+                className="mt-6 h-[100px] w-[327px] cursor-default rounded-2xl border border-solid border-light-gray-300 bg-light-white px-5 py-[14px] md:h-[120px] md:w-[480px]"
                 value={content}
                 onChange={handleContentChange}
               />
-              <p className="mt-10 text-xl-20px-bold text-light-gray-800">
+              <p className="mt-8 text-2lg-18px-bold text-light-gray-800 md:mt-10 md:text-xl-20px-bold">
                 와인의 맛은 어땠나요?
               </p>
               <div className="mt-6 flex flex-col gap-[18px]">
@@ -199,7 +212,7 @@ export default function WineRatingStats() {
                   onChange={handleSoftAcidicChange}
                 />
               </div>
-              <p className="mt-10 text-xl-20px-bold text-light-gray-800">
+              <p className="mt-8 text-2lg-18px-bold text-light-gray-800 md:mt-10 md:text-xl-20px-bold">
                 기억에 남는 향이 있나요?
               </p>
               <WineFlavorList onChange={handleAromaChange} />

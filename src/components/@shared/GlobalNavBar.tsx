@@ -12,8 +12,7 @@ function ProfileImg() {
   const handleLogoutBtnClick = () => {
     logout();
 
-    // 마이 프로필 페이지인 경우 redirection 실행
-    // 해당 코드는 myprofile 페이지에서 redirection 구현되면 제거 예정
+    // 로그아웃 시 redirection
     if (router.pathname === "/myprofile") {
       router.push("/");
     }
@@ -56,6 +55,7 @@ function ProfileImg() {
 export default function GlobalNavBar() {
   const { pathname } = useRouter();
   const [isLogin, setIsLogin] = useState(false);
+  const { user } = useAuth();
 
   // 로그인 상태 관리 (accessToken 유무로 판단)
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function GlobalNavBar() {
     } else {
       setIsLogin(false);
     }
-  }, [isLogin]);
+  }, [isLogin, user]);
 
   return (
     <div className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">

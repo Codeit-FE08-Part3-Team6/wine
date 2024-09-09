@@ -12,7 +12,6 @@ interface RatingProps {
   onHover?: (rating: number) => void;
   onMouseOut?: () => void;
   className?: string;
-
 }
 
 export default function Rating({
@@ -24,7 +23,6 @@ export default function Rating({
   onHover,
   onMouseOut,
   className,
-
 }: RatingProps) {
   const starWidth = width / maxRating;
   const filledWidth = (rating / maxRating) * width;

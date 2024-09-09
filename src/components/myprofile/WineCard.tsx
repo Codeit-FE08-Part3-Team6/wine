@@ -119,7 +119,14 @@ export default function WineCard({ wine }: WineCardProps) {
       </div>
       <div className="absolute top-[42px] h-[228px] w-full rounded-[16px] border border-solid border-light-gray-300 bg-light-white" />
       <Modal isOpen={isModifyModalOpen} onClose={handleCloseModifyModal}>
-        수정하기
+        <div className="max-h-[90vh] w-[460px] overflow-y-auto rounded-[16px] bg-light-white">
+          <div>내가 등록한 와인</div>
+          <div>와인 이름</div>
+          <div>가격</div>
+          <div>원산지</div>
+          <div>타입</div>
+          <div>와인 사진</div>
+        </div>
       </Modal>
       <Modal isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal}>
         삭제하기

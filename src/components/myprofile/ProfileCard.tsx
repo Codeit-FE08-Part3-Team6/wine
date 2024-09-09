@@ -56,6 +56,7 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
               src={imagePreview}
               alt="프로필 이미지"
               className="rounded-[9999px] object-cover"
+
             />
             <input
               type="file"

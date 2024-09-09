@@ -1,5 +1,6 @@
 /** 사용법 : <Rating rating={3.5} width={120} height={24} className="cursor-default" /> */
 
+
 import React from "react";
 
 interface RatingProps {
@@ -53,6 +54,7 @@ export default function Rating({
   return (
     <div
       className={`inline-block ${className}`}
+
       style={{ width: `${width}px`, height: `${height}px` }}
       aria-label="별점 평가"
       role="button"

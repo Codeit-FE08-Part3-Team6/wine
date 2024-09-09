@@ -57,7 +57,7 @@ interface Wine {
   userId: number;
 }
 
-export interface WineData {
+interface WineData {
   totalCount: number;
   nextCursor: number;
   list: Wine[];

@@ -22,6 +22,7 @@ interface AuthValues {
   login: (formData: SignInForm) => Promise<boolean>;
   logout: () => void;
   updateMe: (formData: UpdateUserForm) => Promise<void>;
+
 }
 
 const INITIAL_CONTEXT_VALUES: AuthValues = {
@@ -30,6 +31,7 @@ const INITIAL_CONTEXT_VALUES: AuthValues = {
   login: () => Promise.reject(),
   logout: () => {},
   updateMe: () => Promise.reject(),
+
 };
 
 const AuthContext = createContext<AuthValues>(INITIAL_CONTEXT_VALUES);
@@ -70,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!isSignInSuccess) return false;
     await getMe();
     return true;
+
   };
 
   const logout = () => {

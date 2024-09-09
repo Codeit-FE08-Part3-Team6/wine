@@ -27,7 +27,7 @@ interface ReviewData {
 export default async function getReviewData() {
   const res = await axiosInstance.get<ReviewData>("users/me/reviews", {
     params: {
-      limit: 10,
+      limit: 20,
     },
   });
   return res.data;

@@ -34,7 +34,7 @@ interface WineData {
 export default async function getWineData() {
   const res = await axiosInstance.get<WineData>("users/me/wines", {
     params: {
-      limit: 10,
+      limit: 20,
     },
   });
   return res.data;

@@ -6,14 +6,65 @@ import WineList from "@/components/myprofile/WineList";
 import { useAuth } from "@/contexts/AuthProvider";
 import getReviewData from "@/libs/axios/user/getReviewData";
 import getWineData from "@/libs/axios/user/getWineData";
-import { ReviewData } from "@/types/review";
-import { WineData } from "@/types/wine";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+interface Review {
+  id: number;
+  rating: number;
+  lightBold: number;
+  smoothTannic: number;
+  drySweet: number;
+  softAcidic: number;
+  aroma: string[];
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: number;
+    nickname: string;
+    image: string;
+  };
+}
+
+interface ReviewData {
+  totalCount: number;
+  nextCursor: number;
+  list: Review[];
+}
+
+interface Wine {
+  id: number;
+  name: string;
+  region: string;
+  image: string;
+  price: number;
+  type: string;
+  avgRating: number;
+  reviewCount: number;
+  recentReview: {
+    user: {
+      id: number;
+      nickname: string;
+      image: string;
+    };
+    updatedAt: string;
+    createdAt: string;
+    content: string;
+    aroma: string[];
+    rating: number;
+    id: number;
+  };
+  userId: number;
+}
+
+interface WineData {
+  totalCount: number;
+  nextCursor: number;
+  list: Wine[];
+}
+
 export default function MyProfilePage() {
-  const { user, isPending, updateMe } = useAuth(true);
-  const router = useRouter();
+  const { user, updateMe } = useAuth(true);
   const [wineData, setWineData] = useState<WineData | undefined>(undefined);
   const [reviewData, setReviewData] = useState<ReviewData | undefined>(
     undefined,
@@ -29,13 +80,6 @@ export default function MyProfilePage() {
     }
     return null;
   };
-
-  // 사용자 인증 상태 체크
-  useEffect(() => {
-    if (!isPending && !user) {
-      router.push("/signin");
-    }
-  }, [isPending, user, router]);
 
   // 와인 및 리뷰 데이터 가져오기
   useEffect(() => {
@@ -61,7 +105,7 @@ export default function MyProfilePage() {
   }, [user]);
 
   // 이미 리디렉션했으므로 아무것도 렌더링하지 않음
-  if (isPending || !user) {
+  if (!user) {
     return null;
   }
 

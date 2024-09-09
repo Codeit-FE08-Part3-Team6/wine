@@ -11,8 +11,10 @@ interface WineProps {
 
 function WineRecommendCard({ wine }: WineProps) {
   return (
-    <div className="box-border flex h-[185px] w-[232px] shrink-0 rounded-2xl bg-light-white px-6 pt-6 max-md:w-[193px]">
-      <div className="w-2/5">이미지</div>
+    <div className="box-border flex h-[185px] w-[232px] shrink-0 gap-4 rounded-2xl bg-light-white px-6 pt-6 max-md:w-[193px]">
+      <div className="relative w-2/5">
+        {wine.image && <Image src={wine.image} alt="와인이미지" fill />}
+      </div>
       <div className="flex w-3/5 flex-col gap-2">
         <p className="text-4xl font-extrabold">
           {wine.avgRating ? wine.avgRating.toFixed(1) : 0}

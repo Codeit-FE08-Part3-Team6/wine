@@ -19,7 +19,7 @@ export default function WineListPage() {
   const [wineFilterValue, setWineFilterValue] = useState<WineFilterProps>({
     wineType: WineEnum.Red,
     winePrice: { min: 0, max: 100000 },
-    wineRating: "",
+    wineRating: 0,
     wineName: "",
   });
 
@@ -41,6 +41,10 @@ export default function WineListPage() {
       ...prevValue,
       wineName: e.target.value,
     }));
+  };
+
+  const handleAddWineChange = () => {
+    fetchWines();
   };
 
   useEffect(() => {
@@ -132,7 +136,10 @@ export default function WineListPage() {
               isOpen={isAddWineModalOpen}
               onClose={() => toggleIsAddWineModalOpen()}
             >
-              <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+              <AddWine
+                onClose={() => toggleIsAddWineModalOpen()}
+                onAddWine={handleAddWineChange}
+              />
             </Modal>
           </>
         )}
@@ -160,7 +167,10 @@ export default function WineListPage() {
                 isOpen={isAddWineModalOpen}
                 onClose={() => toggleIsAddWineModalOpen()}
               >
-                <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+                <AddWine
+                  onClose={() => toggleIsAddWineModalOpen()}
+                  onAddWine={handleAddWineChange}
+                />
               </Modal>
             </div>
           )}

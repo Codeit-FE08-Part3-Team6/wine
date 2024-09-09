@@ -17,8 +17,9 @@ function WineItemCard({ wine }: WineProps) {
     <div className="flex h-[375px] w-full flex-col rounded-2xl border border-light-gray-300 bg-light-white">
       <div className="flex h-2/3 flex-row border-b px-12 max-md:px-3">
         <div className="flex w-1/6 items-end pr-5 max-md:w-1/3">
-          <div className="h-4/5"> 이미지 영역 </div>
-          {/* {wine.image && <Image src={wine.image} alt="와인이미지" />} */}
+          <div className="relative h-4/5 w-4/5">
+            {wine.image && <Image src={wine.image} alt="와인이미지" fill />}
+          </div>
         </div>
         <div className="flex w-4/5 flex-row justify-between py-9 max-md:w-2/3 max-md:flex-col max-md:py-6">
           <div className="flex flex-col gap-2">
@@ -83,9 +84,6 @@ function WineItemCard({ wine }: WineProps) {
 }
 
 export default function WineItemList({ wines }: WinesProps) {
-  useEffect(() => {
-    console.log(wines);
-  }, []);
   return (
     <div className="flex w-[800px] flex-col gap-16 max-xl:w-full">
       {wines.map((wine) => (

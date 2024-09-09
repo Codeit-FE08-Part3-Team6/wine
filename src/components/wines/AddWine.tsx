@@ -30,29 +30,6 @@ export default function AddWine({ onClose }: Props) {
     { id: 3, value: WineEnum.Sparkling },
   ];
 
-  const handleChangeImage = (image: File | null) => {
-    if (image) {
-      setImageFile(image);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (!imageFile) {
-        throw new Error("이미지 파일이 등록되지 않았습니다");
-      }
-      const imageUrl = await postImage(imageFile);
-      const postWineValue = { ...wineValue, image: imageUrl };
-      const result = await postWines(postWineValue);
-      if (!result) {
-        throw new Error("와인 정보가 정상적으로 등록되지 않았습니다");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    onClose();
-  };
   const handleWineValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
 
@@ -73,6 +50,32 @@ export default function AddWine({ onClose }: Props) {
     }));
   };
 
+  const handleChangeImage = (image: File | null) => {
+    if (image) {
+      setImageFile(image);
+    } else {
+      setImageFile(null);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (!imageFile) {
+        throw new Error("이미지 파일이 등록되지 않았습니다");
+      }
+      const imageUrl = await postImage(imageFile);
+      const postWineValue = { ...wineValue, image: imageUrl };
+      const result = await postWines(postWineValue);
+      if (!result) {
+        throw new Error("와인 정보가 정상적으로 등록되지 않았습니다");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    onClose();
+  };
+
   const handelCancelClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onClose();
@@ -80,12 +83,12 @@ export default function AddWine({ onClose }: Props) {
 
   useEffect(() => {
     const { name, price, region } = wineValue;
-    if (name !== "" && price !== 0 && region !== "") {
+    if (name !== "" && price !== 0 && region !== "" && imageFile !== null) {
       setSubmitDisabled(false);
     } else {
       setSubmitDisabled(true);
     }
-  }, [wineValue]);
+  }, [wineValue, imageFile]);
 
   return (
     <div className="z-50 h-[871px] w-[460px] rounded-3xl bg-light-white p-6">

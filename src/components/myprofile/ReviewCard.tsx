@@ -222,7 +222,6 @@ export default function ReviewCard({
           </div>
         </div>
       </div>
-
       <Modal isOpen={isModifyModalOpen} onClose={handleCloseModifyModal}>
         <div className="max-h-[90vh] w-[528px] overflow-y-auto rounded-2xl bg-light-white p-6">
           <div className="flex items-center justify-between">

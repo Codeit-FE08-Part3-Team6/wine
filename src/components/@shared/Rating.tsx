@@ -1,5 +1,7 @@
 /** 사용법 : <Rating rating={3.5} width={120} height={24} className="cursor-default" /> */
 
+import React from "react";
+
 interface RatingProps {
   rating: number;
   maxRating?: number;

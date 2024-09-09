@@ -19,9 +19,9 @@ interface WineTypeProps {
 
 interface WineRatingProps {
   children: ReactNode;
-  value: string;
-  selectedValue: string | null;
-  onChange: (value: string) => void;
+  value: number;
+  selectedValue: number | null;
+  onChange: (value: number) => void;
 }
 
 function WineTypeRadio({
@@ -92,11 +92,11 @@ export default function WineFilter({
   ];
 
   const wineRatings = [
-    { id: 0, value: "전체" },
-    { id: 1, value: "4.8 - 5.0" },
-    { id: 2, value: "4.5 - 4.8" },
-    { id: 3, value: "4.0 - 4.5" },
-    { id: 4, value: "3.0 - 4.0" },
+    { id: 0, value: 0, label: "전체" },
+    { id: 1, value: 5.0, label: "4.8 - 5.0" },
+    { id: 2, value: 4.8, label: "4.5 - 4.8" },
+    { id: 3, value: 4.5, label: "4.0 - 4.5" },
+    { id: 4, value: 4.0, label: "3.0 - 4.0" },
   ];
 
   const handleWineTypeChange = (value: WineEnum) => {
@@ -106,7 +106,7 @@ export default function WineFilter({
     });
   };
 
-  const handleWineRatingChange = (value: string) => {
+  const handleWineRatingChange = (value: number) => {
     onFilterChange({
       ...wineFilterValue,
       wineRating: value,
@@ -134,7 +134,7 @@ export default function WineFilter({
       ...wineFilterValue,
       wineType: WineEnum.Red,
       winePrice: { min: 0, max: 100000 },
-      wineRating: "전체",
+      wineRating: 0,
     });
 
     setReset();
@@ -178,7 +178,7 @@ export default function WineFilter({
             selectedValue={wineFilterValue.wineRating}
             onChange={handleWineRatingChange}
           >
-            {wineRating.value}
+            {wineRating.label}
           </WineRatingRadio>
         ))}
       </div>

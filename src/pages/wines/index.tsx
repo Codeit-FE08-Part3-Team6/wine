@@ -19,7 +19,7 @@ export default function WineListPage() {
   const [wineFilterValue, setWineFilterValue] = useState<WineFilterProps>({
     wineType: WineEnum.Red,
     winePrice: { min: 0, max: 100000 },
-    wineRating: "",
+    wineRating: 0,
     wineName: "",
   });
 

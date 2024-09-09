@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthProvider";
 import Dropdown from "./DropDown";
@@ -54,10 +54,10 @@ function ProfileImg() {
  */
 export default function GlobalNavBar() {
   const { pathname } = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
-  const { user } = useAuth();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const { user, isPending } = useAuth();
 
-  // 로그인 상태 관리 (accessToken 유무로 판단)
+  // accessToken에 따라서 user profile을 띄워줄 지 로그인/회원가입 버튼을 띄워줄지 결정
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
       setIsLogin(true);
@@ -65,6 +65,12 @@ export default function GlobalNavBar() {
       setIsLogin(false);
     }
   }, [isLogin, user]);
+
+  const userApiPendingCheck = (components: ReactElement) => {
+    if (isPending) return null;
+
+    return components;
+  };
 
   return (
     <div className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
@@ -77,13 +83,15 @@ export default function GlobalNavBar() {
         />
       </Link>
       <div className="flex gap-5 md:gap-10">
-        {isLogin ? (
-          <ProfileImg />
-        ) : (
-          <>
-            <Link href="/signin">로그인</Link>
-            {pathname === "/" && <Link href="/signup">회원가입</Link>}
-          </>
+        {userApiPendingCheck(
+          isLogin ? (
+            <ProfileImg />
+          ) : (
+            <>
+              <Link href="/signin">로그인</Link>
+              {pathname === "/" && <Link href="/signup">회원가입</Link>}
+            </>
+          ),
         )}
       </div>
     </div>

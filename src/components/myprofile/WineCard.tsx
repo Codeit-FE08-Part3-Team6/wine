@@ -1,3 +1,8 @@
+import Image from "next/image";
+import { useState } from "react";
+import Dropdown from "../@shared/DropDown";
+import Modal from "../@shared/Modal";
+
 interface Wine {
   id: number;
   name: string;
@@ -28,23 +33,97 @@ interface WineCardProps {
 }
 
 export default function WineCard({ wine }: WineCardProps) {
+  const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [activeModifyButton, setActiveModifyButton] = useState(false);
+  const [activeDeleteButton, setActiveDeleteButton] = useState(false);
+
+  const handleOpenModifyModal = () => {
+    setIsModifyModalOpen(true);
+    setActiveModifyButton(true);
+  };
+
+  const handleCloseModifyModal = () => {
+    setIsModifyModalOpen(false);
+    setActiveModifyButton(false);
+  };
+
+  const handleOpenDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    setActiveDeleteButton(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setActiveDeleteButton(false);
+  };
+
   return (
     <div className="relative flex h-[270px] w-full flex-col-reverse">
-      <div className="h-[228px] w-full rounded-[16px] border border-solid border-light-gray-300 pb-[30px] pl-[140px] pr-[40px] pt-[24px]">
-        <div className="flex h-full w-full flex-col justify-between">
-          <div className="flex h-[111px] w-[300px] flex-col gap-[20px]">
-            <div className="text-3xl font-semibold text-light-gray-800">
-              {wine.name}
-            </div>
-            <div className="text-lg-16px-regular text-light-gray-500">
-              {wine.region}
-            </div>
+      <Image
+        src={wine.image}
+        className="absolute left-[60px] z-10"
+        width={76}
+        height={270}
+        alt="와인 이미지"
+      />
+      <div className="absolute left-[176px] top-[203px] z-10 flex h-[37px] w-[114px] items-center justify-center rounded-[12px] bg-light-purple-10 text-2lg-18px-bold text-light-purple-100">
+        ₩ {wine.price.toLocaleString()}
+      </div>
+      <div className="absolute left-[176px] right-[40px] top-[72px] z-10 flex h-[111px] w-[584px] justify-between">
+        <div className="flex flex-col gap-[20px]">
+          <div className="text-3xl font-semibold text-light-gray-800">
+            {wine.name}
           </div>
-          <div className="flex h-[37px] w-[114px] items-center justify-center rounded-[12px] bg-light-purple-10 text-2lg-18px-bold text-light-purple-100">
-            ₩ {wine.price}
+          <div className="text-lg-16px-regular text-light-gray-500">
+            {wine.region}
           </div>
         </div>
+        <div className="flex flex-col">
+          <Dropdown
+            buttonChildren={
+              <div className="relative flex h-[26px] w-[26px] items-center justify-center">
+                <Image
+                  fill
+                  src="images/icons/hamburger.svg"
+                  alt="드롭다운 버튼"
+                />
+              </div>
+            }
+            width="w-[126px]"
+          >
+            <button
+              type="button"
+              onClick={handleOpenModifyModal}
+              style={
+                activeModifyButton
+                  ? { backgroundColor: "#f1edfc", color: "#6a42db" }
+                  : undefined
+              }
+            >
+              수정하기
+            </button>
+            <button
+              type="button"
+              onClick={handleOpenDeleteModal}
+              style={
+                activeDeleteButton
+                  ? { backgroundColor: "#f1edfc", color: "#6a42db" }
+                  : undefined
+              }
+            >
+              삭제하기
+            </button>
+          </Dropdown>
+        </div>
       </div>
+      <div className="absolute top-[42px] h-[228px] w-full rounded-[16px] border border-solid border-light-gray-300 bg-light-white" />
+      <Modal isOpen={isModifyModalOpen} onClose={handleCloseModifyModal}>
+        수정하기
+      </Modal>
+      <Modal isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal}>
+        삭제하기
+      </Modal>
     </div>
   );
 }

@@ -183,7 +183,7 @@ export default function ReviewCard({
                 <Image
                   fill
                   src="images/icons/hamburger.svg"
-                  alt="햄버거 버튼"
+                  alt="드롭다운 버튼"
                 />
               </div>
             }

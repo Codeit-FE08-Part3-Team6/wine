@@ -9,12 +9,6 @@ const nextConfig = {
         port: "",
         pathname: "/Wine/**",
       },
-      {
-        protocol: "https",
-        hostname: "i.namu.wiki", // 추가된 호스트
-        port: "",
-        pathname: "/**", // 모든 경로 허용
-      },
     ],
   },
 };

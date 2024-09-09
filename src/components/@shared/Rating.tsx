@@ -1,5 +1,6 @@
 /** 사용법 : <Rating rating={3.5} width={120} height={24} className="cursor-default" /> */
 
+
 import React from "react";
 
 interface RatingProps {
@@ -11,6 +12,7 @@ interface RatingProps {
   onHover?: (rating: number) => void;
   onMouseOut?: () => void;
   className?: string;
+
 }
 
 export default function Rating({
@@ -22,6 +24,7 @@ export default function Rating({
   onHover,
   onMouseOut,
   className,
+
 }: RatingProps) {
   const starWidth = width / maxRating;
   const filledWidth = (rating / maxRating) * width;

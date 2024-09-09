@@ -1,5 +1,4 @@
 import { useAuth } from "@/contexts/AuthProvider";
-import googleSignIn from "@/libs/axios/oauth/oauthSignin";
 import Image from "next/image";
 import { MutableRefObject, useEffect, useRef } from "react";
 
@@ -20,7 +19,7 @@ const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 export default function GoogleOauthButton() {
   const googleWrapperRef: MutableRefObject<HTMLButtonElement | null> =
     useRef(null);
-  const { getMe } = useAuth();
+  const { oAuthLogin } = useAuth();
 
   const handleGoogleClick = () => {
     googleWrapperRef.current?.click();
@@ -41,8 +40,8 @@ export default function GoogleOauthButton() {
 
     window.handleCredentialResponse = async (response: CredentialResponse) => {
       const token = response.credential;
-      await googleSignIn(token);
-      await getMe();
+      const oAuthRes = await oAuthLogin({ token }, "GOOGLE");
+      if (!oAuthRes) alert("oAuth 로그인 실패");
     };
 
     return () => {

@@ -17,6 +17,15 @@ interface Review {
     nickname: string;
     image: string;
   };
+  wine: {
+    id: number;
+    name: string;
+    region: string;
+    image: string;
+    price: number;
+    avgRating: number;
+    type: string;
+  };
 }
 
 interface ReviewData {
@@ -28,11 +37,13 @@ interface ReviewData {
 interface ReviewListProps {
   reviewData: ReviewData;
   setReviewData: Dispatch<SetStateAction<ReviewData | undefined>>;
+  fetchData: () => Promise<void>;
 }
 
 export default function ReviewList({
   reviewData,
   setReviewData,
+  fetchData,
 }: ReviewListProps) {
   const handleUpdateReview = (updatedReview: Review) => {
     setReviewData((prev) => {
@@ -53,6 +64,10 @@ export default function ReviewList({
     });
   };
 
+  const handleDeleteReview = async () => {
+    await fetchData(); // 리뷰 삭제 후 데이터 다시 불러오기
+  };
+
   if (reviewData.list.length === 0) {
     return <div>등록된 리뷰가 없습니다.</div>;
   }
@@ -69,6 +84,7 @@ export default function ReviewList({
           key={review.id}
           review={review}
           onUpdate={handleUpdateReview}
+          onDelete={handleDeleteReview}
         />
       ))}
     </>

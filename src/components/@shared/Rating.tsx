@@ -54,7 +54,6 @@ export default function Rating({
   return (
     <div
       className={`inline-block ${className}`}
-
       style={{ width: `${width}px`, height: `${height}px` }}
       aria-label="별점 평가"
       role="button"

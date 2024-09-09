@@ -24,6 +24,15 @@ interface Review {
     nickname: string;
     image: string;
   };
+  wine: {
+    id: number;
+    name: string;
+    region: string;
+    image: string;
+    price: number;
+    avgRating: number;
+    type: string;
+  };
 }
 
 interface ReviewData {
@@ -71,10 +80,36 @@ export default function MyProfilePage() {
   );
   const [activeTab, setActiveTab] = useState<"reviews" | "wines">("reviews");
 
+  const fetchData = async (): Promise<void> => {
+    if (user) {
+      try {
+        const wines = await getWineData();
+        setWineData(wines);
+      } catch (error) {
+        console.error("와인 데이터 불러오기 실패:", error);
+      }
+
+      try {
+        const reviews = await getReviewData();
+        setReviewData(reviews);
+      } catch (error) {
+        console.error("리뷰 데이터 불러오기 실패:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [user]);
+
   const renderContent = () => {
     if (activeTab === "reviews" && reviewData) {
       return (
-        <ReviewList reviewData={reviewData} setReviewData={setReviewData} />
+        <ReviewList
+          reviewData={reviewData}
+          setReviewData={setReviewData}
+          fetchData={fetchData}
+        />
       );
     }
     if (activeTab === "wines" && wineData) {
@@ -82,29 +117,6 @@ export default function MyProfilePage() {
     }
     return null;
   };
-
-  // 와인 및 리뷰 데이터 가져오기
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      if (user) {
-        try {
-          const wines = await getWineData();
-          setWineData(wines);
-        } catch (error) {
-          console.error("와인 데이터 불러오기 실패:", error);
-        }
-
-        try {
-          const reviews = await getReviewData();
-          setReviewData(reviews);
-        } catch (error) {
-          console.error("리뷰 데이터 불러오기 실패:", error);
-        }
-      }
-    };
-
-    fetchData();
-  }, [user]);
 
   // 이미 리디렉션했으므로 아무것도 렌더링하지 않음
   if (!user) {

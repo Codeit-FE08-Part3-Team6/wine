@@ -11,13 +11,11 @@ export async function signIn(formData: SignInForm) {
     const e = error as AxiosError;
     console.log(`${e.response?.status} error from signIn: ${e.message}`);
     return false;
-
   }
 
   const { accessToken, refreshToken }: AuthTokens = res.data as AuthTokens;
   saveTokens({ accessToken, refreshToken });
   return true;
-
 }
 
 export async function signUp(formData: SignUpForm) {

@@ -16,6 +16,15 @@ interface Review {
     nickname: string;
     image: string;
   };
+  wine: {
+    id: number;
+    name: string;
+    region: string;
+    image: string;
+    price: number;
+    avgRating: number;
+    type: string;
+  };
 }
 
 interface ReviewData {

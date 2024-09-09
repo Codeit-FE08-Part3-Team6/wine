@@ -43,6 +43,10 @@ export default function WineListPage() {
     }));
   };
 
+  const handleAddWineChange = () => {
+    fetchWines();
+  };
+
   useEffect(() => {
     fetchWines()
       .then(() => {
@@ -132,7 +136,10 @@ export default function WineListPage() {
               isOpen={isAddWineModalOpen}
               onClose={() => toggleIsAddWineModalOpen()}
             >
-              <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+              <AddWine
+                onClose={() => toggleIsAddWineModalOpen()}
+                onAddWine={handleAddWineChange}
+              />
             </Modal>
           </>
         )}
@@ -160,7 +167,10 @@ export default function WineListPage() {
                 isOpen={isAddWineModalOpen}
                 onClose={() => toggleIsAddWineModalOpen()}
               >
-                <AddWine onClose={() => toggleIsAddWineModalOpen()} />
+                <AddWine
+                  onClose={() => toggleIsAddWineModalOpen()}
+                  onAddWine={handleAddWineChange}
+                />
               </Modal>
             </div>
           )}

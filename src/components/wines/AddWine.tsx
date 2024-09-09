@@ -10,9 +10,10 @@ import postImage from "@/libs/axios/image/postImage";
 
 interface Props {
   onClose: () => void;
+  onAddWine: () => void;
 }
 
-export default function AddWine({ onClose }: Props) {
+export default function AddWine({ onClose, onAddWine }: Props) {
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [wineValue, setWineValue] = useState<PostWineDetails>({
     name: "",
@@ -67,9 +68,12 @@ export default function AddWine({ onClose }: Props) {
       const imageUrl = await postImage(imageFile);
       const postWineValue = { ...wineValue, image: imageUrl };
       const result = await postWines(postWineValue);
+
       if (!result) {
         throw new Error("와인 정보가 정상적으로 등록되지 않았습니다");
       }
+
+      onAddWine();
     } catch (error) {
       console.error(error);
     }

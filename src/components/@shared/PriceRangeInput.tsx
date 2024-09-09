@@ -34,8 +34,6 @@ export default function PriceRangeInput({
 }: PriceRangeInputProps) {
   const [minValue, setMinValue] = useState(minPrice);
   const [maxValue, setMaxValue] = useState(maxPrice);
-  const [tempMinValue, setTempMinValue] = useState(minPrice);
-  const [tempMaxValue, setTempMaxValue] = useState(maxPrice);
 
   useEffect(() => {
     if (onPriceChange) {
@@ -47,10 +45,10 @@ export default function PriceRangeInput({
     const progress = document.querySelector<HTMLElement>(".slider .progress");
 
     if (progress) {
-      progress.style.left = `${(tempMinValue / maxPrice) * 100}%`;
-      progress.style.right = `${100 - (tempMaxValue / maxPrice) * 100}%`;
+      progress.style.left = `${(minValue / maxPrice) * 100}%`;
+      progress.style.right = `${100 - (maxValue / maxPrice) * 100}%`;
     }
-  }, [tempMinValue, tempMaxValue]);
+  }, [minValue, maxValue]);
 
   useEffect(() => {
     setMinValue(minPrice);
@@ -59,17 +57,12 @@ export default function PriceRangeInput({
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxValue - priceGap);
-    setTempMinValue(value);
+    setMinValue(value);
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minValue + priceGap);
-    setTempMaxValue(value);
-  };
-
-  const handleMouseUp = () => {
-    setMinValue(tempMinValue);
-    setMaxValue(tempMaxValue);
+    setMaxValue(value);
   };
 
   return (
@@ -79,10 +72,10 @@ export default function PriceRangeInput({
           <div className="slider relative h-[6px] rounded-[50px] bg-light-gray-100">
             <div className="progress absolute left-1/4 right-1/4 h-[6px] rounded-[50px] bg-light-purple-100" />
             <span className="thumb-label min-label text-lg-16px-medium text-light-purple-100">
-              ₩ {tempMinValue.toLocaleString()}
+              ₩ {minValue.toLocaleString()}
             </span>
             <span className="thumb-label max-label text-lg-16px-medium text-light-purple-100">
-              ₩ {tempMaxValue.toLocaleString()}
+              ₩ {maxValue.toLocaleString()}
             </span>
           </div>
           <div className="range-input relative">
@@ -91,20 +84,18 @@ export default function PriceRangeInput({
               className="range-min"
               min={DEFAULT_MIN_PRICE}
               max={DEFAULT_MAX_PRICE}
-              value={tempMinValue}
+              value={minValue}
               step={1000}
               onChange={handleMinChange}
-              onMouseUp={handleMouseUp}
             />
             <input
               type="range"
               className="range-max"
               min={DEFAULT_MIN_PRICE}
               max={DEFAULT_MAX_PRICE}
-              value={tempMaxValue}
+              value={maxValue}
               step={1000}
               onChange={handleMaxChange}
-              onMouseUp={handleMouseUp}
             />
           </div>
         </div>
@@ -151,12 +142,12 @@ export default function PriceRangeInput({
           .min-label {
             transform: translateX(-20%);
             top: 12px;
-            left: ${(tempMinValue / DEFAULT_MAX_PRICE) * 100}%;
+            left: ${(minValue / DEFAULT_MAX_PRICE) * 100}%;
           }
 
           .max-label {
             transform: translateX(-70%);
-            left: ${(tempMaxValue / DEFAULT_MAX_PRICE) * 100}%;
+            left: ${(maxValue / DEFAULT_MAX_PRICE) * 100}%;
           }
         `}
       </style>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import updateReview from "@/libs/axios/review/patchReview";
+import deleteReview from "@/libs/axios/review/deleteReview";
 import Dropdown from "../@shared/DropDown";
 import Modal from "../@shared/Modal";
 import Button from "../@shared/Button";
@@ -25,11 +26,21 @@ interface Review {
     nickname: string;
     image: string;
   };
+  wine: {
+    id: number;
+    name: string;
+    region: string;
+    image: string;
+    price: number;
+    avgRating: number;
+    type: string;
+  };
 }
 
 interface ReviewCardProps {
   review: Review;
   onUpdate: (updatedReview: Review) => void;
+  onDelete: () => void;
 }
 
 function formatTimeAgo(createdAt: string): string {
@@ -64,9 +75,15 @@ function formatTimeAgo(createdAt: string): string {
   return `${months}개월 전`;
 }
 
-export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState(false);
+export default function ReviewCard({
+  review,
+  onUpdate,
+  onDelete,
+}: ReviewCardProps) {
+  const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [activeModifyButton, setActiveModifyButton] = useState(false);
+  const [activeDeleteButton, setActiveDeleteButton] = useState(false);
   const [ratingValue, setRatingValue] = useState(review.rating);
   const [lightBold, setLightBold] = useState(review.lightBold);
   const [smoothTannic, setSmoothTannic] = useState(review.smoothTannic);
@@ -84,14 +101,14 @@ export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setContent(e.target.value);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setActiveButton(true);
+  const handleOpenModifyModal = () => {
+    setIsModifyModalOpen(true);
+    setActiveModifyButton(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setActiveButton(false);
+  const handleCloseModifyModal = () => {
+    setIsModifyModalOpen(false);
+    setActiveModifyButton(false);
   };
 
   const handleUpdateReview = async () => {
@@ -113,11 +130,32 @@ export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
         createdAt: review.createdAt,
         updatedAt: new Date().toISOString(), // 현재 시간을 updatedAt으로 사용
         user: review.user,
+        wine: review.wine,
       };
       onUpdate(completeReview);
-      handleCloseModal();
+      handleCloseModifyModal();
     } catch (error) {
       console.error("리뷰 수정하기 오류:", error);
+    }
+  };
+
+  const handleOpenDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    setActiveDeleteButton(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setActiveDeleteButton(false);
+  };
+
+  const handleDeleteReview = async () => {
+    try {
+      await deleteReview(review.id);
+      onDelete();
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.error("리뷰 삭제하기 오류:", error);
     }
   };
 
@@ -153,21 +191,31 @@ export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
           >
             <button
               type="button"
-              onClick={handleOpenModal}
+              onClick={handleOpenModifyModal}
               style={
-                activeButton
+                activeModifyButton
                   ? { backgroundColor: "#f1edfc", color: "#6a42db" }
                   : undefined
               }
             >
               수정하기
             </button>
-            <button type="button">삭제하기</button>
+            <button
+              type="button"
+              onClick={handleOpenDeleteModal}
+              style={
+                activeDeleteButton
+                  ? { backgroundColor: "#f1edfc", color: "#6a42db" }
+                  : undefined
+              }
+            >
+              삭제하기
+            </button>
           </Dropdown>
         </div>
         <div className="flex w-full flex-col gap-[10px]">
           <div className="text-lg-16px-medium text-light-gray-500">
-            Palazzo della Torre 2017
+            {review.wine.name}
           </div>
           <div className="text-lg-16px-regular text-light-gray-800">
             {review.content}
@@ -175,12 +223,12 @@ export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+      <Modal isOpen={isModifyModalOpen} onClose={handleCloseModifyModal}>
         <div className="max-h-[90vh] w-[528px] overflow-y-auto rounded-2xl bg-light-white p-6">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl-24px-bold text-light-gray-800">수정하기</h1>
             <div>
-              <button type="button" onClick={handleCloseModal}>
+              <button type="button" onClick={handleCloseModifyModal}>
                 <Image
                   width={34}
                   height={34}
@@ -262,6 +310,27 @@ export default function ReviewCard({ review, onUpdate }: ReviewCardProps) {
             <Button buttonStyle="purple" onClick={handleUpdateReview}>
               수정하기
             </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal}>
+        <div className="rounded-[16px] border border-solid border-light-gray-300 bg-light-white px-[16px] pb-[24px] pt-[32px]">
+          <div className="flex w-[321px] flex-col items-center gap-[40px]">
+            <h1 className="text-xl-20px-bold text-light-gray-800">
+              정말 삭제하시겠습니까?
+            </h1>
+            <div className="flex w-full justify-between">
+              <div className="h-[54px] w-[156px]">
+                <Button buttonStyle="gray" onClick={handleCloseDeleteModal}>
+                  취소
+                </Button>
+              </div>
+              <div className="h-[54px] w-[156px]">
+                <Button buttonStyle="purple" onClick={handleDeleteReview}>
+                  삭제
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </Modal>

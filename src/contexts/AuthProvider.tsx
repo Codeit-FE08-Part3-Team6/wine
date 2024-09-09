@@ -21,6 +21,7 @@ interface AuthValues {
   user: UserValue;
   isPending: boolean;
   login: (formData: SignInForm) => Promise<boolean>;
+  getMe: () => Promise<void>;
   logout: () => void;
   updateMe: (formData: UpdateUserForm) => Promise<void>;
 }
@@ -29,6 +30,7 @@ const INITIAL_CONTEXT_VALUES: AuthValues = {
   user: null,
   isPending: true,
   login: () => Promise.reject(),
+  getMe: () => Promise.reject(),
   logout: () => {},
   updateMe: () => Promise.reject(),
 };
@@ -106,6 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: authState.user,
       isPending: authState.isPending,
       login,
+      getMe,
       logout,
       updateMe,
     }),

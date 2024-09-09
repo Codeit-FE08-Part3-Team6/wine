@@ -21,6 +21,8 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
     const { pathname } = router;
     if (pathname === "/myprofile") {
       router.push("/");
+    } else if (pathname === "/wines/[id]") {
+      router.push("/");
     }
   };
 

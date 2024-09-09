@@ -55,7 +55,7 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
               fill
               src={imagePreview}
               alt="프로필 이미지"
-              className="rounded-[9999px] object-cover"
+              className="rounded-[9999px] object-cover
             />
             <input
               type="file"

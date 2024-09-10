@@ -113,7 +113,7 @@ export default function MyProfilePage() {
       );
     }
     if (activeTab === "wines" && wineData) {
-      return <WineList wineData={wineData} />;
+      return <WineList wineData={wineData} setWineData={setWineData} />;
     }
     return null;
   };

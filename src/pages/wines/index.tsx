@@ -12,6 +12,7 @@ import useToggle from "@/hooks/useToggle";
 import Modal from "@/components/@shared/Modal";
 import AddWine from "@/components/wines/AddWine";
 import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function WineListPage() {
   const [wineList, setWineList] = useState<Wine[]>([]);
@@ -20,18 +21,20 @@ export default function WineListPage() {
     wineType: WineEnum.Red,
     winePrice: { min: 0, max: 100000 },
     wineRating: 0,
-    wineName: "",
   });
+  const [wineName, setWineName] = useState("");
+  const [wineCursor, setWineCursor] = useState<number | null>(0);
 
   const [isAddWineModalOpen, toggleIsAddWineModalOpen] = useToggle(false);
   const [isFilterModalOpen, toggleIsFilterModalOpen] = useToggle(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [wineCursor, setWineCursor] = useState<number | null>(0);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // 스크롤 감지할 요소
+
+  const debouncedWineName = useDebounce(wineName, 300); // wineName에  디바운스 적용
 
   async function fetchWines() {
     if (isLoading || !hasMore) return;
@@ -42,6 +45,7 @@ export default function WineListPage() {
       const { list, nextCursor } = await getWines(
         5,
         wineFilterValue,
+        debouncedWineName,
         wineCursor,
       ); // 와인 목록 조회
       setWineCursor(nextCursor); // 커서 업데이트
@@ -62,10 +66,10 @@ export default function WineListPage() {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWineFilterValue((prevValue) => ({
-      ...prevValue,
-      wineName: e.target.value,
-    }));
+    setWineName(e.target.value);
+    setWineList([]); // 필터 변경 시 목록 초기화
+    setWineCursor(0);
+    setHasMore(true);
   };
 
   const handleAddWineChange = () => {
@@ -73,14 +77,16 @@ export default function WineListPage() {
   };
 
   useEffect(() => {
-    fetchWines()
-      .then(() => {
-        // 성공적으로 데이터 로드
-      })
-      .catch((error) => {
-        console.error("Error during fetching data:", error);
-      });
-  }, [wineFilterValue]);
+    if (wineName || wineFilterValue) {
+      fetchWines()
+        .then(() => {
+          // 성공적으로 데이터 로드
+        })
+        .catch((error) => {
+          console.error("Error during fetching data:", error);
+        });
+    }
+  }, [wineFilterValue, debouncedWineName]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -225,9 +231,7 @@ export default function WineListPage() {
         <div
           ref={loadMoreRef}
           className={wineList.length === 0 ? "hidden" : "block h-[1px]"}
-        >
-          a
-        </div>
+        />
       </div>
     </div>
   );

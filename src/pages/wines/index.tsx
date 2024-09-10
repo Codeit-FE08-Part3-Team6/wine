@@ -28,7 +28,6 @@ export default function WineListPage() {
   const [isMobileView, setIsMobileView] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
   const [wineCursor, setWineCursor] = useState<number | null>(0);
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -40,9 +39,8 @@ export default function WineListPage() {
     setIsLoading(true);
 
     try {
-      console.log(wineCursor);
       const { list, nextCursor } = await getWines(
-        10,
+        5,
         wineFilterValue,
         wineCursor,
       ); // 와인 목록 조회
@@ -104,8 +102,6 @@ export default function WineListPage() {
   useEffect(() => {
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting && hasMore && !isLoading) {
-        console.log("부딪혔습니다!", wineCursor);
-
         fetchWines();
       }
     };
@@ -122,10 +118,6 @@ export default function WineListPage() {
       if (observer.current) observer.current.disconnect(); // 컴포넌트 언마운트 시 관찰자 해제
     };
   }, [hasMore, isLoading, wineCursor]); // hasMore, isLoading이 변경될 때 관찰자 업데이트
-
-  useEffect(() => {
-    console.log(wineList, wineCursor);
-  }, [wineCursor]);
 
   return (
     <div className="mx-auto flex max-w-[1140px] flex-col gap-6 py-10 max-xl:mx-[40px]">
@@ -230,7 +222,10 @@ export default function WineListPage() {
           <WineItemList wines={wineList} />
         </div>
 
-        <div ref={loadMoreRef} className="hidden h-[1px]">
+        <div
+          ref={loadMoreRef}
+          className={wineList.length === 0 ? "hidden" : "block h-[1px]"}
+        >
           a
         </div>
       </div>

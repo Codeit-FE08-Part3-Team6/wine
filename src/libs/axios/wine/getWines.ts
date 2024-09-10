@@ -13,8 +13,6 @@ export default async function getWines(
 ): Promise<Response> {
   try {
     const { wineType, winePrice, wineName, wineRating } = wineFilter;
-
-    console.log(wineCursor);
     const response = await axiosInstance.get<Response>(
       `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}&name=${wineName}&rating=${wineRating}&cursor=${wineCursor}`,
     );

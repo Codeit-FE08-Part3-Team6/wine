@@ -1,20 +1,22 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import getUserProfile from "@/libs/axios/user/getUserProfile";
 import Link from "next/link";
-import { removeTokens } from "@/utils/authTokenStorage";
+import { useAuth } from "@/contexts/AuthProvider";
 import Dropdown from "./DropDown";
 
-interface ProfileImgProps {
-  profileImg: string | null;
-  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
-}
+function ProfileImg() {
+  const router = useRouter();
+  const { user, logout } = useAuth();
 
-function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
   const handleLogoutBtnClick = () => {
-    removeTokens();
-    setIsLogin(false);
+    logout();
+
+    // 마이 프로필 페이지인 경우 redirection 실행
+    // 해당 코드는 myprofile 페이지에서 redirection 구현되면 제거 예정
+    if (router.pathname === "/myprofile") {
+      router.push("/");
+    }
   };
 
   return (
@@ -23,17 +25,17 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
       buttonChildren={
         <>
           <Image
-            className="block md:hidden"
+            className="inline-block rounded-full object-cover md:hidden"
             width={30}
             height={30}
-            src={profileImg ?? "/images/img_pfp_default.svg"}
+            src={user?.image ?? "/images/img_pfp_default.svg"}
             alt="프로필 이미지"
           />
           <Image
-            className="hidden md:block"
+            className="hidden rounded-full object-cover md:inline-block"
             width={40}
             height={40}
-            src={profileImg ?? "/images/img_pfp_default.svg"}
+            src={user?.image ?? "/images/img_pfp_default.svg"}
             alt="프로필 이미지"
           />
         </>
@@ -54,33 +56,18 @@ function ProfileImg({ profileImg, setIsLogin }: ProfileImgProps) {
 export default function GlobalNavBar() {
   const { pathname } = useRouter();
   const [isLogin, setIsLogin] = useState(false);
-  const [profileImg, setProfileImg] = useState<string | null>(null);
 
-  // 로그인 상태인 경우 프로필 이미지 받아오기
+  // 로그인 상태 관리 (accessToken 유무로 판단)
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
       setIsLogin(true);
-
-      const loadUserProfileImage = async () => {
-        try {
-          const user = await getUserProfile();
-          if (user?.image) {
-            setProfileImg(user.image);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      // eslint-disable-next-line
-      loadUserProfileImage(); // Promise must be awaited (@typescript-eslint/no-floating-promises)
     } else {
       setIsLogin(false);
     }
   }, [isLogin]);
 
   return (
-    <header className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
+    <div className="flex h-[50px] w-full items-center justify-between rounded-2xl bg-light-black px-5 text-md-14px-medium text-light-white md:h-[70px] md:px-[60px] md:text-lg-16px-medium">
       <Link href="/">
         <Image
           width={52}
@@ -91,7 +78,7 @@ export default function GlobalNavBar() {
       </Link>
       <div className="flex gap-5 md:gap-10">
         {isLogin ? (
-          <ProfileImg profileImg={profileImg} setIsLogin={setIsLogin} />
+          <ProfileImg />
         ) : (
           <>
             <Link href="/signin">로그인</Link>
@@ -99,6 +86,6 @@ export default function GlobalNavBar() {
           </>
         )}
       </div>
-    </header>
+    </div>
   );
 }

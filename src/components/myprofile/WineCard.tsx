@@ -81,7 +81,7 @@ export default function WineCard({ wine, onUpdate }: WineCardProps) {
     const { name, value } = e.target;
     setWineValue((prevWineValue) => ({
       ...prevWineValue,
-      [name]: name === "price" ? Number(value) : value,
+      [name]: name === "price" ? Number(value) : value, // 가격일 경우 숫자로 변환
     }));
   };
 
@@ -115,11 +115,12 @@ export default function WineCard({ wine, onUpdate }: WineCardProps) {
 
   const handleSubmit = async () => {
     try {
-      if (!imageFile) {
-        throw new Error("이미지 파일 등록 오류");
+      let imgUrl = wine.image; // 기존 이미지 URL로 초기화
+      if (imageFile) {
+        imgUrl = await postImage(imageFile); // 이미지 파일이 있을 경우에만 업로드
       }
-      const imgUrl = await postImage(imageFile);
       const patchWineValue = { ...wineValue, image: imgUrl };
+      console.log("patchWineValue:", patchWineValue);
       const result = await updateWine(wine.id, patchWineValue);
       const completeWine: Wine = {
         ...result,
@@ -216,6 +217,7 @@ export default function WineCard({ wine, onUpdate }: WineCardProps) {
             <h3 className="text-lg-16px-medium text-light-gray-800">가격</h3>
             <Input
               name="price"
+              type="number"
               placeholder="가격 입력"
               value={wineValue.price}
               onChange={handleChangeInput}

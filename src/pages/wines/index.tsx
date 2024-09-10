@@ -4,7 +4,7 @@ import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
 import getWines from "@/libs/axios/wine/getWines";
 import GlobalNavBar from "@/components/@shared/GlobalNavBar";
 import { Wine, WineEnum, WineFilterProps } from "@/types/wines";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from "@/components/@shared/Button";
 import Input from "@/components/@shared/Input";
 import Image from "next/image";
@@ -26,14 +26,41 @@ export default function WineListPage() {
   const [isAddWineModalOpen, toggleIsAddWineModalOpen] = useToggle(false);
   const [isFilterModalOpen, toggleIsFilterModalOpen] = useToggle(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const [wineCursor, setWineCursor] = useState<number | null>(0);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null); // 스크롤 감지할 요소
 
   async function fetchWines() {
-    const getWineList: Wine[] = await getWines(10, wineFilterValue); // 와인 목록 조회
-    setWineList(getWineList);
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+
+    try {
+      console.log(wineCursor);
+      const { list, nextCursor } = await getWines(
+        10,
+        wineFilterValue,
+        wineCursor,
+      ); // 와인 목록 조회
+      setWineCursor(nextCursor); // 커서 업데이트
+      setHasMore(nextCursor !== null); // 커서가 null이면 더 이상 불러올 데이터가 없음 ** 추후 테스트 **
+      setWineList((prevWines) => [...prevWines, ...list]);
+    } catch (error) {
+      console.error("데이터 가져오기 중 오류 발생:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleFilterChange = (newFilterValue: WineFilterProps) => {
     setWineFilterValue(newFilterValue);
+    setWineList([]); // 필터 변경 시 목록 초기화
+    setWineCursor(0);
+    setHasMore(true);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +101,32 @@ export default function WineListPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasMore && !isLoading) {
+        console.log("부딪혔습니다!", wineCursor);
+
+        fetchWines();
+      }
+    };
+
+    observer.current = new IntersectionObserver(handleIntersection);
+
+    if (loadMoreRef.current) {
+      observer.current.observe(loadMoreRef.current); // 요소 관찰 시작
+    } else {
+      console.error("loadMoreRef.current가 설정되지 않았습니다."); // 요소가 없을 경우 에러 로그 출력
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect(); // 컴포넌트 언마운트 시 관찰자 해제
+    };
+  }, [hasMore, isLoading, wineCursor]); // hasMore, isLoading이 변경될 때 관찰자 업데이트
+
+  useEffect(() => {
+    console.log(wineList, wineCursor);
+  }, [wineCursor]);
+
   return (
     <div className="mx-auto flex max-w-[1140px] flex-col gap-6 py-10 max-xl:mx-[40px]">
       <GlobalNavBar />
@@ -90,7 +143,6 @@ export default function WineListPage() {
             />
           </Button>
         </div>
-        {/* 타입을 프롭으로 넘기고 타입에따라 className을 변경할수있을까 일단 반응형 테스트 먼저 컴포넌트에서 해보는 걸로  */}
         <Modal
           isOpen={isFilterModalOpen}
           onClose={() => toggleIsFilterModalOpen()}
@@ -176,6 +228,10 @@ export default function WineListPage() {
           )}
 
           <WineItemList wines={wineList} />
+        </div>
+
+        <div ref={loadMoreRef} className="hidden h-[1px]">
+          a
         </div>
       </div>
     </div>

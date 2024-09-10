@@ -9,12 +9,14 @@ export interface Response {
 export default async function getWines(
   limit: number,
   wineFilter: WineFilterProps,
+  debouncedWineName: string,
   wineCursor: number | null,
 ): Promise<Response> {
   try {
-    const { wineType, winePrice, wineName, wineRating } = wineFilter;
+    const { wineType, winePrice, wineRating } = wineFilter;
+    console.log(debouncedWineName);
     const response = await axiosInstance.get<Response>(
-      `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}&name=${wineName}&rating=${wineRating}&cursor=${wineCursor}`,
+      `/wines?limit=${limit}&type=${wineType}&minPrice=${winePrice.min}&maxPrice=${winePrice.max}&name=${debouncedWineName}&rating=${wineRating}&cursor=${wineCursor}`,
     );
 
     const list = response.data.list ?? [];

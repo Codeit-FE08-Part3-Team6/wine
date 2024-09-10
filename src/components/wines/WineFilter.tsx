@@ -3,6 +3,7 @@ import useToggle from "@/hooks/useToggle";
 import { WineEnum, WineFilterProps } from "@/types/wines";
 import PriceRangeInput from "../@shared/PriceRangeInput";
 import Button from "../@shared/Button";
+import useDebounce from "@/hooks/useDebounce";
 
 interface Props {
   wineFilterValue: WineFilterProps;
@@ -112,14 +113,13 @@ export default function WineFilter({
       wineRating: value,
     });
   };
+
   const handlePriceChange = useCallback(
     (min: number, max: number) => {
       if (
         wineFilterValue.winePrice.min !== min ||
         wineFilterValue.winePrice.max !== max
       ) {
-        // 값이 변경되었을 때만 onFilterChange 호출
-
         onFilterChange({
           ...wineFilterValue,
           winePrice: { min, max },

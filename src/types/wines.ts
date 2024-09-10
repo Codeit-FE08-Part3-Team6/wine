@@ -89,5 +89,4 @@ export interface WineFilterProps {
   wineType: WineEnum;
   winePrice: WinePrice;
   wineRating: number;
-  wineName: string;
 }

@@ -18,10 +18,10 @@ import DownArrow from "../../../public/images/icon/down_arrow.svg";
 import SelectStar from "../../../public/images/icon/select_star.svg";
 import UpArrow from "../../../public/images/icon/up_arrow.svg";
 import WineReviewModal from "@/components/wines/WineReviewModal";
-import getUserProfile from "@/libs/axios/user/getUserProfile";
 import postLikeById from "@/libs/axios/review/postLikeById";
 import deleteLikeById from "@/libs/axios/review/deleteLikeById";
 import debounce from "@/utils/debounce";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -34,10 +34,9 @@ export default function WinesReviewSection() {
   const [loading, setLoading] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState<Record<number, boolean>>({});
   const [isPatchOpen, setIsPatchOpen] = useState<Record<number, boolean>>({});
-  const [isLogin, setIsLogin] = useState(false);
-  const [userData, setUserData] = useState(0);
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
 
   const handleToggle = (reviewId: number) => {
     setExpandedReviews((prevState) => ({
@@ -106,7 +105,6 @@ export default function WinesReviewSection() {
             );
             const reviewsData: WineReview[] = await Promise.all(reviewPromises);
             setReviews(reviewsData);
-            console.log(reviewsData);
           } else {
             console.error("리뷰 ID를 찾을 수 없습니다.");
           }
@@ -118,27 +116,6 @@ export default function WinesReviewSection() {
 
     getData();
   }, [id]);
-
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setIsLogin(true);
-
-      const loadUserProfileImage = async () => {
-        try {
-          const user = await getUserProfile();
-          if (user?.id) {
-            setUserData(user?.id);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      loadUserProfileImage();
-    } else {
-      setIsLogin(false);
-    }
-  }, [isLogin]);
 
   useEffect(() => {
     const loadMoreReviews = () => {
@@ -262,7 +239,7 @@ export default function WinesReviewSection() {
                     width={38}
                     height={38}
                     onClick={() => handleLikePostButton(review.id)}
-                    className={`${likedReviews[review.id] || review.user.id === userData || review.isLiked ? "hidden" : ""}`}
+                    className={`${likedReviews[review.id] || review.user.id === user?.id || review.isLiked ? "hidden" : ""}`}
                   />
                   <Image
                     role="button"
@@ -273,7 +250,7 @@ export default function WinesReviewSection() {
                     onClick={() => handleLikeDeleteButton(review.id)}
                     className={`${likedReviews[review.id] || review.isLiked ? "" : "hidden"}`}
                   />
-                  <div className={review.user.id === userData ? "" : "hidden"}>
+                  <div className={review.user.id === user?.id ? "" : "hidden"}>
                     <Dropdown
                       width="w-[101px] md:w-[126px]"
                       buttonChildren={

@@ -1,7 +1,4 @@
-import {
-  WineFlavorInputRange,
-  WineFlavorRange,
-} from "@/components/wines/WineFlavorInputRange";
+import { WineFlavorRange } from "@/components/wines/WineFlavorInputRange";
 import Dropdown from "@/components/@shared/DropDown";
 import { WineData, WineReview } from "@/types/wines";
 import getWineById from "@/libs/axios/wine/getWineById";
@@ -20,12 +17,11 @@ import DropdownButton from "../../../public/images/icon/dropdown_button.svg";
 import DownArrow from "../../../public/images/icon/down_arrow.svg";
 import SelectStar from "../../../public/images/icon/select_star.svg";
 import UpArrow from "../../../public/images/icon/up_arrow.svg";
-import CloseIcon from "../../../public/images/icon/close.svg";
-import ReviewModalWine from "../../../public/images/icon/review_modal_wine.svg";
-import RatingInput from "@/components/@shared/RatingInput";
-import WineFlavorList from "@/components/wines/WineFlavorList";
-import Button from "@/components/@shared/Button";
 import WineReviewModal from "@/components/wines/WineReviewModal";
+import postLikeById from "@/libs/axios/review/postLikeById";
+import deleteLikeById from "@/libs/axios/review/deleteLikeById";
+import debounce from "@/utils/debounce";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -40,16 +36,10 @@ export default function WinesReviewSection() {
   const [isPatchOpen, setIsPatchOpen] = useState<Record<number, boolean>>({});
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
 
   const handleToggle = (reviewId: number) => {
     setExpandedReviews((prevState) => ({
-      ...prevState,
-      [reviewId]: !prevState[reviewId],
-    }));
-  };
-
-  const handleLikeButton = (reviewId: number) => {
-    setLikedReviews((prevState) => ({
       ...prevState,
       [reviewId]: !prevState[reviewId],
     }));
@@ -77,6 +67,30 @@ export default function WinesReviewSection() {
       console.error("리뷰를 삭제하는데 오류가 있습니다:", e);
     }
   };
+
+  const handleLikePostButton = debounce(async (reviewId: number) => {
+    try {
+      await postLikeById(reviewId);
+      setLikedReviews((prevState) => ({
+        ...prevState,
+        [reviewId]: !prevState[reviewId],
+      }));
+    } catch (e) {
+      console.error("좋아요를 전송하는데 오류가 있습니다:", e);
+    }
+  }, 300);
+
+  const handleLikeDeleteButton = debounce(async (reviewId: number) => {
+    try {
+      await deleteLikeById(reviewId);
+      setLikedReviews((prevState) => ({
+        ...prevState,
+        [reviewId]: !prevState[reviewId],
+      }));
+    } catch (e) {
+      console.error("좋아요를 취소하는데 오류가 있습니다:", e);
+    }
+  }, 300);
 
   useEffect(() => {
     const getData = async () => {
@@ -215,15 +229,17 @@ export default function WinesReviewSection() {
                     </p>
                   </div>
                 </div>
-                <div className="flex h-8 w-[82px] items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6">
+                <div
+                  className={`flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6`}
+                >
                   <Image
                     role="button"
                     src={UnselectLike as StaticImageData}
                     alt="좋아요"
                     width={38}
                     height={38}
-                    onClick={() => handleLikeButton(review.id)}
-                    className={`${likedReviews[review.id] ? "hidden" : ""}`}
+                    onClick={() => handleLikePostButton(review.id)}
+                    className={`${likedReviews[review.id] || review.user.id === user?.id || review.isLiked ? "hidden" : ""}`}
                   />
                   <Image
                     role="button"
@@ -231,28 +247,30 @@ export default function WinesReviewSection() {
                     alt="좋아요"
                     width={38}
                     height={38}
-                    onClick={() => handleLikeButton(review.id)}
-                    className={`${likedReviews[review.id] ? "" : "hidden"}`}
+                    onClick={() => handleLikeDeleteButton(review.id)}
+                    className={`${likedReviews[review.id] || review.isLiked ? "" : "hidden"}`}
                   />
-                  <Dropdown
-                    width="w-[101px] md:w-[126px]"
-                    buttonChildren={
-                      <Image
-                        role="button"
-                        src={DropdownButton as StaticImageData}
-                        alt="메뉴 열기"
-                        width={38}
-                        height={38}
-                      />
-                    }
-                  >
-                    <button onClick={() => handlePatchModal(review.id)}>
-                      수정하기
-                    </button>
-                    <button onClick={() => handleDeleteModal(review.id)}>
-                      삭제하기
-                    </button>
-                  </Dropdown>
+                  <div className={review.user.id === user?.id ? "" : "hidden"}>
+                    <Dropdown
+                      width="w-[101px] md:w-[126px]"
+                      buttonChildren={
+                        <Image
+                          role="button"
+                          src={DropdownButton as StaticImageData}
+                          alt="메뉴 열기"
+                          width={38}
+                          height={38}
+                        />
+                      }
+                    >
+                      <button onClick={() => handlePatchModal(review.id)}>
+                        수정하기
+                      </button>
+                      <button onClick={() => handleDeleteModal(review.id)}>
+                        삭제하기
+                      </button>
+                    </Dropdown>
+                  </div>
                 </div>
               </div>
               <div className="flex justify-between">

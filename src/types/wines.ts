@@ -20,6 +20,7 @@ export interface WineReview {
   softAcidic: number;
   aroma: string[];
   content: string;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   user: {

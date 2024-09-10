@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { WineEnum } from "@/types/wines";
 import postImage from "@/libs/axios/image/postImage";
 import updateWine from "@/libs/axios/wine/patchWine";
+import deleteWine from "@/libs/axios/wine/deleteWine";
 import Dropdown from "../@shared/DropDown";
 import Modal from "../@shared/Modal";
 import Button from "../@shared/Button";
@@ -38,9 +39,10 @@ interface Wine {
 interface WineCardProps {
   wine: Wine;
   onUpdate: (updatedWine: Wine) => void;
+  onDelete: () => void;
 }
 
-export default function WineCard({ wine, onUpdate }: WineCardProps) {
+export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
   const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeModifyButton, setActiveModifyButton] = useState(false);
@@ -134,6 +136,16 @@ export default function WineCard({ wine, onUpdate }: WineCardProps) {
       setIsModifyModalOpen(false);
     } catch (error) {
       console.error("와인 수정 오류:", error);
+    }
+  };
+
+  const handleDeleteWine = async () => {
+    try {
+      await deleteWine(wine.id);
+      onDelete();
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.error("리뷰 삭제하기 오류:", error);
     }
   };
 
@@ -281,7 +293,25 @@ export default function WineCard({ wine, onUpdate }: WineCardProps) {
         </div>
       </Modal>
       <Modal isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal}>
-        삭제하기
+        <div className="rounded-[16px] border border-solid border-light-gray-300 bg-light-white px-[16px] pb-[24px] pt-[32px]">
+          <div className="flex w-[321px] flex-col items-center gap-[40px]">
+            <h1 className="text-xl-20px-bold text-light-gray-800">
+              정말 삭제하시겠습니까?
+            </h1>
+            <div className="flex w-full justify-between">
+              <div className="h-[54px] w-[156px]">
+                <Button buttonStyle="gray" onClick={handleCloseDeleteModal}>
+                  취소
+                </Button>
+              </div>
+              <div className="h-[54px] w-[156px]">
+                <Button buttonStyle="purple" onClick={handleDeleteWine}>
+                  삭제
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );

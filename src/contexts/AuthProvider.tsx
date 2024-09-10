@@ -1,7 +1,13 @@
 import { signIn } from "@/libs/axios/auth/auth";
+import oAuthSignIn from "@/libs/axios/oauth/oauthSignin";
 import getUser from "@/libs/axios/user/getUser";
 import updateUser from "@/libs/axios/user/updateUser";
-import { SignInForm } from "@/types/auth";
+import {
+  OAuthProviders,
+  OAuthSignInForm,
+  SignInForm,
+  SignInReturn,
+} from "@/types/auth";
 import User, { UpdateUserForm } from "@/types/user";
 import { removeTokens } from "@/utils/authTokenStorage";
 import { removeUserEmail } from "@/utils/userEmailStorage";
@@ -21,6 +27,10 @@ interface AuthValues {
   user: UserValue;
   isPending: boolean;
   login: (formData: SignInForm) => Promise<boolean>;
+  oAuthLogin: (
+    formData: OAuthSignInForm,
+    provider: OAuthProviders,
+  ) => Promise<SignInReturn | null>;
   logout: () => void;
   updateMe: (formData: UpdateUserForm) => Promise<void>;
 }
@@ -29,6 +39,7 @@ const INITIAL_CONTEXT_VALUES: AuthValues = {
   user: null,
   isPending: true,
   login: () => Promise.reject(),
+  oAuthLogin: () => Promise.reject(),
   logout: () => {},
   updateMe: () => Promise.reject(),
 };
@@ -73,6 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
+  const oAuthLogin = async (
+    formData: OAuthSignInForm,
+    provider: OAuthProviders,
+  ) => {
+    const user = await oAuthSignIn(formData, provider);
+    if (!user) return user;
+    await getMe();
+    return user;
+  };
+
   const logout = () => {
     handleAuthChange("user", null);
     removeTokens();
@@ -106,6 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: authState.user,
       isPending: authState.isPending,
       login,
+      oAuthLogin,
       logout,
       updateMe,
     }),

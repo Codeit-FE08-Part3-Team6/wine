@@ -1,7 +1,4 @@
-import {
-  WineFlavorInputRange,
-  WineFlavorRange,
-} from "@/components/wines/WineFlavorInputRange";
+import { WineFlavorRange } from "@/components/wines/WineFlavorInputRange";
 import Dropdown from "@/components/@shared/DropDown";
 import { WineData, WineReview } from "@/types/wines";
 import getWineById from "@/libs/axios/wine/getWineById";
@@ -20,13 +17,11 @@ import DropdownButton from "../../../public/images/icon/dropdown_button.svg";
 import DownArrow from "../../../public/images/icon/down_arrow.svg";
 import SelectStar from "../../../public/images/icon/select_star.svg";
 import UpArrow from "../../../public/images/icon/up_arrow.svg";
-import CloseIcon from "../../../public/images/icon/close.svg";
-import ReviewModalWine from "../../../public/images/icon/review_modal_wine.svg";
-import RatingInput from "@/components/@shared/RatingInput";
-import WineFlavorList from "@/components/wines/WineFlavorList";
-import Button from "@/components/@shared/Button";
 import WineReviewModal from "@/components/wines/WineReviewModal";
 import getUserProfile from "@/libs/axios/user/getUserProfile";
+import postLikeById from "@/libs/axios/review/postLikeById";
+import deleteLikeById from "@/libs/axios/review/deleteLikeById";
+import debounce from "@/utils/debounce";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -46,13 +41,6 @@ export default function WinesReviewSection() {
 
   const handleToggle = (reviewId: number) => {
     setExpandedReviews((prevState) => ({
-      ...prevState,
-      [reviewId]: !prevState[reviewId],
-    }));
-  };
-
-  const handleLikeButton = (reviewId: number) => {
-    setLikedReviews((prevState) => ({
       ...prevState,
       [reviewId]: !prevState[reviewId],
     }));
@@ -81,6 +69,30 @@ export default function WinesReviewSection() {
     }
   };
 
+  const handleLikePostButton = debounce(async (reviewId: number) => {
+    try {
+      await postLikeById(reviewId);
+      setLikedReviews((prevState) => ({
+        ...prevState,
+        [reviewId]: !prevState[reviewId],
+      }));
+    } catch (e) {
+      console.error("좋아요를 전송하는데 오류가 있습니다:", e);
+    }
+  }, 300);
+
+  const handleLikeDeleteButton = debounce(async (reviewId: number) => {
+    try {
+      await deleteLikeById(reviewId);
+      setLikedReviews((prevState) => ({
+        ...prevState,
+        [reviewId]: !prevState[reviewId],
+      }));
+    } catch (e) {
+      console.error("좋아요를 취소하는데 오류가 있습니다:", e);
+    }
+  }, 300);
+
   useEffect(() => {
     const getData = async () => {
       if (typeof id === "string") {
@@ -94,6 +106,7 @@ export default function WinesReviewSection() {
             );
             const reviewsData: WineReview[] = await Promise.all(reviewPromises);
             setReviews(reviewsData);
+            console.log(reviewsData);
           } else {
             console.error("리뷰 ID를 찾을 수 없습니다.");
           }
@@ -240,7 +253,7 @@ export default function WinesReviewSection() {
                   </div>
                 </div>
                 <div
-                  className={`${review.user.id === userData ? "" : "flex-row-reverse"} flex h-8 w-[82px] items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6`}
+                  className={`flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6`}
                 >
                   <Image
                     role="button"
@@ -248,8 +261,8 @@ export default function WinesReviewSection() {
                     alt="좋아요"
                     width={38}
                     height={38}
-                    onClick={() => handleLikeButton(review.id)}
-                    className={`${likedReviews[review.id] ? "hidden" : ""}`}
+                    onClick={() => handleLikePostButton(review.id)}
+                    className={`${likedReviews[review.id] || review.user.id === userData || review.isLiked ? "hidden" : ""}`}
                   />
                   <Image
                     role="button"
@@ -257,8 +270,8 @@ export default function WinesReviewSection() {
                     alt="좋아요"
                     width={38}
                     height={38}
-                    onClick={() => handleLikeButton(review.id)}
-                    className={`${likedReviews[review.id] ? "" : "hidden"}`}
+                    onClick={() => handleLikeDeleteButton(review.id)}
+                    className={`${likedReviews[review.id] || review.isLiked ? "" : "hidden"}`}
                   />
                   <div className={review.user.id === userData ? "" : "hidden"}>
                     <Dropdown

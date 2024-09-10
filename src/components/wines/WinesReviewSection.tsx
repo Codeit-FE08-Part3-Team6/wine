@@ -26,6 +26,7 @@ import RatingInput from "@/components/@shared/RatingInput";
 import WineFlavorList from "@/components/wines/WineFlavorList";
 import Button from "@/components/@shared/Button";
 import WineReviewModal from "@/components/wines/WineReviewModal";
+import getUserProfile from "@/libs/axios/user/getUserProfile";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -38,6 +39,8 @@ export default function WinesReviewSection() {
   const [loading, setLoading] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState<Record<number, boolean>>({});
   const [isPatchOpen, setIsPatchOpen] = useState<Record<number, boolean>>({});
+  const [isLogin, setIsLogin] = useState(false);
+  const [userData, setUserData] = useState(0);
   const router = useRouter();
   const { id } = router.query;
 
@@ -102,6 +105,27 @@ export default function WinesReviewSection() {
 
     getData();
   }, [id]);
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      setIsLogin(true);
+
+      const loadUserProfileImage = async () => {
+        try {
+          const user = await getUserProfile();
+          if (user?.id) {
+            setUserData(user?.id);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      loadUserProfileImage();
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     const loadMoreReviews = () => {
@@ -215,7 +239,9 @@ export default function WinesReviewSection() {
                     </p>
                   </div>
                 </div>
-                <div className="flex h-8 w-[82px] items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6">
+                <div
+                  className={`${review.user.id === userData ? "" : "flex-row-reverse"} flex h-8 w-[82px] items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6`}
+                >
                   <Image
                     role="button"
                     src={UnselectLike as StaticImageData}
@@ -234,25 +260,27 @@ export default function WinesReviewSection() {
                     onClick={() => handleLikeButton(review.id)}
                     className={`${likedReviews[review.id] ? "" : "hidden"}`}
                   />
-                  <Dropdown
-                    width="w-[101px] md:w-[126px]"
-                    buttonChildren={
-                      <Image
-                        role="button"
-                        src={DropdownButton as StaticImageData}
-                        alt="메뉴 열기"
-                        width={38}
-                        height={38}
-                      />
-                    }
-                  >
-                    <button onClick={() => handlePatchModal(review.id)}>
-                      수정하기
-                    </button>
-                    <button onClick={() => handleDeleteModal(review.id)}>
-                      삭제하기
-                    </button>
-                  </Dropdown>
+                  <div className={review.user.id === userData ? "" : "hidden"}>
+                    <Dropdown
+                      width="w-[101px] md:w-[126px]"
+                      buttonChildren={
+                        <Image
+                          role="button"
+                          src={DropdownButton as StaticImageData}
+                          alt="메뉴 열기"
+                          width={38}
+                          height={38}
+                        />
+                      }
+                    >
+                      <button onClick={() => handlePatchModal(review.id)}>
+                        수정하기
+                      </button>
+                      <button onClick={() => handleDeleteModal(review.id)}>
+                        삭제하기
+                      </button>
+                    </Dropdown>
+                  </div>
                 </div>
               </div>
               <div className="flex justify-between">

@@ -1,4 +1,7 @@
-import { WineFlavorRange } from "@/components/wines/WineFlavorInputRange";
+import {
+  WineFlavorInputRange,
+  WineFlavorRange,
+} from "@/components/wines/WineFlavorInputRange";
 import Dropdown from "@/components/@shared/DropDown";
 import { WineData, WineReview } from "@/types/wines";
 import getWineById from "@/libs/axios/wine/getWineById";
@@ -7,7 +10,7 @@ import deleteReviewById from "@/libs/axios/review/deleteReviewById";
 import timeAgo from "@/utils/TimeAgo";
 import { translateAromaReverse } from "@/components/wines/TranslateAroma";
 import Modal from "@/components/@shared/Modal";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image, { StaticImageData } from "next/image";
 import Profiles from "../../../public/images/img_pfp_default.svg";
@@ -17,6 +20,12 @@ import DropdownButton from "../../../public/images/icon/dropdown_button.svg";
 import DownArrow from "../../../public/images/icon/down_arrow.svg";
 import SelectStar from "../../../public/images/icon/select_star.svg";
 import UpArrow from "../../../public/images/icon/up_arrow.svg";
+import CloseIcon from "../../../public/images/icon/close.svg";
+import ReviewModalWine from "../../../public/images/icon/review_modal_wine.svg";
+import RatingInput from "@/components/@shared/RatingInput";
+import WineFlavorList from "@/components/wines/WineFlavorList";
+import Button from "@/components/@shared/Button";
+import WineReviewModal from "@/components/wines/WineReviewModal";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -27,7 +36,8 @@ export default function WinesReviewSection() {
   const [wineData, setWineData] = useState<WineData | null>(null);
   const [visibleReviews, setVisibleReviews] = useState(5);
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState<Record<number, boolean>>({});
+  const [isDeleteOpen, setIsDeleteOpen] = useState<Record<number, boolean>>({});
+  const [isPatchOpen, setIsPatchOpen] = useState<Record<number, boolean>>({});
   const router = useRouter();
   const { id } = router.query;
 
@@ -45,8 +55,15 @@ export default function WinesReviewSection() {
     }));
   };
 
-  const handleModal = (reviewId: number) => {
-    setIsOpen((prevState) => ({
+  const handleDeleteModal = (reviewId: number) => {
+    setIsDeleteOpen((prevState) => ({
+      ...prevState,
+      [reviewId]: !prevState[reviewId],
+    }));
+  };
+
+  const handlePatchModal = (reviewId: number) => {
+    setIsPatchOpen((prevState) => ({
       ...prevState,
       [reviewId]: !prevState[reviewId],
     }));
@@ -139,7 +156,7 @@ export default function WinesReviewSection() {
         reviews.slice(0, visibleReviews).map((review) => {
           const translatedAromas = translateAromaReverse(review.aroma);
           const isExpanded = expandedReviews[review.id] || false;
-          const isModalOpen = isOpen[review.id] || false;
+          const isModalOpen = isDeleteOpen[review.id] || false;
           return (
             <div
               key={review.id}
@@ -147,7 +164,7 @@ export default function WinesReviewSection() {
             >
               <Modal
                 isOpen={isModalOpen}
-                onClose={() => handleModal(review.id)}
+                onClose={() => handleDeleteModal(review.id)}
               >
                 <div className="flex h-[172px] w-[353px] flex-col items-center justify-center gap-10 rounded-2xl bg-light-white px-4 pb-6 pt-8">
                   <p className="text-xl-20px-bold text-light-gray-800">
@@ -156,7 +173,7 @@ export default function WinesReviewSection() {
                   <div className="flex items-center justify-between">
                     <button
                       className="flex h-[54px] w-[156px] items-center justify-center rounded-xl border border-solid border-light-gray-300 bg-light-white px-5 py-4 text-lg-16px-bold text-light-gray-500"
-                      onClick={() => handleModal(review.id)}
+                      onClick={() => handleDeleteModal(review.id)}
                     >
                       취소
                     </button>
@@ -169,21 +186,26 @@ export default function WinesReviewSection() {
                   </div>
                 </div>
               </Modal>
+              <WineReviewModal
+                isOpen={isPatchOpen[review.id]}
+                handleModal={() => handlePatchModal(review.id)}
+                value={review?.id}
+                reviewType="patch"
+                reviewName="수정하기"
+              />
               <div className="flex justify-between">
                 <div className="flex gap-4">
-                  <div className="h-[50px] w-[50px] md:h-[64px] md:w-[64px]">
-                    <Image
-                      src={
-                        review.user.image
-                          ? review.user.image
-                          : (Profiles as StaticImageData)
-                      }
-                      alt="프로필 사진"
-                      width={64}
-                      height={64}
-                      style={{ borderRadius: 9999 }}
-                    />
-                  </div>
+                  <Image
+                    className="max-h-[50px] max-w-[50px] rounded-full object-cover md:max-h-[64px] md:max-w-[64px]"
+                    src={
+                      review.user.image
+                        ? review.user.image
+                        : (Profiles as StaticImageData)
+                    }
+                    alt="프로필 사진"
+                    width={64}
+                    height={64}
+                  />
                   <div className="flex flex-col justify-center md:gap-1">
                     <p className="text-lg-16px-semibold text-light-gray-800 md:text-2lg-18px-semibold">
                       {review.user.nickname}
@@ -224,8 +246,10 @@ export default function WinesReviewSection() {
                       />
                     }
                   >
-                    <button>수정하기</button>
-                    <button onClick={() => handleModal(review.id)}>
+                    <button onClick={() => handlePatchModal(review.id)}>
+                      수정하기
+                    </button>
+                    <button onClick={() => handleDeleteModal(review.id)}>
                       삭제하기
                     </button>
                   </Dropdown>

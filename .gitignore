@@ -41,3 +41,4 @@ next-env.d.ts
 # api test
 *.http
 /.idea/
+/wine.iml

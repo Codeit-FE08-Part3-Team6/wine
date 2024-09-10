@@ -34,6 +34,7 @@ export interface WineFlavorInputRangeProps {
   flavor: string;
   typeOne: string;
   typeTwo: string;
+  value?: number;
   onChange?: (value: number) => void | undefined;
 }
 
@@ -42,6 +43,14 @@ export interface WineFlavorRangeProps {
   typeOne: string;
   typeTwo: string;
   value?: number;
+}
+
+export interface WineReviewModalProps {
+  isOpen: boolean;
+  handleModal: () => void;
+  value?: number;
+  reviewType: string;
+  reviewName: string;
 }
 
 export enum WineEnum {

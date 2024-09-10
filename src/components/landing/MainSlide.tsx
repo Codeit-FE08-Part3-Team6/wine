@@ -20,7 +20,7 @@ const IMAGE_ITEMS_VALUES = [
     width: 640,
     height: 320,
     src: "/images/landing/lg_main_review.png",
-    mobileSrc: "/images/landing/sm_main_filter.png",
+    mobileSrc: "/images/landing/sm_main_review.png",
     alt: "리뷰 시스템 소개 이미지",
   },
 ];

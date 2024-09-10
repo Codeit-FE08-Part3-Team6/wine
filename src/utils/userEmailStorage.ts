@@ -1,4 +1,4 @@
-export function setUserEmail(email: string) {
+export function saveUserEmail(email: string) {
   localStorage.setItem("userEmail", email);
 }
 

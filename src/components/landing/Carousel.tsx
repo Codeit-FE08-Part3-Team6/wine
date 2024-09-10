@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 
 interface CarouselProps {
   children: ReactNode;
@@ -7,6 +7,19 @@ interface CarouselProps {
 export default function Carousel({ children }: CarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesLength = React.Children.count(children);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (currentSlide === slidesLength - 1) {
+        setCurrentSlide(0);
+        return;
+      }
+
+      setCurrentSlide((prevCurrentSlide) => prevCurrentSlide + 1);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentSlide]);
 
   const handleRightBtnClick = () => {
     if (currentSlide === slidesLength - 1) {

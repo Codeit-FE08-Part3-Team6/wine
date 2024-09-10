@@ -174,7 +174,7 @@ export default function WineListPage() {
 
         {isMobileView && (
           <>
-            <div className="hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:fixed max-md:bottom-5 max-md:w-[calc(100%-80px)]">
+            <div className="z-10 hidden h-[45px] w-[284px] max-xl:block max-xl:w-[220px] max-md:fixed max-md:bottom-5 max-md:w-[calc(100%-80px)]">
               <Button
                 onClick={() => toggleIsAddWineModalOpen()}
                 buttonStyle="purple"

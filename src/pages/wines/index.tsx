@@ -1,4 +1,4 @@
-import WineFilter from "@/components/wines/WineFilter";
+import WineFilter from "@/components/wines/Filter/WineFilter";
 import WineItemList from "@/components/wines/WineItemList";
 import WineRecommendItemList from "@/components/wines/WineRecommendItemList";
 import getWines from "@/libs/axios/wine/getWines";

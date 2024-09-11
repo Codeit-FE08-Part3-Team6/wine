@@ -130,13 +130,13 @@ export default function MyProfilePage() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-[40px]">
-      <div className="h-[70px] w-[1140px]">
+    <div className="mb-[20px] mt-[20px] flex flex-col items-center gap-[20px] md:mb-[30px] md:mt-[30px] md:gap-[17px] xl:mb-[40px] xl:mt-[40px] xl:gap-[37px]">
+      <div className="w-[343px] md:w-[704px] xl:w-[1140px]">
         <GlobalNavBar />
       </div>
-      <div className="flex w-[1140px] flex-row gap-[60px]">
+      <div className="flex w-[343px] flex-col gap-[30px] md:w-[704px] md:gap-[40px] xl:w-[1140px] xl:flex-row xl:gap-[60px]">
         {user && <ProfileCard user={user} updateMe={updateMe} />}
-        <div className="flex w-[800px] flex-col gap-[40px]">
+        <div className="flex w-[343px] flex-col md:w-[704px]">
           <TopBar
             activeTab={activeTab}
             setActiveTab={setActiveTab}

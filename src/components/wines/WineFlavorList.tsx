@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 
 interface WineFlavorListProps {
+  aroma?: string[]; // 데이터로 받아온 향
   onChange: (value: string[]) => void;
 }
 
-export default function WineFlavorList({ onChange }: WineFlavorListProps) {
+export default function WineFlavorList({
+  aroma = [],
+  onChange,
+}: WineFlavorListProps) {
   const FlavorList = [
     "체리",
     "베리",
@@ -27,7 +31,7 @@ export default function WineFlavorList({ onChange }: WineFlavorListProps) {
     "가죽",
   ];
 
-  const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
+  const [selectedFlavors, setSelectedFlavors] = useState<string[]>(aroma);
 
   const handleFlavor = (flavor: string) => {
     setSelectedFlavors((prevSelectedFlavors) =>
@@ -42,11 +46,11 @@ export default function WineFlavorList({ onChange }: WineFlavorListProps) {
   }, [selectedFlavors, onChange]);
 
   return (
-    <ul className="mt-6 flex flex-wrap items-center gap-[10px]">
+    <ul className="mt-6 flex flex-wrap items-center gap-2 md:gap-2.5">
       {FlavorList.map((Flavor) => (
         <button
           key={Flavor}
-          className={`${selectedFlavors.includes(Flavor) ? "bg-light-purple-100 text-light-white" : "bg-light-white text-light-black"} inline-block whitespace-nowrap rounded-[100px] border border-solid border-light-gray-300 px-[18px] py-[10px]`}
+          className={`${selectedFlavors.includes(Flavor) ? "bg-light-purple-100 text-light-white" : "bg-light-white text-light-black"} inline-block whitespace-nowrap rounded-[100px] border border-solid border-light-gray-300 px-2.5 py-1.5 text-md-14px-medium md:px-[18px] md:py-[10px] md:text-lg-16px-medium`}
           onClick={() => handleFlavor(Flavor)}
         >
           {Flavor}

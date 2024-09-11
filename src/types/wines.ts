@@ -20,6 +20,7 @@ export interface WineReview {
   softAcidic: number;
   aroma: string[];
   content: string;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   user: {
@@ -34,6 +35,7 @@ export interface WineFlavorInputRangeProps {
   flavor: string;
   typeOne: string;
   typeTwo: string;
+  value?: number;
   onChange?: (value: number) => void | undefined;
 }
 
@@ -42,6 +44,14 @@ export interface WineFlavorRangeProps {
   typeOne: string;
   typeTwo: string;
   value?: number;
+}
+
+export interface WineReviewModalProps {
+  isOpen: boolean;
+  handleModal: () => void;
+  value?: number;
+  reviewType: string;
+  reviewName: string;
 }
 
 export enum WineEnum {
@@ -79,14 +89,14 @@ export interface PostWineDetails {
 
 export interface Wine extends PostWineDetails {
   id: number;
-  avgRating: number | null;
-  reviewerCount: number | null;
+  avgRating: number;
+  reviewCount: number | null;
   recentReview: RecentReview | null;
+  nextCursor?: number;
 }
 
 export interface WineFilterProps {
   wineType: WineEnum;
   winePrice: WinePrice;
-  wineRating: string;
-  wineName: string;
+  wineRating: number;
 }

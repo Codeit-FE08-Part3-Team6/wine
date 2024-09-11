@@ -15,6 +15,8 @@ function ProfileImg() {
     // 로그아웃 시 redirection
     if (router.pathname === "/myprofile") {
       router.push("/");
+    } else if (pathname === "/wines/[id]") {
+      router.push("/");
     }
   };
 

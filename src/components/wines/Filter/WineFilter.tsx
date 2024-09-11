@@ -1,5 +1,3 @@
-// import { useCallback } from "react";
-import useToggle from "@/hooks/useToggle";
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { WineEnum, WineFilterProps, WinePrice } from "@/types/wines";
@@ -19,7 +17,6 @@ export default function WineFilter({
   onFilterChange,
   onClose,
 }: Props) {
-  const [reset, setReset] = useToggle(false);
   const wineTypes = [
     { id: 1, value: WineEnum.Red },
     { id: 2, value: WineEnum.White },
@@ -73,8 +70,6 @@ export default function WineFilter({
       winePrice: { min: 0, max: 100000 },
       wineRating: 0,
     });
-
-    setReset();
   };
 
   return (
@@ -102,7 +97,6 @@ export default function WineFilter({
           onPriceChange={handlePriceChange}
           minValue={wineFilterValue.winePrice.min}
           maxValue={wineFilterValue.winePrice.max}
-          valueReset={reset}
         />
       </div>
       <div className="flex flex-col gap-3">

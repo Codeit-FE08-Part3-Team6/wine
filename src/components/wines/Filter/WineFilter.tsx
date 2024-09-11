@@ -73,13 +73,19 @@ export default function WineFilter({
       winePrice: { min: 0, max: 100000 },
       wineRating: 0,
     });
+
+    setWinePrice({ min: 0, max: 100000 });
   };
 
   return (
-    <div className="z-50 flex w-[284px] flex-col gap-16 bg-light-white max-xl:h-[732px] max-xl:w-[375px] max-xl:rounded-3xl max-xl:p-6">
+    <div className="z-50 flex w-[284px] flex-col gap-16 bg-light-white max-xl:h-[732px] max-xl:w-[375px] max-xl:rounded-3xl max-xl:p-6 max-md:h-full max-md:w-[350px] max-md:gap-8">
       <div className="flex flex-col gap-3">
-        <p className="hidden text-2xl-24px-bold max-xl:block"> 필터</p>
-        <p className="text-xl-20px-bold"> WINE TYPES</p>
+        <p className="hidden text-2xl-24px-bold max-xl:block max-md:text-xl-20px-bold">
+          필터
+        </p>
+        <p className="text-xl-20px-bold max-md:text-lg-16px-semibold">
+          WINE TYPES
+        </p>
         <div className="flex gap-3">
           {wineTypes.map((wineType) => (
             <WineTypeRadio
@@ -93,8 +99,8 @@ export default function WineFilter({
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-6">
-        <p className="text-xl-20px-bold">PRICE</p>
+      <div className="flex flex-col gap-6 max-md:gap-0">
+        <p className="text-xl-20px-bold max-md:text-lg-16px-semibold">PRICE</p>
         <PriceRangeInput
           priceGap={10000}
           onPriceChange={handlePriceChange}
@@ -103,7 +109,7 @@ export default function WineFilter({
         />
       </div>
       <div className="flex flex-col gap-3">
-        <p className="text-xl-20px-bold">RATING</p>
+        <p className="text-xl-20px-bold max-md:text-lg-16px-semibold">RATING</p>
 
         {wineRatings.map((wineRating) => (
           <WineRatingRadio

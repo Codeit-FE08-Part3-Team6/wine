@@ -23,7 +23,10 @@ export default function WineFilter({
     { id: 3, value: WineEnum.Sparkling },
   ];
 
-  const [winePrice, setWinePrice] = useState<WinePrice>();
+  const [winePrice, setWinePrice] = useState<WinePrice>({
+    min: wineFilterValue.winePrice.min,
+    max: wineFilterValue.winePrice.max,
+  });
   const debouncedWinePrice = useDebounce(winePrice, 300);
 
   const wineRatings = [
@@ -95,8 +98,8 @@ export default function WineFilter({
         <PriceRangeInput
           priceGap={10000}
           onPriceChange={handlePriceChange}
-          minValue={wineFilterValue.winePrice.min}
-          maxValue={wineFilterValue.winePrice.max}
+          minValue={winePrice.min}
+          maxValue={winePrice.max}
         />
       </div>
       <div className="flex flex-col gap-3">

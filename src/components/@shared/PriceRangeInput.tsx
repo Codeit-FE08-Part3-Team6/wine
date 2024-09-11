@@ -12,16 +12,16 @@ const MAX_PRICE = 100000;
 const DEFAULT_PRICE_GAP = 30000;
 
 /**
- * PriceRangeInput 컴포넌트는 가격 범위(최소, 최대)를 설정하는 슬라이더
+ * PriceRangeInput
  *
  * // (주의사항) 페이지 또는 모달에 사용할 때 width, height를 지정해준 div 태그로 감싸서 사용해주세요.
  *
  * // 사용법
  * <PriceRangeInput
- *    minPrice={10000}
- *    maxPrice={200000}
+ *    minValue={minValue}
+ *    maxValue={maxValue}
  *    priceGap={30000}
- *    onPriceChange={(min, max) => console.log(`최소: ${min}, 최대: ${max}`)}
+ *    onPriceChange={changeEvent}
  * />
  */
 export default function PriceRangeInput({

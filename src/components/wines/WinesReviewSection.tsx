@@ -7,21 +7,21 @@ import deleteReviewById from "@/libs/axios/review/deleteReviewById";
 import timeAgo from "@/utils/TimeAgo";
 import { translateAromaReverse } from "@/components/wines/TranslateAroma";
 import Modal from "@/components/@shared/Modal";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Image, { StaticImageData } from "next/image";
-import Profiles from "../../../public/images/img_pfp_default.svg";
-import UnselectLike from "../../../public/images/icon/unselect_like.svg";
-import SelectLike from "../../../public/images/icon/select_like.svg";
-import DropdownButton from "../../../public/images/icon/dropdown_button.svg";
-import DownArrow from "../../../public/images/icon/down_arrow.svg";
-import SelectStar from "../../../public/images/icon/select_star.svg";
-import UpArrow from "../../../public/images/icon/up_arrow.svg";
 import WineReviewModal from "@/components/wines/WineReviewModal";
 import postLikeById from "@/libs/axios/review/postLikeById";
 import deleteLikeById from "@/libs/axios/review/deleteLikeById";
 import debounce from "@/utils/debounce";
 import { useAuth } from "@/contexts/AuthProvider";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Image, { StaticImageData } from "next/image";
+import Profiles from "../../../public/images/img_pfp_default.svg";
+import UnselectLike from "../../../public/images/icons/unselect_like.svg";
+import SelectLike from "../../../public/images/icons/select_like.svg";
+import DropdownButton from "../../../public/images/icons/dropdown_button.svg";
+import DownArrow from "../../../public/images/icons/down_arrow.svg";
+import SelectStar from "../../../public/images/icons/select_star.svg";
+import UpArrow from "../../../public/images/icons/up_arrow.svg";
 
 export default function WinesReviewSection() {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
@@ -230,7 +230,7 @@ export default function WinesReviewSection() {
                   </div>
                 </div>
                 <div
-                  className={`flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6`}
+                  className="flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6"
                 >
                   <Image
                     role="button"

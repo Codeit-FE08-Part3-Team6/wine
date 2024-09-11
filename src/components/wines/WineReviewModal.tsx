@@ -1,7 +1,5 @@
 import Modal from "@/components/@shared/Modal";
 import Image, { StaticImageData } from "next/image";
-import CloseIcon from "../../../public/images/icon/close.svg";
-import ReviewModalWine from "../../../public/images/icon/review_modal_wine.svg";
 import RatingInput from "@/components/@shared/RatingInput";
 import { WineFlavorInputRange } from "@/components/wines/WineFlavorInputRange";
 import WineFlavorList from "@/components/wines/WineFlavorList";
@@ -17,6 +15,8 @@ import postReviewById from "@/libs/axios/review/postReviewById";
 import getWineById from "@/libs/axios/wine/getWineById";
 import getReviewById from "@/libs/axios/review/getReviewById";
 import patchReviewById from "@/libs/axios/review/patchReviewByid";
+import CloseIcon from "../../../public/images/icons/close.svg";
+import ReviewModalWine from "../../../public/images/icons/review_modal_wine.svg";
 
 export default function WineReviewModal({
   isOpen,

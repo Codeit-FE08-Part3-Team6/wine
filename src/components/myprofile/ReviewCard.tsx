@@ -176,7 +176,7 @@ export default function ReviewCard({
           </div>
           <Dropdown
             buttonChildren={
-              <div className="relative flex h-[24px] w-[24px] items-center justify-center">
+              <div className="md:[26px] md:[26px] relative flex h-[24px] w-[24px] items-center justify-center">
                 <Image
                   fill
                   src="images/icons/hamburger.svg"

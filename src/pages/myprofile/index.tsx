@@ -136,7 +136,7 @@ export default function MyProfilePage() {
       </div>
       <div className="flex w-[343px] flex-col gap-[30px] md:w-[704px] md:gap-[40px] xl:w-[1140px] xl:flex-row xl:gap-[60px]">
         {user && <ProfileCard user={user} updateMe={updateMe} />}
-        <div className="flex w-[343px] flex-col md:w-[704px]">
+        <div className="flex w-[343px] flex-col md:w-[704px] xl:w-[800px]">
           <TopBar
             activeTab={activeTab}
             setActiveTab={setActiveTab}

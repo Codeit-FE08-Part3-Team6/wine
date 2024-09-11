@@ -157,7 +157,7 @@ export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
       <div className="absolute left-[93px] top-[133px] z-10 flex items-center justify-center rounded-[10px] bg-light-purple-10 px-[10px] py-[6px] text-md-14px-bold text-light-purple-100 md:left-[176px] md:top-[203px] md:rounded-[12px] md:px-[15px] md:py-[8px] md:text-2lg-18px-bold">
         ₩ {wine.price.toLocaleString()}
       </div>
-      <div className="absolute left-[93px] right-[20px] top-[41px] z-10 flex h-[87px] w-[230px] justify-between md:left-[176px] md:right-[40px] md:top-[72px] md:h-[111px] md:w-[488px]">
+      <div className="absolute left-[93px] right-[20px] top-[41px] z-10 flex h-[87px] w-[230px] justify-between md:left-[176px] md:right-[40px] md:top-[72px] md:h-[111px] md:w-[488px] xl:w-[584px]">
         <div className="flex flex-col gap-[20px]">
           <div className="text-[20px] font-semibold leading-[24px] text-light-gray-800 md:text-[30px] md:leading-[36px]">
             {wine.name}

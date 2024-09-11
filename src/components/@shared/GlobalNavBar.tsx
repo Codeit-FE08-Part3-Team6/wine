@@ -22,22 +22,14 @@ function ProfileImg() {
     <Dropdown
       width="w-[101px] md:w-[126px]"
       buttonChildren={
-        <>
+        <div className="relative h-[30px] w-[30px] md:h-[40px] md:w-[40px]">
           <Image
-            className="inline-block rounded-full object-cover md:hidden"
-            width={30}
-            height={30}
+            className="rounded-full object-cover"
+            fill
             src={user?.image ?? "/images/img_pfp_default.svg"}
             alt="프로필 이미지"
           />
-          <Image
-            className="hidden rounded-full object-cover md:inline-block"
-            width={40}
-            height={40}
-            src={user?.image ?? "/images/img_pfp_default.svg"}
-            alt="프로필 이미지"
-          />
-        </>
+        </div>
       }
     >
       <Link href="/myprofile">마이페이지</Link>

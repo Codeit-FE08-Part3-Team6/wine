@@ -1,6 +1,8 @@
-import { useCallback } from "react";
+// import { useCallback } from "react";
 import useToggle from "@/hooks/useToggle";
-import { WineEnum, WineFilterProps } from "@/types/wines";
+import { useEffect, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { WineEnum, WineFilterProps, WinePrice } from "@/types/wines";
 import PriceRangeInput from "../../@shared/PriceRangeInput";
 import Button from "../../@shared/Button";
 import WineTypeRadio from "./WineTypeRadio";
@@ -24,6 +26,9 @@ export default function WineFilter({
     { id: 3, value: WineEnum.Sparkling },
   ];
 
+  const [winePrice, setWinePrice] = useState<WinePrice>();
+  const debouncedWinePrice = useDebounce(winePrice, 300);
+
   const wineRatings = [
     { id: 0, value: 0, label: "전체" },
     { id: 1, value: 5.0, label: "4.8 - 5.0" },
@@ -46,20 +51,20 @@ export default function WineFilter({
     });
   };
 
-  const handlePriceChange = useCallback(
-    (min: number, max: number) => {
-      if (
-        wineFilterValue.winePrice.min !== min ||
-        wineFilterValue.winePrice.max !== max
-      ) {
-        onFilterChange({
-          ...wineFilterValue,
-          winePrice: { min, max },
-        });
-      }
-    },
-    [onFilterChange, wineFilterValue],
-  );
+  const handlePriceChange = (min: number, max: number) => {
+    if (winePrice?.min !== min || winePrice.max !== max) {
+      setWinePrice({ min, max });
+    }
+  };
+
+  useEffect(() => {
+    if (debouncedWinePrice) {
+      onFilterChange({
+        ...wineFilterValue,
+        winePrice: debouncedWinePrice,
+      });
+    }
+  }, [debouncedWinePrice]);
 
   const handleResetClick = () => {
     onFilterChange({
@@ -93,10 +98,10 @@ export default function WineFilter({
       <div className="flex flex-col gap-6">
         <p className="text-xl-20px-bold">PRICE</p>
         <PriceRangeInput
-          minPrice={0}
-          maxPrice={100000}
           priceGap={10000}
-          onPriceChange={(min, max) => handlePriceChange(min, max)}
+          onPriceChange={handlePriceChange}
+          minValue={wineFilterValue.winePrice.min}
+          maxValue={wineFilterValue.winePrice.max}
           valueReset={reset}
         />
       </div>

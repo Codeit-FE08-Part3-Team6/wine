@@ -16,7 +16,7 @@ export default function WineDetailPage() {
   }, [router]);
 
   return (
-    <div className="relative mx-auto mb-40 mt-10 w-[343px] md:w-[704px] xl:w-[1140px]">
+    <div className="relative xl:mx-auto mb-40 mt-10 mx-10 xl:w-[1140px]">
       <GlobalNavBar />
       <WineDetailCard />
       <WineRatingStats />

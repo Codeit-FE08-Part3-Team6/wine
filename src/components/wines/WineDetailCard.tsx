@@ -43,7 +43,7 @@ export default function WineDetailCard() {
           />
         </div>
         <div>
-          <div className="mr-5 mt-[52px] flex w-[200px] flex-col gap-5 md:h-[111px] md:w-[300px] xl:mr-0">
+          <div className="mr-5 mt-[52px] flex w-[200px] flex-col gap-5 md:h-[111px] md:w-[438px] xl:mr-0">
             <h1 className="text-xl-20px-semibold font-semibold md:text-3xl">
               {data.name}
             </h1>

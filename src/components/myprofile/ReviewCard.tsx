@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import updateReview from "@/libs/axios/review/patchReview";
 import deleteReview from "@/libs/axios/review/deleteReview";
+import { MyProfileReview } from "@/types/review";
+import { useRouter } from "next/router";
 import Dropdown from "../@shared/DropDown";
 import Modal from "../@shared/Modal";
 import Button from "../@shared/Button";
@@ -10,36 +12,9 @@ import WineFlavorList from "../wines/WineFlavorList";
 import RatingInput from "../@shared/RatingInput";
 import { translateAroma, translateAromaReverse } from "../wines/TranslateAroma";
 
-interface Review {
-  id: number;
-  rating: number;
-  lightBold: number;
-  smoothTannic: number;
-  drySweet: number;
-  softAcidic: number;
-  aroma: string[];
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  user: {
-    id: number;
-    nickname: string;
-    image: string;
-  };
-  wine: {
-    id: number;
-    name: string;
-    region: string;
-    image: string;
-    price: number;
-    avgRating: number;
-    type: string;
-  };
-}
-
 interface ReviewCardProps {
-  review: Review;
-  onUpdate: (updatedReview: Review) => void;
+  review: MyProfileReview;
+  onUpdate: (updatedReview: MyProfileReview) => void;
   onDelete: () => void;
 }
 
@@ -80,6 +55,7 @@ export default function ReviewCard({
   onUpdate,
   onDelete,
 }: ReviewCardProps) {
+  const router = useRouter();
   const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeModifyButton, setActiveModifyButton] = useState(false);
@@ -124,7 +100,7 @@ export default function ReviewCard({
 
     try {
       const updatedReview = await updateReview(review.id, reviewData);
-      const completeReview: Review = {
+      const completeReview: MyProfileReview = {
         ...updatedReview,
         id: review.id,
         createdAt: review.createdAt,
@@ -157,6 +133,10 @@ export default function ReviewCard({
     } catch (error) {
       console.error("리뷰 삭제하기 오류:", error);
     }
+  };
+
+  const navigateToWineDetail = () => {
+    router.push(`/wines/${review.wine.id}`);
   };
 
   return (
@@ -210,14 +190,17 @@ export default function ReviewCard({
             </button>
           </Dropdown>
         </div>
-        <div className="flex w-full flex-col gap-[10px]">
+        <button
+          onClick={navigateToWineDetail}
+          className="flex w-full flex-col gap-[10px]"
+        >
           <div className="text-md-14px-medium text-light-gray-500 md:text-lg-16px-medium">
             {review.wine.name}
           </div>
           <div className="text-md-14px-regular text-light-gray-800 md:text-lg-16px-regular">
             {review.content}
           </div>
-        </div>
+        </button>
       </div>
 
       <Modal isOpen={isModifyModalOpen} onClose={handleCloseModifyModal}>

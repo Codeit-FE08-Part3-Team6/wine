@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { WineEnum } from "@/types/wines";
+import { MyProfileWine, WineEnum } from "@/types/wines";
 import postImage from "@/libs/axios/image/postImage";
 import updateWine from "@/libs/axios/wine/patchWine";
 import deleteWine from "@/libs/axios/wine/deleteWine";
+import { useRouter } from "next/router";
 import Dropdown from "../@shared/DropDown";
 import Modal from "../@shared/Modal";
 import Button from "../@shared/Button";
@@ -11,38 +12,14 @@ import Input from "../@shared/Input";
 import FileInput from "../@shared/FileInput";
 import InputSelect from "../@shared/InputSelect";
 
-interface Wine {
-  id: number;
-  name: string;
-  region: string;
-  image: string;
-  price: number;
-  type: string;
-  avgRating: number;
-  reviewCount: number;
-  recentReview: {
-    user: {
-      id: number;
-      nickname: string;
-      image: string;
-    };
-    updatedAt: string;
-    createdAt: string;
-    content: string;
-    aroma: string[];
-    rating: number;
-    id: number;
-  };
-  userId: number;
-}
-
 interface WineCardProps {
-  wine: Wine;
-  onUpdate: (updatedWine: Wine) => void;
+  wine: MyProfileWine;
+  onUpdate: (updatedWine: MyProfileWine) => void;
   onDelete: () => void;
 }
 
 export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
+  const router = useRouter();
   const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeModifyButton, setActiveModifyButton] = useState(false);
@@ -124,7 +101,7 @@ export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
       const patchWineValue = { ...wineValue, image: imgUrl };
       console.log("patchWineValue:", patchWineValue);
       const result = await updateWine(wine.id, patchWineValue);
-      const completeWine: Wine = {
+      const completeWine: MyProfileWine = {
         ...result,
         id: wine.id,
         avgRating: wine.avgRating,
@@ -149,23 +126,33 @@ export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
     }
   };
 
+  const navigateToWineDetail = () => {
+    router.push(`/wines/${wine.id}`);
+  };
+
   return (
     <div className="relative mt-[16px] flex h-[185px] w-full flex-col-reverse md:mt-[20px] md:h-[270px]">
-      <div className="absolute left-[20px] z-10 h-[185px] w-[53px] md:left-[60px] md:h-[270px] md:w-[76px]">
+      <button
+        onClick={navigateToWineDetail}
+        className="absolute left-[20px] z-10 h-[185px] w-[53px] md:left-[60px] md:h-[270px] md:w-[76px]"
+      >
         <Image fill objectFit="cover" src={wine.image} alt="와인 이미지" />
-      </div>
+      </button>
       <div className="absolute left-[93px] top-[133px] z-10 flex items-center justify-center rounded-[10px] bg-light-purple-10 px-[10px] py-[6px] text-md-14px-bold text-light-purple-100 md:left-[176px] md:top-[203px] md:rounded-[12px] md:px-[15px] md:py-[8px] md:text-2lg-18px-bold">
         ₩ {wine.price.toLocaleString()}
       </div>
       <div className="absolute left-[93px] right-[20px] top-[41px] z-10 flex h-[87px] w-[230px] justify-between md:left-[176px] md:right-[40px] md:top-[72px] md:h-[111px] md:w-[488px] xl:w-[584px]">
-        <div className="flex flex-col gap-[20px]">
+        <button
+          onClick={navigateToWineDetail}
+          className="flex w-full flex-col gap-[20px]"
+        >
           <div className="text-[20px] font-semibold leading-[24px] text-light-gray-800 md:text-[30px] md:leading-[36px]">
             {wine.name}
           </div>
-          <div className="text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
+          <div className="text-start text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
             {wine.region}
           </div>
-        </div>
+        </button>
         <div className="flex flex-col">
           <Dropdown
             buttonChildren={

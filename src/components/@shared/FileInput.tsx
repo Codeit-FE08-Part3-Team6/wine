@@ -94,11 +94,16 @@ export default function FileInput({
       }
 
       // 이미지 파일 비율 검사
-      const isRatioValid = await imageRatioValidCheck(currentImgFile);
-      if (!isRatioValid) {
-        alert(
-          "이미지 비율이 올바르지 않습니다. (권장 가로 : 세로 = 19 : 65)\n추천 사이즈 : 가로 119px, 세로 390px",
-        );
+      try {
+        const isRatioValid = await imageRatioValidCheck(currentImgFile);
+        if (!isRatioValid) {
+          alert(
+            "이미지 비율이 올바르지 않습니다. (권장 가로 : 세로 = 19 : 65)\n추천 사이즈 : 가로 119px, 세로 390px",
+          );
+          return;
+        }
+      } catch (error) {
+        console.error(error);
         return;
       }
 

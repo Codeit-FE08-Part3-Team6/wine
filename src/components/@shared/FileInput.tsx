@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 
 interface FileInputProps {
   id: string;
@@ -33,8 +33,43 @@ export default function FileInput({
     return imageExtensions.includes(extension);
   };
 
+  // image file ratio checker -> 이미지가 로드 되기전에 함수가 끝나버려서 무조건 false를 뱉음
+  const imageRatioValidCheck = async (currentImgFile: File) => {
+    let isRatioValid = false;
+
+    const { width, height } = await new Promise<{
+      width: number;
+      height: number;
+    }>((resolve, reject) => {
+      const image = new Image();
+      const objectUrl = URL.createObjectURL(currentImgFile);
+      image.src = objectUrl;
+
+      image.onload = () => {
+        const imageSize = { width: image.width, height: image.height };
+        URL.revokeObjectURL(objectUrl);
+        resolve(imageSize);
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error("image failed to load"));
+      };
+    });
+
+    if (width / height <= 0.3 && width / height >= 0.28) {
+      isRatioValid = true;
+    }
+
+    console.log("width: ", width);
+    console.log("height: ", height);
+    console.log("isRatioValid", isRatioValid);
+    console.log("----------------------------");
+
+    return isRatioValid;
+  };
+
   // file input change handler
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!hasPreview) return;
 
     // 파일 선택창을 눌렀다가 취소하는 경우에 선택된 파일을 전부 제거
@@ -57,6 +92,14 @@ export default function FileInput({
         return;
       }
 
+      const isRatioValid = await imageRatioValidCheck(currentImgFile);
+      if (!isRatioValid) {
+        alert(
+          "이미지 비율이 올바르지 않습니다. (권장 가로 : 세로 = 19 : 65)\n추천 사이즈 : 가로 119px, 세로 390px",
+        );
+        return;
+      }
+
       onChangeImage(currentImgFile);
       setPreviewImg(URL.createObjectURL(currentImgFile));
     }
@@ -74,7 +117,7 @@ export default function FileInput({
       <div className="flex gap-3">
         <label htmlFor={id} className="cursor-pointer">
           <div className="flex h-[120px] w-[120px] items-center justify-center rounded-xl border-[1px] border-solid border-light-gray-300 md:h-[140px] md:w-[140px] md:rounded-2xl">
-            <Image
+            <NextImage
               width={32}
               height={32}
               src="/images/ic_camera.png"
@@ -84,7 +127,7 @@ export default function FileInput({
         </label>
         {hasPreview && previewImg && (
           <div className="relative h-[120px] w-[120px] md:h-[140px] md:w-[140px]">
-            <Image
+            <NextImage
               fill
               className="rounded-xl object-contain"
               src={previewImg}
@@ -95,7 +138,7 @@ export default function FileInput({
               onClick={handleDelBtnClick}
               className="absolute right-1 top-1"
             >
-              <Image
+              <NextImage
                 width={20}
                 height={20}
                 src="images/icon/close.svg"

@@ -1,3 +1,5 @@
+import { Router } from "next/router";
+
 export interface WineData {
   id: number;
   name: string;
@@ -20,6 +22,7 @@ export interface WineReview {
   softAcidic: number;
   aroma: string[];
   content: string;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   user: {
@@ -43,6 +46,19 @@ export interface WineFlavorRangeProps {
   typeOne: string;
   typeTwo: string;
   value?: number;
+}
+
+export interface WineReviewModalProps {
+  isOpen: boolean;
+  handleModal: () => void;
+  value?: number;
+  reviewType: string;
+  reviewName: string;
+}
+
+export interface WineIdDataProps {
+  router?: Router;
+  data: WineData;
 }
 
 export enum WineEnum {

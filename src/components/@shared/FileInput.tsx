@@ -33,7 +33,7 @@ export default function FileInput({
     return imageExtensions.includes(extension);
   };
 
-  // image file ratio checker -> 이미지가 로드 되기전에 함수가 끝나버려서 무조건 false를 뱉음
+  // image file ratio checker
   const imageRatioValidCheck = async (currentImgFile: File) => {
     let isRatioValid = false;
 
@@ -87,11 +87,13 @@ export default function FileInput({
 
       if (!currentImgFile) return;
 
+      // 이미지 파일 확장자 검사
       if (!imageExtensionValidCheck(currentImgFile.name)) {
         alert("이미지 확장자는 jpg, jpeg, png, bmp, webp만 가능합니다!");
         return;
       }
 
+      // 이미지 파일 비율 검사
       const isRatioValid = await imageRatioValidCheck(currentImgFile);
       if (!isRatioValid) {
         alert(

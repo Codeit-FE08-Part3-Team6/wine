@@ -8,20 +8,7 @@ export default function Carousel({ children }: CarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesLength = React.Children.count(children);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (currentSlide === slidesLength - 1) {
-        setCurrentSlide(0);
-        return;
-      }
-
-      setCurrentSlide((prevCurrentSlide) => prevCurrentSlide + 1);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [currentSlide]);
-
-  const handleRightBtnClick = () => {
+  const changeSlideRight = () => {
     if (currentSlide === slidesLength - 1) {
       setCurrentSlide(0);
       return;
@@ -30,13 +17,29 @@ export default function Carousel({ children }: CarouselProps) {
     setCurrentSlide((prevCurrentSlide) => prevCurrentSlide + 1);
   };
 
-  const handleLeftBtnClick = () => {
+  const changeSlideLeft = () => {
     if (currentSlide === 0) {
       setCurrentSlide(slidesLength - 1);
       return;
     }
 
     setCurrentSlide((prevCurrentSlide) => prevCurrentSlide - 1);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      changeSlideRight();
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentSlide]);
+
+  const handleRightBtnClick = () => {
+    changeSlideRight();
+  };
+
+  const handleLeftBtnClick = () => {
+    changeSlideLeft();
   };
 
   return (

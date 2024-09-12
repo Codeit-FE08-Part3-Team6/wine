@@ -5,13 +5,12 @@ import WineRatingStats from "@/components/wines/WineRatingStats";
 import { useRouter } from "next/router";
 import { Router } from "next/dist/client/router"
 import { useEffect, useState } from "react";
-import { WineData, WineReview } from "@/types/wines";
+import { WineData } from "@/types/wines";
 import getWineById from "@/libs/axios/wine/getWineById";
 import getReviewById from "@/libs/axios/review/getReviewById";
 
 export default function WineDetailPage() {
   const [data, setData] = useState<WineData | null>(null);
-  const [reviews, setReviews] = useState<WineReview[]>([]);
   const router = useRouter() as Router;
   const { id } = router.query;
 
@@ -30,11 +29,9 @@ export default function WineDetailPage() {
           setData(wineData);
 
           if (wineData.reviews.length > 0) {
-            const reviewPromises = wineData.reviews.map((review) =>
+            wineData.reviews.map((review) =>
               getReviewById(review.id),
             );
-            const reviewsData: WineReview[] = await Promise.all(reviewPromises);
-            setReviews(reviewsData);
           } else {
             console.error("리뷰 ID를 찾을 수 없습니다.");
           }
@@ -58,7 +55,7 @@ export default function WineDetailPage() {
       <GlobalNavBar />
       <WineDetailCard router={router} data={data}/>
       <WineRatingStats data={data}/>
-      <WinesReviewSection data={data} reviews={reviews} />
+      <WinesReviewSection data={data} />
     </div>
   );
 }

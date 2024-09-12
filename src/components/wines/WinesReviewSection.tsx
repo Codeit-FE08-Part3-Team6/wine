@@ -20,7 +20,7 @@ import DownArrow from "../../../public/images/icons/down_arrow.svg";
 import SelectStar from "../../../public/images/icons/select_star.svg";
 import UpArrow from "../../../public/images/icons/up_arrow.svg";
 
-export default function WinesReviewSection({data, reviews}: WineIdDataProps) {
+export default function WinesReviewSection({data}: WineIdDataProps) {
   const [likedReviews, setLikedReviews] = useState<Record<number, boolean>>({});
   const [expandedReviews, setExpandedReviews] = useState<
     Record<number, boolean>
@@ -135,7 +135,7 @@ export default function WinesReviewSection({data, reviews}: WineIdDataProps) {
           </div>
         </>
       ) : (
-        reviews?.slice(0, visibleReviews).map((review) => {
+        data.reviews.slice(0, visibleReviews).map((review) => {
           const translatedAromas = translateAromaReverse(review.aroma);
           const isExpanded = expandedReviews[review.id] || false;
           const isModalOpen = isDeleteOpen[review.id] || false;

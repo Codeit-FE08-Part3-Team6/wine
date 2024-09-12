@@ -59,7 +59,6 @@ export interface WineReviewModalProps {
 export interface WineIdDataProps {
   router?: Router;
   data: WineData;
-  reviews?: WineReview[];
 }
 
 export enum WineEnum {

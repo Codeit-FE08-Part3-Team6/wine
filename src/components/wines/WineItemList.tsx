@@ -21,12 +21,6 @@ function WineItemCard({ wine }: WineProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      // if (window.innerWidth <= MEDIA_QUERY_BREAK_POINT.MOBILE_MAX_WIDTH) {
-
-      // } else {
-      //   setDisplayName(wine.name);
-      // }
-
       if (wine.recentReview?.content === undefined) return;
 
       if (window.innerWidth < MEDIA_QUERY_BREAK_POINT.TABLET_MIN_WIDTH) {

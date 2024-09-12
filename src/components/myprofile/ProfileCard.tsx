@@ -80,7 +80,9 @@ export default function ProfileCard({ user, updateMe }: ProfileCardProps) {
           </button>
           <div className="flex w-[135px] flex-col gap-[4px] md:w-[155px] md:gap-[8px] xl:items-center xl:gap-[16px]">
             <div className="flex items-center text-xl-20px-bold text-light-gray-800 md:text-2xl-24px-bold">
-              {user.nickname}
+              {user.nickname.length > 13
+                ? `${user.nickname.slice(0, 13)}...`
+                : user.nickname}
             </div>
             <div className="flex items-center justify-center text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
               {userEmail}

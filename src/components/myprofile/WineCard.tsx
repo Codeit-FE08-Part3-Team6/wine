@@ -147,10 +147,12 @@ export default function WineCard({ wine, onUpdate, onDelete }: WineCardProps) {
           className="flex w-full flex-col gap-[20px]"
         >
           <div className="text-[20px] font-semibold leading-[24px] text-light-gray-800 md:text-[30px] md:leading-[36px]">
-            {wine.name}
+            {wine.name.length > 10 ? `${wine.name.slice(0, 10)}...` : wine.name}
           </div>
           <div className="text-start text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
-            {wine.region}
+            {wine.region.length > 30
+              ? `${wine.region.slice(0, 30)}...`
+              : wine.region}
           </div>
         </button>
         <div className="flex flex-col">

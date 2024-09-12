@@ -22,7 +22,7 @@ export default function WineDetailCard({ router, data }: WineIdDataProps) {
         </div>
         <div>
           <div className="mr-5 mt-[52px] flex w-[200px] flex-col gap-5 md:h-[111px] md:w-[438px] xl:mr-0">
-            <h1 className="text-xl-20px-semibold font-semibold md:text-3xl">
+            <h1 className="max-h-24 md:max-h-[72px] text-xl-20px-semibold font-semibold md:text-3xl overflow-hidden">
               {data.name}
             </h1>
             <p className="text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">

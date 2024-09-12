@@ -48,7 +48,10 @@ export default function FileInput({
     if (e.target?.files) {
       const currentImgFile = e.target.files[0];
 
+      e.target.value = "";
+
       if (!currentImgFile) return;
+
       if (!imageExtensionValidCheck(currentImgFile.name)) {
         alert("이미지 확장자는 jpg, jpeg, png, bmp, webp만 가능합니다!");
         return;

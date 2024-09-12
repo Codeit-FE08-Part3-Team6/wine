@@ -24,7 +24,7 @@ export default function FileInput({
   const [previewImg, setPreviewImg] = useState<string | null>(initialImage);
 
   // image file extension checker
-  const imageExtensionCheck = (fileName: string) => {
+  const imageExtensionValidCheck = (fileName: string) => {
     const imageExtensions = ["jpg", "jpeg", "png", "bmp", "webp"];
     const extension = fileName.split(".").pop()?.toLowerCase();
 
@@ -48,7 +48,11 @@ export default function FileInput({
     if (e.target?.files) {
       const currentImgFile = e.target.files[0];
 
-      if (!currentImgFile || !imageExtensionCheck(currentImgFile.name)) return;
+      if (!currentImgFile) return;
+      if (!imageExtensionValidCheck(currentImgFile.name)) {
+        alert("이미지 확장자는 jpg, jpeg, png, bmp, webp만 가능합니다!");
+        return;
+      }
 
       onChangeImage(currentImgFile);
       setPreviewImg(URL.createObjectURL(currentImgFile));
@@ -79,7 +83,7 @@ export default function FileInput({
           <div className="relative h-[120px] w-[120px] md:h-[140px] md:w-[140px]">
             <Image
               fill
-              className="rounded-xl object-cover"
+              className="rounded-xl object-contain"
               src={previewImg}
               alt="프리뷰 이미지"
             />

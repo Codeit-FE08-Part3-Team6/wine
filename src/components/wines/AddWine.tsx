@@ -149,6 +149,7 @@ export default function AddWine({ onClose, onAddWine }: Props) {
                   placeholder="와인 이름 입력"
                   value={wineValue.name}
                   onChange={handleWineValueChange}
+                  isErrored={textError.name}
                 />
                 {textError.name && (
                   <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">
@@ -172,6 +173,7 @@ export default function AddWine({ onClose, onAddWine }: Props) {
                   type="number"
                   value={wineValue.price === 0 ? "" : wineValue.price}
                   onChange={handleWineValueChange}
+                  isErrored={textError.price}
                 />
                 {textError.price && (
                   <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">
@@ -194,6 +196,7 @@ export default function AddWine({ onClose, onAddWine }: Props) {
                   placeholder="원산지 입력"
                   value={wineValue.region}
                   onChange={handleWineValueChange}
+                  isErrored={textError.region}
                 />
                 {textError.region && (
                   <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">

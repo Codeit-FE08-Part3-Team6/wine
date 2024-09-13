@@ -189,7 +189,7 @@ export default function WinesReviewSection({data}: WineIdDataProps) {
                     height={64}
                   />
                   <div className="flex flex-col justify-center md:gap-1">
-                    <p className="max-w-[140px] md:max-w-[480px] overflow-clip text-lg-16px-semibold text-light-gray-800 md:text-2lg-18px-semibold">
+                    <p className="max-w-[140px] md:max-w-[480px] truncate text-lg-16px-semibold text-light-gray-800 md:text-2lg-18px-semibold">
                       {review.user.nickname}
                     </p>
                     <p className="text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
@@ -198,7 +198,7 @@ export default function WinesReviewSection({data}: WineIdDataProps) {
                   </div>
                 </div>
                 <div
-                  className="flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6"
+                  className="min-w-[38px] flex h-8 w-[82px] flex-row-reverse items-start gap-[18px] md:h-[38px] md:w-[100px] md:gap-6"
                 >
                   <Image
                     role="button"

@@ -6,18 +6,18 @@ import { useAuth } from "@/contexts/AuthProvider";
 import Dropdown from "./DropDown";
 
 function ProfileImg() {
-  const router = useRouter();
+  // const router = useRouter();
   const { user, logout } = useAuth();
 
   const handleLogoutBtnClick = () => {
     logout();
 
     // 로그아웃 시 redirection
-    if (router.pathname === "/myprofile") {
-      router.push("/");
-    } else if (router.pathname === "/wines/[id]") {
-      router.push("/");
-    }
+    // if (router.pathname === "/myprofile") {
+    //   router.push("/");
+    // } else if (router.pathname === "/wines/[id]") {
+    //   router.push("/");
+    // }
   };
 
   return (

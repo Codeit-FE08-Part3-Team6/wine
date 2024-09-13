@@ -35,10 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# api test
+*.http
+
 # vscode
 .vscode
 
-# api test
-*.http
+# intellij
 /.idea/
 /wine.iml

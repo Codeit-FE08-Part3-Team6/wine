@@ -22,10 +22,10 @@ export default function WineDetailCard({ router, data }: WineIdDataProps) {
         </div>
         <div>
           <div className="mr-5 mt-[52px] flex w-[200px] flex-col gap-5 md:h-[118px] md:w-[438px] xl:mr-0">
-            <h1 className="max-h-24 md:max-h-[72px] text-xl-20px-semibold font-semibold md:text-3xl overflow-hidden">
+            <h1 className="line-clamp-3 md:line-clamp-2 text-xl-20px-semibold font-semibold md:text-3xl overflow-hidden">
               {data.name}
             </h1>
-            <p className="truncate text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
+            <p className="line-clamp-1 truncate text-md-14px-regular text-light-gray-500 md:text-lg-16px-regular">
               {data.region}
             </p>
           </div>

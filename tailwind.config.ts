@@ -9,10 +9,12 @@ module.exports = {
         sans: ["Pretendard Variable", "sans-serif"],
       },
       backgroundImage: {
-        "unselect-star": "url('/images/icon/unselect_star.svg')",
-        "select-star": "url('/images/icon/select_star.svg')",
+        "unselect-star": "url('/images/icons/unselect_star.svg')",
+        "select-star": "url('/images/icons/select_star.svg')",
       },
       screens: {
+        "max-xl": { max: "1200px" },
+        "max-md": { max: "768px" },
         md: "768px",
         xl: "1200px",
       },

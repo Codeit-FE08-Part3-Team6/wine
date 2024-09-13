@@ -1,3 +1,5 @@
+import { Router } from "next/router";
+
 export interface WineData {
   id: number;
   name: string;
@@ -20,6 +22,7 @@ export interface WineReview {
   softAcidic: number;
   aroma: string[];
   content: string;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   user: {
@@ -34,6 +37,7 @@ export interface WineFlavorInputRangeProps {
   flavor: string;
   typeOne: string;
   typeTwo: string;
+  value?: number;
   onChange?: (value: number) => void | undefined;
 }
 
@@ -44,12 +48,26 @@ export interface WineFlavorRangeProps {
   value?: number;
 }
 
+export interface WineReviewModalProps {
+  isOpen: boolean;
+  handleModal: () => void;
+  value?: number;
+  reviewType: string;
+  reviewName: string;
+}
+
+export interface WineIdDataProps {
+  router?: Router;
+  data: WineData;
+}
+
 export enum WineEnum {
   Red = "RED",
   White = "WHITE",
   Sparkling = "SPARKLING",
 }
-interface WinePrice {
+
+export interface WinePrice {
   min: number;
   max: number;
 }
@@ -79,14 +97,45 @@ export interface PostWineDetails {
 
 export interface Wine extends PostWineDetails {
   id: number;
-  avgRating: number | null;
-  reviewerCount: number | null;
+  avgRating: number;
+  reviewCount: number | null;
   recentReview: RecentReview | null;
+  nextCursor?: number;
 }
 
 export interface WineFilterProps {
   wineType: WineEnum;
   winePrice: WinePrice;
-  wineRating: string;
-  wineName: string;
+  wineRating: number;
+}
+
+export interface MyProfileWine {
+  id: number;
+  name: string;
+  region: string;
+  image: string;
+  price: number;
+  type: string;
+  avgRating: number;
+  reviewCount: number;
+  recentReview: {
+    user: {
+      id: number;
+      nickname: string;
+      image: string;
+    };
+    updatedAt: string;
+    createdAt: string;
+    content: string;
+    aroma: string[];
+    rating: number;
+    id: number;
+  };
+  userId: number;
+}
+
+export interface MyProfileWineData {
+  totalCount: number;
+  nextCursor: number;
+  list: MyProfileWine[];
 }

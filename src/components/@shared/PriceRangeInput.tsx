@@ -1,59 +1,64 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 interface PriceRangeInputProps {
-  minPrice?: number;
-  maxPrice?: number;
   priceGap?: number;
-  onPriceChange?: (min: number, max: number) => void;
+  minPrice: number;
+  maxPrice: number;
+  minValue: number;
+  maxValue: number;
+  onPriceChange: (min: number, max: number) => void;
 }
 
-const DEFAULT_MIN_PRICE = 0;
-const DEFAULT_MAX_PRICE = 100000;
+// const MIN_PRICE = 0;
+// const MAX_PRICE = 100000;
 const DEFAULT_PRICE_GAP = 30000;
 
 /**
- * PriceRangeInput 컴포넌트는 가격 범위(최소, 최대)를 설정하는 슬라이더
+ * PriceRangeInput
  *
  * // (주의사항) 페이지 또는 모달에 사용할 때 width, height를 지정해준 div 태그로 감싸서 사용해주세요.
  *
  * // 사용법
  * <PriceRangeInput
- *    minPrice={10000}
- *    maxPrice={200000}
+ *
+ *    minValue={minValue}
+ *    maxValue={maxValue}
  *    priceGap={30000}
- *    onPriceChange={(min, max) => console.log(`최소: ${min}, 최대: ${max}`)}
+ *    onPriceChange={changeEvent}
  * />
  */
 export default function PriceRangeInput({
-  minPrice = DEFAULT_MIN_PRICE,
-  maxPrice = DEFAULT_MAX_PRICE,
   priceGap = DEFAULT_PRICE_GAP,
+  minPrice,
+  maxPrice,
+  minValue,
+  maxValue,
   onPriceChange,
 }: PriceRangeInputProps) {
-  const [minValue, setMinValue] = useState(minPrice);
-  const [maxValue, setMaxValue] = useState(maxPrice);
-
   useEffect(() => {
     const progress = document.querySelector<HTMLElement>(".slider .progress");
 
     if (progress) {
-      progress.style.left = `${(minValue / maxPrice) * 100}%`;
-      progress.style.right = `${100 - (maxValue / maxPrice) * 100}%`;
-    }
+      const minPercent = ((minValue - minPrice) / (maxPrice - minPrice)) * 100;
+      const maxPercent = ((maxValue - minPrice) / (maxPrice - minPrice)) * 100;
 
-    if (onPriceChange) {
-      onPriceChange(minValue, maxValue);
+      progress.style.left = `${minPercent}%`;
+      progress.style.right = `${100 - maxPercent}%`;
     }
-  }, [minValue, maxValue, maxPrice, onPriceChange]);
+  }, [minValue, maxValue]);
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(Number(e.target.value), maxValue - priceGap);
-    setMinValue(value);
+    onPriceChange(
+      Math.min(Number(e.target.value), maxValue - priceGap),
+      maxValue,
+    );
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(Number(e.target.value), minValue + priceGap);
-    setMaxValue(value);
+    onPriceChange(
+      minValue,
+      Math.max(Number(e.target.value), minValue + priceGap),
+    );
   };
 
   return (
@@ -73,8 +78,8 @@ export default function PriceRangeInput({
             <input
               type="range"
               className="range-min"
-              min={DEFAULT_MIN_PRICE}
-              max={DEFAULT_MAX_PRICE}
+              min={minPrice}
+              max={maxPrice}
               value={minValue}
               step={1000}
               onChange={handleMinChange}
@@ -82,8 +87,8 @@ export default function PriceRangeInput({
             <input
               type="range"
               className="range-max"
-              min={DEFAULT_MIN_PRICE}
-              max={DEFAULT_MAX_PRICE}
+              min={minPrice}
+              max={maxPrice}
               value={maxValue}
               step={1000}
               onChange={handleMaxChange}
@@ -132,12 +137,13 @@ export default function PriceRangeInput({
 
           .min-label {
             transform: translateX(-20%);
-            left: ${(minValue / DEFAULT_MAX_PRICE) * 100}%;
+            top: 12px;
+            left: ${(minValue / maxPrice) * 100}%;
           }
 
           .max-label {
             transform: translateX(-70%);
-            left: ${(maxValue / DEFAULT_MAX_PRICE) * 100}%;
+            left: ${(maxValue / maxPrice) * 100}%;
           }
         `}
       </style>

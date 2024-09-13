@@ -47,8 +47,10 @@ export default function Dropdown({
   }, [isVisible]);
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
+        className="flex w-full"
+        type="button"
         onClick={() => {
           setIsVisible();
         }}
@@ -56,8 +58,9 @@ export default function Dropdown({
         {buttonChildren}
       </button>
       {isVisible && (
-        <ul
-          className={`absolute right-0 top-[calc(100%+6px)] z-40 m-0 flex flex-col items-center justify-center rounded-2xl border border-light-gray-300 bg-light-white px-1 py-1 ${width}`}
+        <button
+          className={`absolute right-0 top-[calc(100%+6px)] z-40 m-0 flex flex-col items-center justify-center rounded-2xl border border-solid border-light-gray-300 bg-light-white px-1 py-1 ${width}`}
+          onClick={() => setIsVisible()}
         >
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
@@ -70,7 +73,7 @@ export default function Dropdown({
             }
             return child;
           })}
-        </ul>
+        </button>
       )}
     </div>
   );

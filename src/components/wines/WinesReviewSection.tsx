@@ -175,7 +175,7 @@ export default function WinesReviewSection({data}: WineIdDataProps) {
                 reviewType="patch"
                 reviewName="수정하기"
               />
-              <div className="flex justify-between">
+              <div className="w-full flex justify-between">
                 <div className="flex gap-4">
                   <Image
                     className="max-h-[50px] max-w-[50px] rounded-full object-cover md:max-h-[64px] md:max-w-[64px]"

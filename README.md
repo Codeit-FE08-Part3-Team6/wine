@@ -71,10 +71,10 @@
 │   │   ├── 📁@shared/            # 공통 컴포넌트
 │   │   │   ├── GlobalNavBar.tsx
 │   │   │   └── Modal.tsx
-│   │   ├── 📁auth/            # 로그인, 회원가입 페이지에 들어갈 컴포넌트 모음
+│   │   ├── 📁auth/               # 로그인, 회원가입 페이지에 들어갈 컴포넌트 모음
 │   │   │   ├── AuthLabel.tsx
 │   │   │   └── GoogleOauthButton.tsx
-│   │   └── 📁wines/             # 와인 목록/상세 페이지에 들어갈 컴포넌트 모음
+│   │   └── 📁wines/              # 와인 목록/상세 페이지에 들어갈 컴포넌트 모음
 │   │       ├── AddWine.tsx
 │   │       └── WineItemList.tsx
 │   │
@@ -107,7 +107,7 @@
 │   ├── 📁hooks/                  # 커스텀 React 훅
 │   │
 │   ├── 📁types/                  # 타입 폴더 (DTO 혹은 전역적으로 사용되는 type을 미리 정의)
-│   │                           # 컴포넌트 props의 경우에는 해당 컴포넌트 위치에 정의
+│   │                             # 컴포넌트 props의 경우에는 해당 컴포넌트 위치에 정의
 │   │
 │   ├── 📁styles/                 # 스타일 관련 파일 모음
 │   │   └── global.css
@@ -118,7 +118,7 @@
 │   └── 📁utils/                  # 유틸리티 폴더
 │
 ├─ .gitignore
-├─ .env.local                   # 각자 환경에서 별도 생성 필요
+├─ .env.local                     # 각자 환경에서 별도 생성 필요
 ├─ .eslintrc.json
 ├─ .prettierrc.json
 ├─ next.confing.mjs

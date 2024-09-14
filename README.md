@@ -1,7 +1,9 @@
+![header](https://capsule-render.vercel.app/api?type=waving&color=6A42DB&height=250&section=header&text=🍷%20WINE&fontSize=80&fontAlignY=40&fontColor=ffffff)
+
 # 🍷 WINE
 코드잇에서 주관하는 와인 관리 애플리케이션 프로젝트입니다. 
 
-<img width="786" alt="image" src="https://github.com/user-attachments/assets/054fdb8a-3743-49a2-b714-87f3d40e4050">
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/054fdb8a-3743-49a2-b714-87f3d40e4050">
 
 ## 📑 목차
 > **[프로젝트 소개](#프로젝트-소개)**
@@ -30,11 +32,21 @@
 
 ## 👨‍👨‍👦‍👦 <a name="개발자-소개"/>개발자 소개 
 
-- 김종화 : 와인 상세 페이지 
-- 이형준 : 랜딩 페이지 / 팀장 👑
-- 손재헌 : 로그인, 회원가입 페이지
-- 장혁수 : 마이 페이지
-- 정인재 : 와인 목록 페이지
+- **김종화 (@KJongHwa)** : 와인 상세 페이지 
+
+ [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=KJongHwa)](https://github.com/anuraghazra/github-readme-stats)
+- **이형준 (@leehj322)** : 랜딩 페이지 / 팀장 👑
+  
+ [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=leehj322)](https://github.com/anuraghazra/github-readme-stats)
+- **손재헌  (Jaeheon96)** : 로그인, 회원가입 페이지
+
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Jaeheon96)](https://github.com/anuraghazra/github-readme-stats)
+- **장혁수 (@hyeoksuJ)** : 마이 페이지
+
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=hyeoksuJ)](https://github.com/anuraghazra/github-readme-stats)
+- **정인재 (@Injaeeee)** : 와인 목록 페이지
+
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Injaeeee)](https://github.com/anuraghazra/github-readme-stats)
 
 ## 📃 <a name="상세-계획"/>상세 계획과 일정
 

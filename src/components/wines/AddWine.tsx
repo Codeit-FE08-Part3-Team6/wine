@@ -31,8 +31,39 @@ export default function AddWine({ onClose, onAddWine }: Props) {
     { id: 3, value: WineEnum.Sparkling },
   ];
 
+  const [textError, setTextError] = useState({
+    name: false,
+    region: false,
+    price: false,
+  });
+
   const handleWineValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
+
+    if (id === "name") {
+      if (value.length > 40) {
+        setTextError((prev) => ({ ...prev, name: true }));
+        return;
+      }
+      setTextError((prev) => ({ ...prev, name: false }));
+    }
+
+    if (id === "price") {
+      if (Number(value) > 10000000) {
+        setTextError((prev) => ({ ...prev, price: true }));
+        return;
+      }
+      setTextError((prev) => ({ ...prev, price: false }));
+    }
+
+    if (id === "region") {
+      if (value.length > 40) {
+        setTextError((prev) => ({ ...prev, region: true }));
+        return;
+      }
+
+      setTextError((prev) => ({ ...prev, region: false }));
+    }
 
     setWineValue((prevWineValue) => ({
       ...prevWineValue,
@@ -95,47 +126,91 @@ export default function AddWine({ onClose, onAddWine }: Props) {
   }, [wineValue, imageFile]);
 
   return (
-    <div className="z-50 h-[871px] w-[460px] rounded-3xl bg-light-white p-6">
-      <article className="flex flex-col gap-10">
-        <span className="text-2xl-24px-bold">와인 등록</span>
-        <form className="flex flex-col gap-10" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-4">
-              <label htmlFor="name" className="text-lg-16px-medium">
+    <div className="z-50 h-[871px] w-[460px] rounded-3xl bg-light-white max-md:h-full max-md:w-[350px]">
+      <article className="flex flex-col gap-8 p-10 max-md:gap-2">
+        <span className="text-2xl-24px-bold max-md:text-xl-20px-bold">
+          와인 등록
+        </span>
+        <form
+          className="flex flex-col gap-7 max-md:gap-3"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col gap-6 max-md:gap-3">
+            <div className="flex flex-col gap-4 max-md:gap-2">
+              <label
+                htmlFor="name"
+                className="text-lg-16px-medium max-md:text-md-14px-medium"
+              >
                 와인 이름
               </label>
-              <Input
-                id="name"
-                placeholder="와인 이름 입력"
-                onChange={handleWineValueChange}
-              />
+              <div className="relative flex flex-col gap-4">
+                <Input
+                  id="name"
+                  placeholder="와인 이름 입력"
+                  value={wineValue.name}
+                  onChange={handleWineValueChange}
+                  isErrored={textError.name}
+                />
+                {textError.name && (
+                  <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">
+                    와인 이름은 최대 40자까지 입력할 수 있습니다.
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <label htmlFor="price" className="text-lg-16px-medium">
+            <div className="flex flex-col gap-4 max-md:gap-2">
+              <label
+                htmlFor="price"
+                className="text-lg-16px-medium max-md:text-md-14px-medium"
+              >
                 가격
               </label>
-              <Input
-                id="price"
-                placeholder="가격 입력"
-                type="number"
-                onChange={handleWineValueChange}
-              />
+              <div className="relative flex flex-col gap-4">
+                <Input
+                  id="price"
+                  placeholder="가격 입력"
+                  type="number"
+                  value={wineValue.price === 0 ? "" : wineValue.price}
+                  onChange={handleWineValueChange}
+                  isErrored={textError.price}
+                />
+                {textError.price && (
+                  <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">
+                    와인 가격은 최대 1000만원까지 입력할 수 있습니다.
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <label htmlFor="region" className="text-lg-16px-medium">
+            <div className="flex flex-col gap-4 max-md:gap-2">
+              <label
+                htmlFor="region"
+                className="text-lg-16px-medium max-md:text-md-14px-medium"
+              >
                 원산지
               </label>
-              <Input
-                id="region"
-                placeholder="원산지 입력"
-                onChange={handleWineValueChange}
-              />
+              <div className="relative flex flex-col gap-4">
+                <Input
+                  id="region"
+                  placeholder="원산지 입력"
+                  value={wineValue.region}
+                  onChange={handleWineValueChange}
+                  isErrored={textError.region}
+                />
+                {textError.region && (
+                  <span className="absolute top-12 pl-2 text-xs-12px-medium text-red-500 max-md:top-10">
+                    와인 원산지는 최대 40자까지 입력할 수 있습니다.
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <label htmlFor="type" className="text-lg-16px-medium">
+            <div className="flex flex-col gap-4 max-md:gap-2">
+              <label
+                htmlFor="type"
+                className="text-lg-16px-medium max-md:text-md-14px-medium"
+              >
                 타입
               </label>
 
@@ -156,7 +231,7 @@ export default function AddWine({ onClose, onAddWine }: Props) {
               </Dropdown>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 max-md:gap-2">
               <label htmlFor="image" className="text-lg-16px-medium">
                 이미지
               </label>
@@ -168,13 +243,13 @@ export default function AddWine({ onClose, onAddWine }: Props) {
             </div>
           </div>
 
-          <div className="flex justify-between">
-            <div className="h-[54px] w-[108px]">
+          <div className="flex gap-2">
+            <div className="h-[54px] w-1/3">
               <Button buttonStyle="light" onClick={handelCancelClick}>
                 취소
               </Button>
             </div>
-            <div className="h-[54px] w-[294px]">
+            <div className="h-[54px] w-2/3">
               <Button
                 buttonStyle={submitDisabled ? "gray" : "purple"}
                 type="submit"

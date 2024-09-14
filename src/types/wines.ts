@@ -66,7 +66,8 @@ export enum WineEnum {
   White = "WHITE",
   Sparkling = "SPARKLING",
 }
-interface WinePrice {
+
+export interface WinePrice {
   min: number;
   max: number;
 }
@@ -106,4 +107,66 @@ export interface WineFilterProps {
   wineType: WineEnum;
   winePrice: WinePrice;
   wineRating: number;
+}
+
+export interface MyProfileWine {
+  id: number;
+  name: string;
+  region: string;
+  image: string;
+  price: number;
+  type: string;
+  avgRating: number;
+  reviewCount: number;
+  recentReview: {
+    user: {
+      id: number;
+      nickname: string;
+      image: string;
+    };
+    updatedAt: string;
+    createdAt: string;
+    content: string;
+    aroma: string[];
+    rating: number;
+    id: number;
+  };
+  userId: number;
+}
+
+export interface MyProfileWineData {
+  totalCount: number;
+  nextCursor: number;
+  list: MyProfileWine[];
+}
+
+export interface MyProfileWine {
+  id: number;
+  name: string;
+  region: string;
+  image: string;
+  price: number;
+  type: string;
+  avgRating: number;
+  reviewCount: number;
+  recentReview: {
+    user: {
+      id: number;
+      nickname: string;
+      image: string;
+    };
+    updatedAt: string;
+    createdAt: string;
+    content: string;
+    aroma: string[];
+    rating: number;
+    id: number;
+  };
+  userId: number;
+}
+
+export interface MyProfileWineData {
+  totalCount: number;
+  nextCursor: number;
+  list: MyProfileWine[];
 }

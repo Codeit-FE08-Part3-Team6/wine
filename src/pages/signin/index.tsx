@@ -13,6 +13,7 @@ import KakaoOauthButton from "@/components/auth/KakaoOauthButton";
 
 export default function SignInPage() {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const [redirectionPath, setRedirectionPath] = useState("/");
   const { authForm, errorMessages, handleInputChange } = useAuthForm();
   const router = useRouter();
   const { user, login } = useAuth();
@@ -37,11 +38,18 @@ export default function SignInPage() {
   const buttonType = isFormValid ? "purple" : "gray";
 
   useEffect(() => {
+    const storedPath = localStorage.getItem("redirectionPath");
+    if (!storedPath) return;
+    setRedirectionPath(storedPath);
+    localStorage.removeItem("redirectionPath");
+  }, []);
+
+  useEffect(() => {
     setLoginErrorMessage("");
   }, [authForm.email, authForm.password]);
 
   useEffect(() => {
-    if (user) router.push("/");
+    if (user) router.replace(redirectionPath);
   }, [user]);
 
   return (

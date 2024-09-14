@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Wine } from "@/types/wines";
+import Link from "next/link";
 import getWineRecommends from "@/libs/axios/wine/getWineRecommends";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, TouchEvent } from "react";
 import MEDIA_QUERY_BREAK_POINT from "@/constants/mediaQueryBreakPoint";
 import Rating from "../@shared/Rating";
-import Link from "next/link";
 
 interface WineProps {
   wine: Wine;
@@ -12,9 +12,11 @@ interface WineProps {
 
 function WineRecommendCard({ wine }: WineProps) {
   return (
-    <div className="box-border flex h-[185px] w-[232px] shrink-0 gap-4 rounded-2xl bg-light-white px-6 pt-6 max-md:w-[193px]">
-      <div className="relative w-2/5">
-        {wine.image && <Image src={wine.image} alt="와인이미지" fill />}
+    <div className="box-border flex h-[185px] w-[232px] shrink-0 gap-7 rounded-2xl bg-light-white px-6 pt-6">
+      <div className="relative w-[44px]">
+        {wine.image && (
+          <Image src={wine.image} alt="와인이미지" fill sizes="44px" />
+        )}
       </div>
       <div className="flex w-3/5 flex-col gap-2">
         <p className="text-4xl font-extrabold">
@@ -118,13 +120,34 @@ export default function WineRecommendItemList() {
     }
   };
 
+  // touch slide handler (터치시에 좌측 혹은 우측 스크롤)
+  const [touchLocationX, setTouchLocationX] = useState(0);
+
+  const handleTouchStart = (e: TouchEvent) => {
+    setTouchLocationX(e.changedTouches[0].pageX);
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    const distanceX = touchLocationX - e.changedTouches[0].pageX;
+
+    if (distanceX >= 80) {
+      handleClick("right");
+    } else if (distanceX <= -80) {
+      handleClick("left");
+    }
+  };
+
   return (
     <div className="flex h-[299px] w-full flex-col rounded-2xl bg-light-gray-100">
       <div className="flex flex-col gap-6 py-4">
         <span className="px-6 text-xl-20px-bold text-light-gray-800">
           이번 달 추천 와인
         </span>
-        <div className="relative">
+        <div
+          className="relative"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {hasWineButtons.isLeftBtnVisible && (
             <button
               type="button"

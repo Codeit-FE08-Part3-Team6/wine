@@ -32,21 +32,16 @@
 
 ## 👨‍👨‍👦‍👦 <a name="개발자-소개"/>개발자 소개 
 
-- **김종화 (@KJongHwa)** : 와인 상세 페이지 
+- **김종화 [**@KJongHwa**](https://github.com/KJongHwa?pvs=4, "개발자  프로필 링크")** : 와인 상세 페이지 
 
- [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=KJongHwa)](https://github.com/anuraghazra/github-readme-stats)
-- **이형준 (@leehj322)** : 랜딩 페이지 / 팀장 👑
+- **이형준 [**@leehj322**](https://github.com/leehj322?pvs=4, "개발자  프로필 링크")** : 랜딩 페이지 / 팀장 👑
   
- [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=leehj322)](https://github.com/anuraghazra/github-readme-stats)
-- **손재헌  (Jaeheon96)** : 로그인, 회원가입 페이지
+- **손재헌 [**@Jaeheon96**](https://github.com/Jaeheon96?pvs=4, "개발자  프로필 링크")** : 로그인, 회원가입 페이지
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Jaeheon96)](https://github.com/anuraghazra/github-readme-stats)
-- **장혁수 (@hyeoksuJ)** : 마이 페이지
+- **장혁수 [**@hyeoksuJ**](https://github.com/hyeoksuJ?pvs=4, "개발자  프로필 링크")** : 마이 페이지
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=hyeoksuJ)](https://github.com/anuraghazra/github-readme-stats)
-- **정인재 (@Injaeeee)** : 와인 목록 페이지
+- **정인재 [**@Injaeeee**](https://github.com/Injaeeee?pvs=4, "개발자  프로필 링크")** : 와인 목록 페이지
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Injaeeee)](https://github.com/anuraghazra/github-readme-stats)
 
 ## 📃 <a name="상세-계획"/>상세 계획과 일정
 

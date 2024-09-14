@@ -55,46 +55,45 @@ wine/
 │
 ├── public/
 │   ├── images/                 # 이미지 파일 폴더
-│   └── robots.txt ...
+│   └── ic_wine.svg ...
 │
 ├── src/
 │   ├── components/             # 재사용 가능한 컴포넌트
 │   │   ├── @shared/            # 공통 컴포넌트
 │   │   │   ├── GlobalNavBar.tsx
-│   │   │   └── Footer.tsx
-│   │   ├── signup/            # 회원가입 페이지에 들어갈 컴포넌트 모음
-│   │   │   ├── SimpleLogin.tsx
-│   │   │   └── SubmitForm.tsx
-│   │   └── boards/             # boards 페이지에 들어갈 컴포넌트 모음
-│   │       └── index/          # index에 들어갈 컴포넌트 모음
-│   │           ├── SimpleLogin.tsx
-│   │           └── SubmitForm.tsx
-│   │       └── id/             # boards/[id]에 들어갈 컴포넌트 모음
+│   │   │   └── Modal.tsx
+│   │   ├── auth/            # 로그인, 회원가입 페이지에 들어갈 컴포넌트 모음
+│   │   │   ├── AuthLabel.tsx
+│   │   │   └── GoogleOauthButton.tsx
+│   │   └── wines/             # 와인 목록/상세 페이지에 들어갈 컴포넌트 모음
+│   │       ├── AddWine.tsx
+│   │       └── WineItemList.tsx
 │   │
-│   ├── pages/                  # Next.js page 라우팅 (최대한 api 요청은 page에서 진행)
-│   │   └── boards/             # boards 로 시작하는 path가 여러개 있는 경우 폴더로 묶기
-│   │       ├── [id].tsx
+│   ├── pages/                  # Next.js page 라우팅 
+│   │   └── myprofile/             
 │   │       └── index.tsx
-│   │   └── signup/             # signup 로 시작하는 path가 없는 경우에도 폴더 생성
-│   │       └── index.tsx
+│   │   └── oauth/          
+│   │       └── kakao.tsx
 │   │   └── signin/
 │   │       └── index.tsx
-│   │   ├── index.tsx
-│   │   ├── _app.tsx
-│   │   └── _document.tsx
+│   │   └── signup/
+│   │       └── index.tsx
+│   │   └── wines/
+│   │       └── [id].tsx
+│   │       └── index.tsx
+│   │   └── index.tsx
+│   │   └── _app.tsx
 │   │
 │   ├── libs/                   # 라이브러리 관련된 세팅 및 함수들 정리하는 폴더
 │   │   └── axios/              # axios 관련 세팅 및 api 요청 함수
 │   │       └── axiosInstance.ts
-│   │       └── auth/           # auth와 관련된 fetch 요청 함수
-│   │           ├── signUpUser.ts
-│   │           └── logInUser.ts
-│   │       └── articles/       # articles와 관련된 fetch 요청 함수
-│   │           ├── getArticles.ts
-│   │           └── postArticle.ts
-│   │   └── queries/            # Tanstack-Query 훅
+│   │       └── auth/          
+│   │       └── image/       
+│   │       └── review/      
+│   │       └── user/     
+│   │       └── wine     
 │   │
-│   ├── store/ or contexts/     # 전역 상태 관리 (context, redux 등..) => 사용 미정
+│   ├── contexts/               # 전역 상태 관리 
 │   │
 │   ├── hooks/                  # 커스텀 React 훅
 │   │

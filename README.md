@@ -33,7 +33,8 @@
 [노션 상세 계획 링크] (https://grizzled-rose-30c.notion.site/85cbabe6e886479abbfd09d0f51a468e?pvs=4)
 
 ## 💡 <a name="User-Flow"/>User Flow
-![구성]
+![image](https://github.com/user-attachments/assets/f86c7d69-aa4b-4a4b-b0d5-bb580e4040a4)
+
 
 
 ## 📁 <a name="프로젝트-구조"/>프로젝트 구조
@@ -112,7 +113,7 @@ wine/
 OS: macOS, Windows
 
 
-IDE: Visual Studio Code
+IDE: Visual Studio Code, Intelli J
 
 
 Version Control: Git, GitHub
@@ -128,17 +129,15 @@ Package Manager: npm
 - Tailwind CSS
 
 
-
 ## <a name="주요-기능"/>주요 기능
 
-|제목|내용|설명|
-|---|---|---|
-|테스트1|*강조1*|테스트3|
-|테스트1|**강조2**|테스트3|
+|사진|사진|사진|
+|:---:|---|---|
+|랜딩 페이지|와인 목록 페이지|와인 상세 페이지|
 
-|제목|내용|설명|제목|내용|설명|
-|---|---|---|---|---|---|
-|랜딩 페이지|와인 목록 페이지|와인 상세 페이지|로그인 페이지|회원가입 페이지|마이 페이지|
+|사진|사진|사진|
+|---|---|---|
+|로그인 페이지|회원가입 페이지|마이 페이지|
 
 와인 목록 조회: 사용자는 모든 와인의 목록을 확인할 수 있습니다.
 

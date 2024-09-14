@@ -4,16 +4,15 @@
 <img width="786" alt="image" src="https://github.com/user-attachments/assets/054fdb8a-3743-49a2-b714-87f3d40e4050">
 
 ## 목차
-
-- [프로젝트 소개](#프로젝트-소개)
-- [개발 기간](#개발-기간)
-- [개발자 소개](#개발자-소개)
-- [상세 계획](#상세-계획)
-- [User Flow](#User-Flow)
-- [프로젝트 구조](#프로젝트-구조)
-- [개발 환경](#개발-환경)
-- [기술 스택](#기술-스택)
-- [주요 기능](#주요-기능)
+> - [프로젝트 소개](#프로젝트-소개)
+> - [개발 기간](#개발-기간)
+> - [개발자 소개](#개발자-소개)
+> - [상세 계획](#상세-계획)
+> - [User Flow](#User-Flow)
+> - [프로젝트 구조](#프로젝트-구조)
+> - [개발 환경](#개발-환경)
+> - [기술 스택](#기술-스택)
+> - [주요 기능](#주요-기능)
   
 ## 🧑‍💻 <a name="프로젝트-소개"/>프로젝트 소개
 사용자가 다양한 와인을 조회하고, 새로운 와인을 등록할 수 있도록 하며 와인의 평균 평점과 최신 리뷰를 확인할 수 있는 기능을 제공합니다.
@@ -29,10 +28,12 @@
 - 장혁수 : 마이 페이지
 - 정인재 : 와인 목록 페이지
 
-## 📃 <a name="상세-계획"/>상세 계획
-[노션 상세 계획 링크] (https://grizzled-rose-30c.notion.site/85cbabe6e886479abbfd09d0f51a468e?pvs=4)
+## 📃 <a name="상세-계획"/>상세 계획과 일정
 
-[노션 상세 일정 링크] (https://grizzled-rose-30c.notion.site/7c70c15084e242808e01a0cfc0809d7f?pvs=4)
+
+[**📌 상세 계획**](https://grizzled-rose-30c.notion.site/85cbabe6e886479abbfd09d0f51a468e?pvs=4, "노션 링크")
+
+[**📝 상세 일정**](https://grizzled-rose-30c.notion.site/7c70c15084e242808e01a0cfc0809d7f?pvs=4, "노션 링크")
 
 ## 💡 <a name="User-Flow"/>User Flow
 ![image](https://github.com/user-attachments/assets/f86c7d69-aa4b-4a4b-b0d5-bb580e4040a4)

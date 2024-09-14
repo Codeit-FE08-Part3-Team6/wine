@@ -31,6 +31,7 @@
 
 ## 📃 <a name="상세-계획"/>상세 계획
 [노션 상세 계획 링크] (https://grizzled-rose-30c.notion.site/85cbabe6e886479abbfd09d0f51a468e?pvs=4)
+
 [노션 상세 일정 링크] (https://grizzled-rose-30c.notion.site/7c70c15084e242808e01a0cfc0809d7f?pvs=4)
 
 ## 💡 <a name="User-Flow"/>User Flow

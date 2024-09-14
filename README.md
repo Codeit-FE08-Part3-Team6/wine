@@ -137,13 +137,13 @@ wine/
 
 ## 👨‍🏫 <a name="주요-기능"/>주요 기능
 
-|사진|사진|사진|
-|:---:|---|---|
-|랜딩 페이지|와인 목록 페이지|와인 상세 페이지|
+|![randing](https://github.com/user-attachments/assets/c55c994a-b7a5-4a08-bb2d-4f2fa56f299d)|![list](https://github.com/user-attachments/assets/63d730c2-404b-4246-a00e-7bd739d403c1)|![wine](https://github.com/user-attachments/assets/3ca39b86-8a47-4d8f-95b7-bb840b10839d)|
+|:---:|:---:|:---:|
+|**랜딩 페이지**|**와인 목록 페이지**|**와인 상세 페이지**|
 
-|사진|사진|사진|
-|---|---|---|
-|로그인 페이지|회원가입 페이지|마이 페이지|
+|![login](https://github.com/user-attachments/assets/19e0a399-16ed-42a5-8f90-fc156f6e8670)|![signup](https://github.com/user-attachments/assets/702b1d57-f0ec-4267-95e8-b28ce6b8f6ae)|![myprofile](https://github.com/user-attachments/assets/464653f8-7f9b-46f5-9cf1-1fbdcd4fb784)|
+|:---:|:---:|:---:|
+|**로그인 페이지**|**회원가입 페이지**|**마이 페이지**|
 
 와인 목록 조회: 사용자는 모든 와인의 목록을 확인할 수 있습니다.
 
